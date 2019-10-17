@@ -1,0 +1,93 @@
+<!--Navbar-->
+<div class="row mt-3">
+
+    <div class="col-12 col-lg-12">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Welkom {{loggedinUser.username}}</a>
+            <button class="btn btn-danger float-right" (click)="LogOut($event)">Log uit</button>
+        </nav>
+    </div>
+</div>
+
+
+<!--Menu selection-->
+<div class="row mt-4">
+
+    <div class="col-12 col-lg-6">
+        <div class="jumbotron customjumbo">
+
+            <div class="btn-group btn-group-toggle d-flex justify-content-between" data-toggle="buttons">
+                <label class="btn btn-primary mr-1">
+                    <input (click)="SetGroupScreen($event)" type="radio" name="options" id="option1" autocomplete="off"
+                        checked> Groep strepen
+                </label>
+                <label class="btn btn-primary float-right ml-1">
+                    <input (click)="SetPersonalScreen($event)" type="radio" name="options" id="option2" autocomplete="off">
+                    Persoonlijk strepen
+                </label>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--Stripe interaction-->
+<div class="row">
+    <div class="col-12 col-lg-6">
+
+        <div *ngIf="!groupstripesmenu">
+            <!--first if, for personal striping-->
+            <div class="jumbotron customjumbo">
+                <h1 class="display-5 customheadertext text-center">Persoonlijk strepen</h1>
+                <hr class="my-2">
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <ngb-datepicker [(ngModel)]="currentdate" (select)="onDateSelection($event)"></ngb-datepicker>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-3">
+                        <img (click)="RemoveStripe($event)" class="img-fluid" src="../../assets/icons8-minus-64.png"
+                            alt="">
+                    </div>
+                    <div class="col-6">
+                        <h1 class="text-center font-weight-bold">{{personalstripesnumber}}</h1>
+                    </div>
+                    <div class="col-3 float-right">
+                        <img (click)="AddStripe($event)" class="img-fluid" src="../../assets/icons8-plus-64.png" alt="">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div *ngIf="groupstripesmenu">
+            <div class="jumbotron customjumbo">
+                <h1 class="display-5 customheadertext text-center">Groep strepen</h1>
+                <p class="lead text-center">Datum : {{selectedDate.toDateString()}}</p>
+                <hr class="my-2">
+
+                <div class="input-group">
+
+                    <select id="selectedUser" name="selectedUser" [(ngModel)]="selectedUserID" class="form-control">
+                        <option *ngFor="let user of allusers" [value]="user.id">
+                            {{user.username}}
+                        </option>
+                    </select>
+
+                    <span class="input-group-btn ml-2">
+                        <button class="btn btn-primary" (click)= "SelectUser($event)" type="button">Voeg toe</button>
+                    </span>
+                </div>
+
+                
+
+            </div>
+        </div>
+
+    </div>
+</div>
