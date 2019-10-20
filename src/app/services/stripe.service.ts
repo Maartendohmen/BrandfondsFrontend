@@ -8,6 +8,7 @@ import { Day } from '../model/Day';
 })
 export class StripeService {
 
+  //baseUrl = 'https://brandfonds-backend.herokuapp.com/rest/day/';
   baseUrl = 'http://localhost:8080/rest/day/';
 
   constructor(private http: HttpClient) { }

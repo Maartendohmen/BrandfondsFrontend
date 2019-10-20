@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { User } from '../model/User';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Day } from '../model/Day';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  baseUrl = 'http://localhost:8080/rest/user';
+  //baseUrl = 'https://brandfonds-backend.herokuapp.com/rest/user/';
+  baseUrl = 'http://localhost:8080/rest/user/';
 
   constructor(private http: HttpClient) { }
 
@@ -18,4 +20,5 @@ export class UserService {
   getAll(): Observable<User[]>{
     return this.http.get<User[]>(this.baseUrl);
   }
+
 }

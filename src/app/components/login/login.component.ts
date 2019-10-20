@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { User } from '../../model/User';
 import { first } from 'rxjs/operators';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
-    private userService: UserService) { }
+    private userService: UserService,
+    private alertService: AlertService) { }
 
   LogIn(e) {
     this.router.navigateByUrl('main');
@@ -67,9 +69,8 @@ export class LoginComponent implements OnInit {
           }
           else
           {
-            // show wrong username or password
+            this.alertService.warning('Er is iets fout gegaan met inloggen')
           }
-
         },
         error => {
           this.error = error;

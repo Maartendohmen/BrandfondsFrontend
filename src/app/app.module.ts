@@ -9,6 +9,12 @@ import { LoginComponent } from './components/login/login.component';
 import { MainmenuComponent } from './components/mainmenu/mainmenu.component';
 import { HttpClientModule } from '@angular/common/http';
 
+// Import BrowserAnimationsModule
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+ 
+// Import your library
+import { AlertModule } from 'ngx-alerts';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +27,11 @@ import { HttpClientModule } from '@angular/common/http';
     NgbModule, // bootstrap ngx
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    AlertModule,
+
+    AlertModule.forRoot({maxMessages: 5, timeout: 5000, position: 'right'})
   ],
   providers: [],
   bootstrap: [AppComponent]
