@@ -1,5 +1,5 @@
-.img-fluid {
-    max-width: 60%; /* or to whatever you want here */
+.img-responsive {
+    max-width: 100%; /* or to whatever you want here */
     max-height: auto; /* or to whatever you want here */
 }
 
@@ -11,3 +11,6 @@ button{
     margin-top: 4%;
 }
 
+.img-responsive {
+    display: inline-block;
+  }

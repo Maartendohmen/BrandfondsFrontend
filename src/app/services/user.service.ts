@@ -9,12 +9,13 @@ import { Day } from '../model/Day';
 export class UserService {
 
   //baseUrl = 'https://brandfonds-backend.herokuapp.com/rest/user/';
-  baseUrl = 'http://localhost:8080/rest/user/';
+   baseUrl = 'http://localhost:8080/rest/user/';
+  //baseUrl = 'http://77.175.243.68:9000/rest/user/';
 
   constructor(private http: HttpClient) { }
 
   Login(user: User) {
-    return this.http.post(this.baseUrl + '/login', user);
+    return this.http.post(this.baseUrl + 'login', user);
   }
 
   getAll(): Observable<User[]>{

@@ -2,9 +2,9 @@
 <div class="row mt-3">
 
     <div class="col-12 col-lg-12">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Welkom {{loggedinUser.username}}</a>
-            <button class="btn btn-danger float-right" (click)="LogOut($event)">Log uit</button>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+            <a class="navbar-brand" href="#">Welkom {{loggedinUser.username}}!</a>
+            <button class="btn btn-danger ml-auto mr-1" (click)="LogOut($event)">Log uit</button>
         </nav>
     </div>
 </div>
@@ -92,10 +92,10 @@
                 <div *ngFor="let user of selectedUsers" class="mb-2">
 
                     <div class="row">
-                        <div class="col-4">
-                            <h3>{{user.username}}</h3>
+                        <div class="col-4 justify-content-center align-self-center">
+                            <h5>{{user.username}}</h5>
                         </div>
-                        <div class="col-8">
+                        <div class="col-8 justify-content-center align-self-center">
                             <img class="img-fluid d-inline float-right smallicon mr-2" (click)="RemoveFromGroup(user.id)"
                                 src="../../../assets/icons8-delete-bin-48.png" alt="">
                             <img class="img-fluid d-inline float-right smallicon mr-5" (click)="AddGroupStripe(user)"
