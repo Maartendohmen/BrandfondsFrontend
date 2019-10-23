@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from '../../model/User';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'ngx-alerts';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,6 @@ import { AlertService } from 'ngx-alerts';
 })
 export class LoginComponent implements OnInit {
 
-  private loguser: User;
   public loginForm: FormGroup;
 
   error = '';
@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private titlecasePipe:TitleCasePipe,
     private alertService: AlertService) { }
 
   LogIn(e) {
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
-  onSubmit() {
+  onSubmitLogin() {
 
     this.submitted = true;
 
@@ -48,18 +49,14 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    this.loguser = new User();
-    this.loguser.username = this.f.username_input.value;
-    this.loguser.password = this.f.password_input.value;
+    var loguser: User = new User();
+    loguser.username = this.titlecasePipe.transform(this.f.username_input.value);
+    loguser.password = this.f.password_input.value;
 
-    // stop here if form is invalid
-    if (this.loginForm.invalid) {
-      return;
-    }
 
     this.loading = true;
 
-    this.userService.Login(this.loguser)
+    this.userService.Login(loguser)
       .pipe(first())
       .subscribe(
         data => {
@@ -69,12 +66,19 @@ export class LoginComponent implements OnInit {
           }
           else
           {
-            this.alertService.warning('Er is iets fout gegaan met inloggen')
+            this.alertService.danger('Foute naam of wachtwoord');
+            this.loading = false;
           }
         },
         error => {
+          this.alertService.warning('Er is iets fout gegaan tijdens het inloggen');
           this.error = error;
           this.loading = false;
         });
+  }
+
+  Register()
+  {
+    this.router.navigateByUrl('register');
   }
 }

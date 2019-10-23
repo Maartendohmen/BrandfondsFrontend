@@ -12,19 +12,25 @@
     <div class="col-12 col-lg-6 offset-lg-3">
 
 
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-group">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()" class="form-group">
 
-            <input type="text" formControlName="username_input" class="form-control" name="userName" placeholder="Gebruikersnaam"
+            <input formControlName="username_input" class="form-control" name="userName" placeholder="Voornaam"
                 type="text" [ngClass]="{ 'is-invalid': submitted && f.username_input.errors }">
-            <input type="text" formControlName="password_input" class="form-control userPasswordInput" name="userPassword"
+            <input formControlName="password_input" class="form-control" name="userPassword"
                 placeholder="Wachtwoord" type="password" [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
 
             <div class="form-group">
                 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
             </div>
 
-
-            <button [disabled]="loading" class="btn btn-primary btn-block" type="submit">Log in</button>
+            <div class="row">
+                <div class="col-6">
+                    <button [disabled]="loading" class="btn btn-primary btn-block" type="submit">Log in</button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-primary btn-block" (click)="Register()">Registreer</button>
+                </div>
+            </div>
 
         </form>
     </div>

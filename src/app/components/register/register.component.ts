@@ -1,0 +1,100 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/model/User';
+import { AlertService } from 'ngx-alerts';
+import { Router } from '@angular/router';
+import { TitleCasePipe } from '@angular/common';
+
+@Component({
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
+})
+export class RegisterComponent implements OnInit {
+
+  public registerForm: FormGroup;
+
+  error = '';
+  submitted = false;
+  loading = false;
+  gotstring = false;
+  verificationCode = null;
+
+  constructor(
+    private userservice: UserService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private titlecasePipe:TitleCasePipe,
+    private alertService: AlertService) { }
+
+  ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      usermail_input: ['', Validators.required],
+      username_input: ['', Validators.required],
+      password_input: ['', Validators.required]
+    });
+
+    this.verificationCode = null
+  }
+
+  get f() {
+    return this.registerForm.controls;
+  }
+
+  onSubmitRegister() {
+
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+
+
+    var registerUser: User = new User();
+    registerUser.emailadres = this.f.usermail_input.value;
+    registerUser.username = this.titlecasePipe.transform(this.f.username_input.value);
+    registerUser.password = this.f.password_input.value;
+
+    console.log(registerUser);
+    
+
+    this.userservice.registerRequest(registerUser).subscribe(data => {
+
+      this.gotstring = true;
+      this.verificationCode = data;
+
+    }, error => {
+      console.log(error);
+      this.alertService.danger('Er is iets fout gegaan met registeren, probeer het later opnieuw');
+      this.loading = false;
+    });
+  }
+
+  VerifyRegistration() {
+    if (this.verificationCode != null) {
+      this.userservice.confirmRegistration(this.verificationCode).subscribe(data => {
+        if (data === true) {
+          this.alertService.success('Het account is gecreëerd, je wordt nu teruggebracht naar het inlogscherm')
+
+          setTimeout(() => {
+            this.router.navigate(['']);
+          },
+            5000);
+        }
+        else if (data === false) {
+          this.alertService.danger('Foute verificatie code')
+        }
+      }, error => {
+        this.alertService.danger('Er is iets fout gegaan met verifieren, probeer het later opnieuw')
+      });
+    }
+    else {
+      this.alertService.warning('Vul a.u.b de verificatie code in')
+    }
+  }
+
+}

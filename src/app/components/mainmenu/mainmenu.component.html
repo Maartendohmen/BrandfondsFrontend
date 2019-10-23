@@ -96,12 +96,12 @@
                             <h5>{{user.username}}</h5>
                         </div>
                         <div class="col-8 justify-content-center align-self-center">
-                            <img class="img-fluid d-inline float-right smallicon mr-2" (click)="RemoveFromGroup(user.id)"
+                            <img class="img-fluid d-inline float-right smallicon ml-5" (click)="RemoveFromGroup(user.id)"
                                 src="../../../assets/icons8-delete-bin-48.png" alt="">
-                            <img class="img-fluid d-inline float-right smallicon mr-5" (click)="AddGroupStripe(user)"
+                            <img class="img-fluid d-inline float-right smallicon ml-2" (click)="AddGroupStripe(user)"
                                 src="../../../assets/icons8-plus-64.png" alt="">
-                            <h3 class="d-inline float-right mr-3">{{user.todaystripes}}</h3>
-                            <img class="img-fluid d-inline float-right smallicon mr-3" (click)="RemoveGroupStripe(user)"
+                            <h3 class="d-inline float-right text-center">{{user.todaystripes}}</h3>
+                            <img class="img-fluid d-inline float-right smallicon mr-2" (click)="RemoveGroupStripe(user)"
                                 src="../../../assets/icons8-minus-64.png" alt="">
                         </div>
                     </div>
@@ -117,7 +117,7 @@
 
     <div class="col-lg-6 d-none d-lg-block">
         <div class="jumbotron customjumbo">
-            <h1 class="display-5 customheadertext text-center">Schulden</h1>
+            <h1 class="display-5 customheadertext text-center">Overzicht</h1>
             <hr class="my-2">
             <p>@TODO</p>
         </div>
@@ -128,9 +128,18 @@
 <div class="row d-block d-sm-block d-md-none">
     <div class="col-12">
         <div class="jumbotron customjumbo">
-            <h1 class="display-5 customheadertext text-center">Schulden</h1>
+            <h1 class="display-5 customheadertext text-center">Overzicht</h1>
             <hr class="my-2">
-            <p>@TODO</p>
+            <p>@TODO
+                <br>
+                Saldo
+                <br>
+                Totaal aantal gestreept
+                <br>
+                Overzicht gestreept + geld per maand
+                <br>
+                Refresh optie overzicht
+            </p>
         </div>
     </div>
 

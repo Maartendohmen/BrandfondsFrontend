@@ -51,6 +51,7 @@ export class MainmenuComponent implements OnInit {
 
   SetGroupScreen(e) {
     this.onDateSelection(this.currentdate);
+    this.RefreshOwnChanges();
     this.groupstripesmenu = true;
   }
 
@@ -103,6 +104,18 @@ export class MainmenuComponent implements OnInit {
     });
   }
 
+  RefreshOwnChanges()
+  {
+    
+    if (this.selectedUsers.find(x => x.id == this.loggedinUser.id) != undefined)
+    {
+      var selecteduser = this.selectedUsers.find(x => x.id == this.loggedinUser.id);
+      this.stripeService.getStripesFromDayFromUser(selecteduser.id, this.selectedDate).subscribe(day => {
+        selecteduser.todaystripes = day.stripes;
+      })
+    }
+  }
+
 
   AddToGroup(e) {
 
@@ -145,7 +158,7 @@ export class MainmenuComponent implements OnInit {
   AddGroupStripe(user: User) {
 
     this.stripeService.addStripeForUser(user.id, this.selectedDate).subscribe(data => {
-      this.stripeService.getStripesFromDayFromUser(this.loggedinUser.id, this.selectedDate).subscribe(day => {
+      this.stripeService.getStripesFromDayFromUser(user.id, this.selectedDate).subscribe(day => {
         user.todaystripes = day.stripes;
       })
     });
@@ -155,7 +168,7 @@ export class MainmenuComponent implements OnInit {
 
     if (user.todaystripes > 0) {
       this.stripeService.RemoveStripeForUser(user.id, this.selectedDate).subscribe(data => {
-        this.stripeService.getStripesFromDayFromUser(this.loggedinUser.id, this.selectedDate).subscribe(day => {
+        this.stripeService.getStripesFromDayFromUser(user.id, this.selectedDate).subscribe(day => {
           user.todaystripes = day.stripes;
         })
       });
@@ -164,7 +177,6 @@ export class MainmenuComponent implements OnInit {
 
     /////////////////////////////////////////////Log out/////////////////////////////////////////
 
-  
   LogOut(e) {
     localStorage.removeItem('Loggedin_User');
     this.router.navigateByUrl('');
