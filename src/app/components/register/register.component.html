@@ -18,8 +18,10 @@
 
                 <input type="text" formControlName="usermail_input" class="form-control" name="userEmail" placeholder="Emailadres"
                     [ngClass]="{ 'is-invalid': submitted && f.usermail_input.errors }">
-                <input type="text" formControlName="username_input" class="form-control  mt-3" name="userName"
-                    placeholder="Voornaam" [ngClass]="{ 'is-invalid': submitted && f.username_input.errors }">
+                <input type="text" formControlName="forname_input" class="form-control  mt-3" name="forName"
+                    placeholder="Voornaam" [ngClass]="{ 'is-invalid': submitted && f.forname_input.errors }">
+                <input type="text" formControlName="surname_input" class="form-control  mt-3" name="surName"
+                    placeholder="Achternaam" [ngClass]="{ 'is-invalid': submitted && f.surname_input.errors }">
                 <input formControlName="password_input" class="form-control  mt-3" name="userPassword" placeholder="Wachtwoord"
                     type="password" [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
 

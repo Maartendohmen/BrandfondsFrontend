@@ -25,13 +25,14 @@ export class RegisterComponent implements OnInit {
     private userservice: UserService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private titlecasePipe:TitleCasePipe,
+    private titlecasePipe: TitleCasePipe,
     private alertService: AlertService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       usermail_input: ['', Validators.required],
-      username_input: ['', Validators.required],
+      forname_input: ['', Validators.required],
+      surname_input: ['', Validators.required],
       password_input: ['', Validators.required]
     });
 
@@ -56,11 +57,12 @@ export class RegisterComponent implements OnInit {
 
     var registerUser: User = new User();
     registerUser.emailadres = this.f.usermail_input.value;
-    registerUser.username = this.titlecasePipe.transform(this.f.username_input.value);
+    registerUser.forname = this.titlecasePipe.transform(this.f.forname_input.value);
+    registerUser.surname = this.titlecasePipe.transform(this.f.surname_input.value);
     registerUser.password = this.f.password_input.value;
 
     console.log(registerUser);
-    
+
 
     this.userservice.registerRequest(registerUser).subscribe(data => {
 
@@ -75,7 +77,11 @@ export class RegisterComponent implements OnInit {
   }
 
   VerifyRegistration() {
+
     if (this.verificationCode != null) {
+
+      this.loading = true;
+
       this.userservice.confirmRegistration(this.verificationCode).subscribe(data => {
         if (data === true) {
           this.alertService.success('Het account is gecreëerd, je wordt nu teruggebracht naar het inlogscherm')
@@ -87,9 +93,11 @@ export class RegisterComponent implements OnInit {
         }
         else if (data === false) {
           this.alertService.danger('Foute verificatie code')
+          this.loading = false;
         }
       }, error => {
         this.alertService.danger('Er is iets fout gegaan met verifieren, probeer het later opnieuw')
+        this.loading = false;
       });
     }
     else {

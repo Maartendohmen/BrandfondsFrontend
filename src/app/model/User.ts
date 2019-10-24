@@ -1,7 +1,9 @@
 export class User {
     id?: number;
-    username: string;
+    forname: string;
+    surname: string;
     emailadres: string;
+    saldo: number;
     password?: string;
     todaystripes?: number;
 }

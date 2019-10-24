@@ -28,6 +28,10 @@ export class MainmenuComponent implements OnInit {
   public allusers: User[];
   public selectedUsers: User[] = [];
 
+  //Overview
+  public saldoColor: string = null;
+  public totalStripes: Number = undefined;
+
   constructor(private calendar: NgbCalendar,
     private userService: UserService,
     private stripeService: StripeService,
@@ -43,7 +47,11 @@ export class MainmenuComponent implements OnInit {
     this.loggedinUser = JSON.parse(localStorage.getItem('Loggedin_User'));
 
     this.onDateSelection(this.currentdate);
+
     this.RefreshAllUsers();
+    this.RefreshTotalStripesFromUser();
+    this.RefreshSaldoFromUser();
+
 
   }
 
@@ -51,7 +59,7 @@ export class MainmenuComponent implements OnInit {
 
   SetGroupScreen(e) {
     this.onDateSelection(this.currentdate);
-    this.RefreshOwnChanges();
+    this.RefreshOwnTodayStripes();
     this.groupstripesmenu = true;
   }
 
@@ -60,14 +68,17 @@ export class MainmenuComponent implements OnInit {
     this.groupstripesmenu = false;
   }
 
-    /////////////////////////////////////////////Personal Striping/////////////////////////////////////////
+  /////////////////////////////////////////////Personal Striping/////////////////////////////////////////
 
   RemoveStripe(e) {
 
     if (this.personalstripesnumber > 0) {
-      this.stripeService.RemoveStripeForUser(this.loggedinUser.id, this.selectedDate).subscribe(data => {
+      this.stripeService.removeStripeForUser(this.loggedinUser.id, this.selectedDate).subscribe(data => {
         this.stripeService.getStripesFromDayFromUser(this.loggedinUser.id, this.selectedDate).subscribe(day => {
           this.personalstripesnumber = day.stripes;
+
+          this.RefreshTotalStripesFromUser();
+          this.RefreshSaldoFromUser();
         })
       });
     }
@@ -78,8 +89,12 @@ export class MainmenuComponent implements OnInit {
     this.stripeService.addStripeForUser(this.loggedinUser.id, this.selectedDate).subscribe(data => {
       this.stripeService.getStripesFromDayFromUser(this.loggedinUser.id, this.selectedDate).subscribe(day => {
         this.personalstripesnumber = day.stripes;
+
+        this.RefreshTotalStripesFromUser();
+        this.RefreshSaldoFromUser();
       })
     });
+
   }
 
   onDateSelection(date: NgbDateStruct) {
@@ -96,26 +111,7 @@ export class MainmenuComponent implements OnInit {
     })
   }
 
-    /////////////////////////////////////////////Group Striping/////////////////////////////////////////
-
-  RefreshAllUsers() {
-    this.userService.getAll().subscribe(data => {
-      this.allusers = data;
-    });
-  }
-
-  RefreshOwnChanges()
-  {
-    
-    if (this.selectedUsers.find(x => x.id == this.loggedinUser.id) != undefined)
-    {
-      var selecteduser = this.selectedUsers.find(x => x.id == this.loggedinUser.id);
-      this.stripeService.getStripesFromDayFromUser(selecteduser.id, this.selectedDate).subscribe(day => {
-        selecteduser.todaystripes = day.stripes;
-      })
-    }
-  }
-
+  /////////////////////////////////////////////Group Striping/////////////////////////////////////////
 
   AddToGroup(e) {
 
@@ -162,25 +158,94 @@ export class MainmenuComponent implements OnInit {
         user.todaystripes = day.stripes;
       })
     });
+
+    if (user.id === this.loggedinUser.id) {
+      this.RefreshTotalStripesFromUser();
+      this.RefreshSaldoFromUser();
+    }
   }
 
   RemoveGroupStripe(user: User) {
 
     if (user.todaystripes > 0) {
-      this.stripeService.RemoveStripeForUser(user.id, this.selectedDate).subscribe(data => {
+      this.stripeService.removeStripeForUser(user.id, this.selectedDate).subscribe(data => {
         this.stripeService.getStripesFromDayFromUser(user.id, this.selectedDate).subscribe(day => {
           user.todaystripes = day.stripes;
         })
       });
+
+      if (user.id === this.loggedinUser.id) {
+        this.RefreshTotalStripesFromUser();
+        this.RefreshSaldoFromUser();
+      }
     }
   }
 
-    /////////////////////////////////////////////Log out/////////////////////////////////////////
+  /////////////////////////////////////////////Refreshes/////////////////////////////////////////
 
+  /**
+   * Refresh list of all available users
+   */
+  RefreshAllUsers() {
+    this.userService.getAll().subscribe(data => {
+      this.allusers = data;
+    });
+  }
+
+  /**
+   * Refreshes the number of stripes for current data for loggedin user
+   */
+  RefreshOwnTodayStripes() {
+
+    if (this.selectedUsers.find(x => x.id == this.loggedinUser.id) != undefined) {
+      var selecteduser = this.selectedUsers.find(x => x.id == this.loggedinUser.id);
+      this.stripeService.getStripesFromDayFromUser(selecteduser.id, this.selectedDate).subscribe(day => {
+        selecteduser.todaystripes = day.stripes;
+      });
+    }
+  }
+
+  /**
+   * Refreshes the current total stripes from user
+   */
+  RefreshTotalStripesFromUser() {
+    this.stripeService.getTotalStripesFromUser(this.loggedinUser.id).subscribe(data => {
+      this.totalStripes = data;
+    });
+  }
+
+  /**
+   * Refreshes the saldo from the logged in user
+   */
+  RefreshSaldoFromUser() {
+    this.userService.getSaldoFromUser(this.loggedinUser.id).subscribe(data => {
+      console.log('new saldo is : ' + data);
+
+      this.loggedinUser.saldo = data;
+    });
+
+    if (this.loggedinUser.saldo >= 0) {
+      this.saldoColor = 'green'
+    }
+    else {
+      this.saldoColor = 'red'
+    }
+  }
+
+
+
+  /////////////////////////////////////////////Log out/////////////////////////////////////////
+
+  /**
+   * Logs user out
+   * @param e event from button
+   */
   LogOut(e) {
     localStorage.removeItem('Loggedin_User');
     this.router.navigateByUrl('');
   }
+
+
 
 
 

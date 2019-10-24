@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username_input: ['', Validators.required],
+      forname_input: ['', Validators.required],
       password_input: ['', Validators.required]
     });
   }
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     var loguser: User = new User();
-    loguser.username = this.titlecasePipe.transform(this.f.username_input.value);
+    loguser.forname = this.titlecasePipe.transform(this.f.forname_input.value);
     loguser.password = this.f.password_input.value;
 
 

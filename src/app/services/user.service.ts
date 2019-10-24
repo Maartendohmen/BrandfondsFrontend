@@ -22,6 +22,10 @@ export class UserService {
     return this.http.get<User[]>(this.baseUrl);
   }
 
+  getSaldoFromUser(userid: number) : Observable<number>{
+    return this.http.get<number>(this.baseUrl + userid + '/saldo')
+  }
+
   //needed responstype setting so answer could be read as string
   registerRequest(user:User): Observable<String>{
     return this.http.post<String>(this.baseUrl + 'register',user,{responseType: 'text' as 'json'});
