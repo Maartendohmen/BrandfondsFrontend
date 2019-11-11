@@ -8,8 +8,8 @@ import { Day } from '../model/Day';
 })
 export class StripeService {
 
-  //baseUrl = 'https://brandfonds-backend.herokuapp.com/rest/day/';
-  baseUrl = 'http://localhost:8080/rest/day/';
+  baseUrl = 'https://brandfonds-backend.herokuapp.com/rest/day/';
+  //baseUrl = 'http://localhost:8080/rest/day/';
   //baseUrl = 'http://77.175.243.68:9000/rest/day/';
 
   constructor(private http: HttpClient) { }
@@ -37,8 +37,8 @@ export class StripeService {
     return this.http.get<number>(this.baseUrl + userid + "/totalstripes")
   }
 
-
-  
-
-
+  getStripesSortedByMonthFromUser(userid: number): Observable<Map<string, number>>
+  {
+    return this.http.get<Map<string, number>>(this.baseUrl + userid + '/sortedbymonth')
+  }
 }

@@ -114,16 +114,46 @@
     </div>
 
     <!--Debt information-->
-
     <div class="col-lg-6 d-none d-lg-block">
         <div class="jumbotron customjumbo">
             <h1 class="display-5 customheadertext text-center">Overzicht</h1>
             <hr class="my-2">
-            <p>@TODO</p>
+
+            <div class="text-center">
+                <h5 class="text-center d-inline">Huidig Saldo :</h5>
+                <h5 class="font-weight-bold d-inline" [ngStyle]="{'color': saldoColor}"> €{{loggedinUser.saldo/100 | number:'.2'}}</h5>
+            </div>
+
+            <div class="text-center mt-2">
+                <h6 class="text-center d-inline">Totaal aantal stepen :</h6>
+                <h6 class="font-weight-bold d-inline"> {{totalStripes}}</h6>
+            </div>
+
+
+
+            <table class="table mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Maand</th>
+                        <th>Totaal strepen</th>
+                        <th>Totale Kosten</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    <tr *ngFor="let recipient of totalstripesPerMonth | keyvalue">
+                        <td>{{recipient.key}}</td>
+                        <td>{{recipient.value}}</td>
+                        <td>€ {{recipient.value * 0.50 | number:'.2'}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
 </div>
+
 
 <div class="row d-block d-sm-block d-md-none">
     <div class="col-12">
@@ -133,7 +163,7 @@
 
             <div class="text-center">
                 <h5 class="text-center d-inline">Huidig Saldo :</h5>
-                <h5 class="font-weight-bold d-inline" [ngStyle]="{'color': saldoColor}"> €{{loggedinUser.saldo/100}}</h5>
+                <h5 class="font-weight-bold d-inline" [ngStyle]="{'color': saldoColor}"> €{{loggedinUser.saldo/100 | number:'.2'}}</h5>
             </div>
 
             <div class="text-center mt-2">
@@ -141,15 +171,25 @@
                 <h6 class="font-weight-bold d-inline"> {{totalStripes}}</h6>
             </div>
 
+            <table class="table mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Maand</th>
+                        <th>Totaal strepen</th>
+                        <th>Totale Kosten</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-            <p>@TODO
-                <br>
-                Overzicht gestreept + geld per maand
-                <br>
-                Refresh optie overzicht
-                <br>
-                Pas saldo aan wanneer er gestreept wordt
-            </p>
+
+                    <tr *ngFor="let recipient of totalstripesPerMonth | keyvalue">
+                        <td>{{recipient.key}}</td>
+                        <td>{{recipient.value}}</td>
+                        <td>€ {{recipient.value * 0.50 | number:'.2'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
 

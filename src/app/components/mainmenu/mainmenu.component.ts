@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/model/User';
 import { UserService } from 'src/app/services/user.service';
 import { StripeService } from 'src/app/services/stripe.service';
-import { Day } from 'src/app/model/Day';
 import { AlertService } from 'ngx-alerts';
 
 @Component({
@@ -31,6 +30,7 @@ export class MainmenuComponent implements OnInit {
   //Overview
   public saldoColor: string = null;
   public totalStripes: Number = undefined;
+  public totalstripesPerMonth: Map<string, number> = null;
 
   constructor(private calendar: NgbCalendar,
     private userService: UserService,
@@ -51,7 +51,7 @@ export class MainmenuComponent implements OnInit {
     this.RefreshAllUsers();
     this.RefreshTotalStripesFromUser();
     this.RefreshSaldoFromUser();
-
+    this.RefreshTotalStripesPerMonthFromUser();
 
   }
 
@@ -75,10 +75,16 @@ export class MainmenuComponent implements OnInit {
     if (this.personalstripesnumber > 0) {
       this.stripeService.removeStripeForUser(this.loggedinUser.id, this.selectedDate).subscribe(data => {
         this.stripeService.getStripesFromDayFromUser(this.loggedinUser.id, this.selectedDate).subscribe(day => {
-          this.personalstripesnumber = day.stripes;
+          if (day) { //if day still exist after striping
+            this.personalstripesnumber = day.stripes;
+          }
+          else {
+            this.personalstripesnumber = 0;
+          }
 
           this.RefreshTotalStripesFromUser();
           this.RefreshSaldoFromUser();
+          this.RefreshTotalStripesPerMonthFromUser();
         })
       });
     }
@@ -92,6 +98,7 @@ export class MainmenuComponent implements OnInit {
 
         this.RefreshTotalStripesFromUser();
         this.RefreshSaldoFromUser();
+        this.RefreshTotalStripesPerMonthFromUser();
       })
     });
 
@@ -101,8 +108,11 @@ export class MainmenuComponent implements OnInit {
 
     this.selectedDate = new Date(date.year, date.month, date.day);
 
+    //correction for month enum starting at 0
+    this.selectedDate.setMonth(this.selectedDate.getMonth() - 1);
+
     this.stripeService.getStripesFromDayFromUser(this.loggedinUser.id, this.selectedDate).subscribe(day => {
-      if (day != null) {
+      if (day != null) { //if day still exist after striping
         this.personalstripesnumber = day.stripes;
       }
       else {
@@ -151,33 +161,50 @@ export class MainmenuComponent implements OnInit {
     this.selectedUsers = this.selectedUsers.filter(obj => obj !== selecteduser);
   }
 
+  /**
+   * Add stripe from user in group
+   * @param user User to which stripe will be added
+   */
   AddGroupStripe(user: User) {
 
     this.stripeService.addStripeForUser(user.id, this.selectedDate).subscribe(data => {
       this.stripeService.getStripesFromDayFromUser(user.id, this.selectedDate).subscribe(day => {
         user.todaystripes = day.stripes;
+
+        //update own values after transaction
+        if (user.id === this.loggedinUser.id) {
+          this.RefreshTotalStripesFromUser();
+          this.RefreshSaldoFromUser();
+          this.RefreshTotalStripesPerMonthFromUser();
+        }
       })
     });
-
-    if (user.id === this.loggedinUser.id) {
-      this.RefreshTotalStripesFromUser();
-      this.RefreshSaldoFromUser();
-    }
   }
 
+  /**
+   * Remove stripe from user in group
+   * @param user user which stripe will be deleted
+   */
   RemoveGroupStripe(user: User) {
 
     if (user.todaystripes > 0) {
       this.stripeService.removeStripeForUser(user.id, this.selectedDate).subscribe(data => {
         this.stripeService.getStripesFromDayFromUser(user.id, this.selectedDate).subscribe(day => {
-          user.todaystripes = day.stripes;
-        })
-      });
+          if (day) { //if day still exist after striping
+            user.todaystripes = day.stripes;
+          }
+          else {
+            user.todaystripes = 0;
+          }
+        });
 
-      if (user.id === this.loggedinUser.id) {
-        this.RefreshTotalStripesFromUser();
-        this.RefreshSaldoFromUser();
-      }
+        //update own values after transaction
+        if (user.id === this.loggedinUser.id) {
+          this.RefreshTotalStripesFromUser();
+          this.RefreshSaldoFromUser();
+          this.RefreshTotalStripesPerMonthFromUser();
+        }
+      });
     }
   }
 
@@ -200,7 +227,14 @@ export class MainmenuComponent implements OnInit {
     if (this.selectedUsers.find(x => x.id == this.loggedinUser.id) != undefined) {
       var selecteduser = this.selectedUsers.find(x => x.id == this.loggedinUser.id);
       this.stripeService.getStripesFromDayFromUser(selecteduser.id, this.selectedDate).subscribe(day => {
-        selecteduser.todaystripes = day.stripes;
+        if (day){ //if day still exist after striping
+          selecteduser.todaystripes = day.stripes;
+        }
+        else
+        {
+          selecteduser.todaystripes = 0;
+        }
+
       });
     }
   }
@@ -219,20 +253,22 @@ export class MainmenuComponent implements OnInit {
    */
   RefreshSaldoFromUser() {
     this.userService.getSaldoFromUser(this.loggedinUser.id).subscribe(data => {
-      console.log('new saldo is : ' + data);
-
       this.loggedinUser.saldo = data;
     });
 
-    if (this.loggedinUser.saldo >= 0) {
-      this.saldoColor = 'green'
+    if (this.loggedinUser.saldo < 0.1) {
+      this.saldoColor = 'red'
     }
     else {
-      this.saldoColor = 'red'
+      this.saldoColor = 'green'
     }
   }
 
-
+  RefreshTotalStripesPerMonthFromUser() {
+    this.stripeService.getStripesSortedByMonthFromUser(this.loggedinUser.id).subscribe(data => {
+      this.totalstripesPerMonth = data;
+    });
+  }
 
   /////////////////////////////////////////////Log out/////////////////////////////////////////
 
