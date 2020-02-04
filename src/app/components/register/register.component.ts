@@ -61,8 +61,6 @@ export class RegisterComponent implements OnInit {
     registerUser.surname = this.titlecasePipe.transform(this.f.surname_input.value);
     registerUser.password = this.f.password_input.value;
 
-    console.log(registerUser);
-
 
     this.userservice.registerRequest(registerUser).subscribe(data => {
 

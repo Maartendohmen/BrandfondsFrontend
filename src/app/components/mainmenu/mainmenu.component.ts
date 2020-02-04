@@ -15,7 +15,7 @@ export class MainmenuComponent implements OnInit {
 
   //global param
   public loggedinUser: User;
-  public groupstripesmenu: boolean = true;
+  public groupstripesmenu: boolean = false;
   public personalstripesnumber: number;
 
   //individual striping param
@@ -55,8 +55,9 @@ export class MainmenuComponent implements OnInit {
 
   }
 
-  /////////////////////////////////////////////Set Screens/////////////////////////////////////////
 
+
+  /* #region  SetScreens */
   SetGroupScreen(e) {
     this.onDateSelection(this.currentdate);
     this.RefreshOwnTodayStripes();
@@ -67,9 +68,10 @@ export class MainmenuComponent implements OnInit {
     this.onDateSelection(this.currentdate);
     this.groupstripesmenu = false;
   }
+  /* #endregion */
 
-  /////////////////////////////////////////////Personal Striping/////////////////////////////////////////
 
+  /* #region  Edit stripes */
   RemoveStripe(e) {
 
     if (this.personalstripesnumber > 0) {
@@ -103,6 +105,7 @@ export class MainmenuComponent implements OnInit {
     });
 
   }
+  /* #endregion */
 
   onDateSelection(date: NgbDateStruct) {
 
@@ -121,8 +124,8 @@ export class MainmenuComponent implements OnInit {
     })
   }
 
-  /////////////////////////////////////////////Group Striping/////////////////////////////////////////
 
+  /* #region  Add/Remove user to group */
   AddToGroup(e) {
 
     //check if user is correctly selected and not already in group
@@ -160,7 +163,9 @@ export class MainmenuComponent implements OnInit {
 
     this.selectedUsers = this.selectedUsers.filter(obj => obj !== selecteduser);
   }
+  /* #endregion */
 
+  /* #region  Add/Remove stripe to user in group */
   /**
    * Add stripe from user in group
    * @param user User to which stripe will be added
@@ -207,9 +212,9 @@ export class MainmenuComponent implements OnInit {
       });
     }
   }
+  /* #endregion */
 
-  /////////////////////////////////////////////Refreshes/////////////////////////////////////////
-
+  /* #region  Refreshes values of current session */
   /**
    * Refresh list of all available users
    */
@@ -227,11 +232,10 @@ export class MainmenuComponent implements OnInit {
     if (this.selectedUsers.find(x => x.id == this.loggedinUser.id) != undefined) {
       var selecteduser = this.selectedUsers.find(x => x.id == this.loggedinUser.id);
       this.stripeService.getStripesFromDayFromUser(selecteduser.id, this.selectedDate).subscribe(day => {
-        if (day){ //if day still exist after striping
+        if (day) { //if day still exist after striping
           selecteduser.todaystripes = day.stripes;
         }
-        else
-        {
+        else {
           selecteduser.todaystripes = 0;
         }
 
@@ -253,24 +257,29 @@ export class MainmenuComponent implements OnInit {
    */
   RefreshSaldoFromUser() {
     this.userService.getSaldoFromUser(this.loggedinUser.id).subscribe(data => {
+      console.log('Incoming saldo = ' + data);
       this.loggedinUser.saldo = data;
+
+      if (this.loggedinUser.saldo < 0) {
+        this.saldoColor = 'red'
+      }
+      else {
+        this.saldoColor = 'green'
+      }
+
     });
 
-    if (this.loggedinUser.saldo < 0.1) {
-      this.saldoColor = 'red'
-    }
-    else {
-      this.saldoColor = 'green'
-    }
   }
+
 
   RefreshTotalStripesPerMonthFromUser() {
     this.stripeService.getStripesSortedByMonthFromUser(this.loggedinUser.id).subscribe(data => {
       this.totalstripesPerMonth = data;
     });
   }
+    /* #endregion */
 
-  /////////////////////////////////////////////Log out/////////////////////////////////////////
+
 
   /**
    * Logs user out

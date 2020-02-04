@@ -3,3 +3,13 @@ body
 {
     background-color: indianred;
 }
+
+.customheadertext
+{
+    font-size: 180%;
+}
+
+.customjumbo{
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
