@@ -2,3 +2,8 @@
     width: 15%;
     height: auto;
 }
+
+.customtable{
+    overflow-y: auto;
+    max-height: 400px;
+    }

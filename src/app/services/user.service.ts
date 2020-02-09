@@ -26,6 +26,11 @@ export class UserService {
     return this.http.get<number>(this.baseUrl + userid + '/saldo')
   }
 
+  setSaldoFromUser(amount: number, userid: number) : Observable<boolean>
+  {
+    return this.http.put<boolean>(this.baseUrl + userid + "/saldo",amount);
+  }
+
   //needed responstype setting so answer could be read as string
   registerRequest(user:User): Observable<boolean>{
     return this.http.post<boolean>(this.baseUrl + 'register',user);
