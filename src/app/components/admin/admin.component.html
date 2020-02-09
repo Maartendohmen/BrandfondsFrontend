@@ -30,7 +30,7 @@
                     <!--Work in progress-->
 
                     <tr *ngFor="let user of allusersstripes | keyvalue">
-                        <td>{{user.key.forname}}</td>
+                        <td>{{user.key.forname}} {{user.key.surname}}</td>
                         <td>€{{user.key.saldo/100 | number:'.2'}}</td>
                         <td><input type="text" placeholder="{{user.value}}"></td>
                     </tr>

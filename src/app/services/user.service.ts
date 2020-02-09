@@ -27,12 +27,24 @@ export class UserService {
   }
 
   //needed responstype setting so answer could be read as string
-  registerRequest(user:User): Observable<String>{
-    return this.http.post<String>(this.baseUrl + 'register',user,{responseType: 'text' as 'json'});
+  registerRequest(user:User): Observable<boolean>{
+    return this.http.post<boolean>(this.baseUrl + 'register',user);
   }
 
-  confirmRegistration(randomstring: String): Observable<Boolean>{
+  confirmRegistration(randomstring: string): Observable<boolean>{
     return this.http.get<boolean>(this.baseUrl + "registerconformation/" + randomstring)
+  }
+
+  passwordChangeRequest(mailadres: string): Observable<boolean>{
+    return this.http.get<boolean>(this.baseUrl + 'forgotpassword/' + mailadres)
+  }
+
+  checkPasswordResetLink(passwordresetstring: string): Observable<boolean>{
+    return this.http.get<boolean>(this.baseUrl + 'resetpasswordcode/' + passwordresetstring)
+  }
+
+  passwordChange(passwordtoken: string, newpassword: string):Observable<boolean>{
+    return this.http.post<boolean>(this.baseUrl + "resetpassword/" + passwordtoken,newpassword)
   }
 
 }

@@ -22,6 +22,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { AlertModule } from 'ngx-alerts';
 import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
+import { ResetpasswordrequestComponent } from './components/resetpasswordrequest/resetpasswordrequest.component'
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { AdminComponent } from './components/admin/admin.component';
     LoginComponent,
     MainmenuComponent,
     RegisterComponent,
-    AdminComponent
+    AdminComponent,
+    ResetpasswordComponent,
+    ResetpasswordrequestComponent
   ],
   imports: [
     BrowserModule,

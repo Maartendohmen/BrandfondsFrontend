@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
   error = '';
   submitted = false;
   loading = false;
-  gotstring = false;
+  sentmail = false;
   verificationCode = null;
 
   constructor(
@@ -36,7 +36,6 @@ export class RegisterComponent implements OnInit {
       password_input: ['', Validators.required]
     });
 
-    this.verificationCode = null
   }
 
   get f() {
@@ -64,8 +63,7 @@ export class RegisterComponent implements OnInit {
 
     this.userservice.registerRequest(registerUser).subscribe(data => {
 
-      this.gotstring = true;
-      this.verificationCode = data;
+      this.sentmail = data;
 
     }, error => {
       console.log(error);
