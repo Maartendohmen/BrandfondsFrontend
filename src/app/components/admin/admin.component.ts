@@ -46,9 +46,20 @@ export class AdminComponent implements OnInit {
     }
     else if (this.selectedUserSaldo != undefined)
     {
-       var removedcommanumber = this.selectedUserSaldo.replace(/,/g, '')
+      var inputsaldo = null;
 
-      this.userService.setSaldoFromUser(+removedcommanumber,this.selectedUser.key.id).subscribe(data => {
+      if (this.selectedUserSaldo.includes(','))
+      {
+        inputsaldo = +this.selectedUserSaldo.replace(/,/g, '') / 100;
+        console.log(inputsaldo);       
+      }
+      else
+      {
+        inputsaldo = +this.selectedUserSaldo * 100;
+        console.log(inputsaldo);
+      }
+
+      this.userService.setSaldoFromUser(+inputsaldo,this.selectedUser.key.id).subscribe(data => {
         if (data == true)
         {
           this.alertService.success('Het saldo is aangepast')
@@ -72,12 +83,38 @@ export class AdminComponent implements OnInit {
 
       if (changedamount > 0)
       {
-      
+          this.stripeService.addStripesForUser(changedamount,this.selectedUser.key.id, new Date(1900,1)).subscribe(data =>
+            {
+              if (data)
+              {
+                this.alertService.success('Het aantal strepen is aangepast')
+                this.RefreshListOfUsers();
+              }
+              else
+              {
+                this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
+              }
+            }, error => {
+              this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
+            });
       }
 
       else if (changedamount < 0)
       {
-
+        this.stripeService.removeStripesForUser(Math.abs(changedamount),this.selectedUser.key.id, new Date(1900,1)).subscribe(data =>
+          {
+            if (data)
+            {
+              this.alertService.success('Het aantal strepen is aangepast')
+              this.RefreshListOfUsers();
+            }
+            else
+            {
+              this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
+            }
+          }, error => {
+            this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
+          });
       }
     }
 

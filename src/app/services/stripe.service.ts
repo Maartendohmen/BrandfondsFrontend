@@ -27,9 +27,19 @@ export class StripeService {
     return this.http.get<number>(this.baseUrl+ 'addstripe/' + userid + "/" + date)
   }
 
+  addStripesForUser(amount: number,userid: number, date: Date): Observable<number>
+  {
+    return this.http.put<number>(this.baseUrl+ 'addstripes/' + userid + "/" + date,amount)
+  }
+
   removeStripeForUser(userid: number, date: Date): Observable<number>
   {
     return this.http.get<number>(this.baseUrl+ 'removestripe/' + userid + "/" + date)
+  }
+
+  removeStripesForUser(amount: number,userid: number, date: Date): Observable<number>
+  {
+    return this.http.put<number>(this.baseUrl+ 'removestripes/' + userid + "/" + date,amount)
   }
 
   getTotalStripesFromUser(userid: number): Observable<number>

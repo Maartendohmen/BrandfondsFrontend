@@ -147,9 +147,27 @@
 
 
                         <tr *ngFor="let recipient of totalstripesPerMonth | keyvalue">
-                            <td>{{recipient.key}}</td>
-                            <td>{{recipient.value}}</td>
-                            <td>€ {{recipient.value * 0.50 | number:'.2'}}</td>
+
+                            <ng-container *ngIf="recipient.key == '1-1900'; else NoFaultyStripes">
+                                <td>Bijgestreept door brandmeester</td>
+                                <td>{{recipient.value}}</td>
+                                <td>€ {{recipient.value * 0.50 | number:'.2'}}</td>
+                            </ng-container>
+
+                            <ng-template #NoFaultyStripes>
+                                <ng-container *ngIf="recipient.key == '1-1970'; else DatesKnown">
+                                    <td>Niet bekend</td>
+                                    <td>{{recipient.value}}</td>
+                                    <td>€ {{recipient.value * 0.50 | number:'.2'}}</td>
+                                </ng-container>
+                                <ng-template #DatesKnown>
+                                    <td>{{recipient.key}}</td>
+                                    <td>{{recipient.value}}</td>
+                                    <td>€ {{recipient.value * 0.50 | number:'.2'}}</td>
+                                </ng-template>
+
+
+                            </ng-template>
                         </tr>
                     </tbody>
                 </table>
