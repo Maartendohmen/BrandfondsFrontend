@@ -50,7 +50,7 @@ export class AdminComponent implements OnInit {
 
       if (this.selectedUserSaldo.includes(','))
       {
-        inputsaldo = +this.selectedUserSaldo.replace(/,/g, '') / 100;
+        inputsaldo = +this.selectedUserSaldo.replace(/,/g, '');
         console.log(inputsaldo);       
       }
       else

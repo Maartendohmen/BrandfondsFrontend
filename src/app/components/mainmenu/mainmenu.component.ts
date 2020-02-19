@@ -32,6 +32,9 @@ export class MainmenuComponent implements OnInit {
   public totalStripes: Number = undefined;
   public totalstripesPerMonth: Map<string, number> = null;
 
+  //paymentrequest
+  paid_amount: string = undefined;
+
   constructor(private calendar: NgbCalendar,
     private userService: UserService,
     private stripeService: StripeService,
@@ -278,6 +281,13 @@ export class MainmenuComponent implements OnInit {
     });
   }
     /* #endregion */
+
+
+    //Todo Send request to backend for mailing brandmeester
+    NotifyOfPayment()
+    {
+        console.log(this.paid_amount);
+    }
 
 
 

@@ -11,7 +11,7 @@ import { environment } from '../../environments/environment';
 export class UserService {
 
   //baseUrl = 'https://brandfonds-backend.herokuapp.com/rest/user/';
-  baseUrl = environment.API_URL + 'day/';
+  baseUrl = environment.API_URL + 'user/';
 
   constructor(private http: HttpClient) { }
 
