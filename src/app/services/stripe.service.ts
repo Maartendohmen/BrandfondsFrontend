@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Day } from '../model/Day';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StripeService {
 
+  base
+
   //baseUrl = 'https://brandfonds-backend.herokuapp.com/rest/day/';
-  baseUrl = 'http://localhost:8080/rest/day/';
-  //baseUrl = 'http://77.175.243.68:9000/rest/day/';
+  baseUrl = environment.API_URL + 'day/';
 
   constructor(private http: HttpClient) { }
 

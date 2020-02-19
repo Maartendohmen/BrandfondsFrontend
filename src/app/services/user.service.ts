@@ -3,14 +3,15 @@ import { User } from '../model/User';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Day } from '../model/Day';
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
   //baseUrl = 'https://brandfonds-backend.herokuapp.com/rest/user/';
-  baseUrl = 'http://localhost:8080/rest/user/';
-  //baseUrl = 'http://77.175.243.68:9000/rest/user/';
+  baseUrl = environment.API_URL + 'day/';
 
   constructor(private http: HttpClient) { }
 
