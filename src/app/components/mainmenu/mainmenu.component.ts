@@ -43,10 +43,6 @@ export class MainmenuComponent implements OnInit {
 
   ngOnInit() {
 
-    if (localStorage.getItem('Loggedin_User') === null) {
-      this.router.navigateByUrl('');
-    }
-
     this.loggedinUser = JSON.parse(localStorage.getItem('Loggedin_User'));
 
     this.onDateSelection(this.currentdate);
