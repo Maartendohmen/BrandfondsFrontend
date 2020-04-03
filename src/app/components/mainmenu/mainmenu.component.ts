@@ -33,7 +33,7 @@ export class MainmenuComponent implements OnInit {
   public totalstripesPerMonth: Map<string, number> = null;
 
   //paymentrequest
-  paid_amount: string = undefined;
+  paid_amount: number;
 
   constructor(private calendar: NgbCalendar,
     private userService: UserService,
@@ -51,7 +51,6 @@ export class MainmenuComponent implements OnInit {
     this.RefreshTotalStripesFromUser();
     this.RefreshSaldoFromUser();
     this.RefreshTotalStripesPerMonthFromUser();
-
   }
 
 
@@ -282,14 +281,46 @@ export class MainmenuComponent implements OnInit {
     //Todo Send request to backend for mailing brandmeester
     NotifyOfPayment()
     {
-        console.log(this.paid_amount);
+      if (this.paid_amount){
+        var inputsaldo = null;
+
+        //conversion to string
+        var paid_amount = this.paid_amount.toString();
+  
+        if (paid_amount.includes(','))
+        {
+          inputsaldo = +paid_amount.replace(/,/g, '');
+          console.log(inputsaldo);       
+        }
+        else
+        {
+          inputsaldo = +paid_amount * 100;
+          console.log(inputsaldo);
+        }
+  
+        this.userService.depositRequest(this.loggedinUser.id,inputsaldo).subscribe(result => {
+            if (result){
+              this.alertService.success('Je verzoek is naar de brandmeester gestuurd');
+              this.paid_amount = null;
+            }
+            else
+            {
+              this.alertService.danger('Er is iets fout gegaan, probeer het later opnieuw');
+              this.paid_amount = null;
+            }
+        });
+      }
+      else{
+            this.alertService.warning('Vul a.u.b het bedrag in wat je overgemaakt hebt');
+      }
+
     }
 
 
 
-  /**
-   * Logs user out
-   * @param e event from button
+  /** Logs user out
+   * 
+   * @param e 
    */
   LogOut(e) {
     localStorage.removeItem('Loggedin_User');

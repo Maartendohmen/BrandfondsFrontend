@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Day } from '../model/Day';
 import { environment } from '../../environments/environment';
+import { DepositRequest } from '../model/DepositRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +53,23 @@ export class UserService {
   passwordChange(passwordtoken: string, newpassword: string):Observable<boolean>{
     return this.http.post<boolean>(this.baseUrl + "resetpassword/" + passwordtoken,newpassword)
   }
+
+  depositRequest(userid: number, amount:number): Observable<boolean>{
+    return this.http.post<boolean>(this.baseUrl + userid + '/deposit',amount)
+  }
+
+  getAllDepositRequest():Observable<DepositRequest[]>{
+    return this.http.get<DepositRequest[]>(this.baseUrl + 'deposit')
+  }
+
+  acceptDepositRequest(depositRequestid: number): Observable<boolean>{
+    return this.http.get<boolean>(this.baseUrl + 'depositapprove/' + depositRequestid)
+  }
+
+  rejectDepositRequest(depositRequestid: number): Observable<boolean>{
+    return this.http.get<boolean>(this.baseUrl + 'depositreject/' + depositRequestid)
+  }
+
+
 
 }

@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services/user.service';
 import { StripeService } from 'src/app/services/stripe.service';
 import { User } from 'src/app/model/User';
 import { map } from 'rxjs/operators';
+import { DepositRequest } from 'src/app/model/DepositRequest';
 
 @Component({
   selector: 'app-admin',
@@ -14,6 +15,8 @@ export class AdminComponent implements OnInit {
 
   allusers: User[] = [];
   allusersstripes: Map<User,number> = new Map();
+
+  alldepositrequests: DepositRequest[] = [];
 
   //edit user details
   selectedUser = null; //not type safe cause typescript has no support for tuples
@@ -27,6 +30,7 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
 
     this.RefreshListOfUsers();
+    this.RefreshListOfDeposits();
 
   }
 
@@ -123,6 +127,31 @@ export class AdminComponent implements OnInit {
     this.selectedUser = undefined;
   }
 
+  RejectDepositRequest(depositRequestid: number)
+  {
+    this.userService.rejectDepositRequest(depositRequestid).subscribe(data => {
+        if (data == false ||!data)
+        {
+          this.alertService.danger('Er is iets fout gegaan, probeer het later opnieuw');
+        }
+
+        this.RefreshListOfDeposits();
+    });
+  }
+
+  AcceptRepositRequest(depositRequestid: number)
+  {
+    this.userService.acceptDepositRequest(depositRequestid).subscribe(data => {
+      if (data == false ||!data)
+      {
+        this.alertService.danger('Er is iets fout gegaan, probeer het later opnieuw');
+      }
+
+      this.RefreshListOfDeposits();
+      this.RefreshListOfUsers();
+  });
+  }
+
   RefreshListOfUsers()
   {
     this.allusers = [];
@@ -142,6 +171,16 @@ export class AdminComponent implements OnInit {
         });
 
         //print error if something goes wrong
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  RefreshListOfDeposits()
+  {
+      this.userService.getAllDepositRequest().subscribe(result => {
+        this.alldepositrequests = result;
+        this.alldepositrequests = this.alldepositrequests.filter(depositrequest => depositrequest.handledDate === null)
       }, error => {
         console.log(error);
       });

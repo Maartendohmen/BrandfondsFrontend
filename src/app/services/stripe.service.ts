@@ -9,8 +9,6 @@ import { environment } from '../../environments/environment';
 })
 export class StripeService {
 
-  base
-
   //baseUrl = 'https://brandfonds-backend.herokuapp.com/rest/day/';
   baseUrl = environment.API_URL + 'day/';
 

@@ -18,11 +18,10 @@
 
             <table class="table mt-3">
                 <thead class="thead-dark">
-                    <tr>
-                        <th style="width :25%">Naam</th>
-                        <th style="width :10%">Saldo</th>
-                        <th style="width :10%">Totaal aantal strepen</th>
-                        <th style="width :10%"></th>
+                    <tr class="d-flex">
+                        <th class="col-3">Naam</th>
+                        <th class="col-4">Saldo</th>
+                        <th class="col-3">Totaal aantal strepen</th>
                     </tr>
                 </thead>
 
@@ -30,23 +29,26 @@
 
                     <!--Work in progress-->
 
-                    <tr *ngFor="let user of allusersstripes | keyvalue">
+                    <tr *ngFor="let user of allusersstripes | keyvalue" class="d-flex">
 
                         <!--if a user is selected show input fields-->
                         <ng-container *ngIf="user == selectedUser; else elseTemplate">
-                            <td style="width :25%">{{user.key.forname}} {{user.key.surname}}</td>
-                            <td style="width :40%">€ <input style="width :80%" type="text" placeholder=" {{user.key.saldo/100 | number:'.2'}}" [(ngModel)]="selectedUserSaldo"></td>
-                            <td style="width :10%"> <input  style="width :80%" placeholder="{{user.value}}" [(ngModel)]="SelectedUsertotalStripes"></td>
-                            <td style="width :20%"><img class="img-fluid d-inline smallicon float-right" src="../../../assets/tick.png" alt="" (click)="SaveDetails()"></td>
+                            <td class="col-3">{{user.key.forname}} {{user.key.surname}}</td>
+                            <td class="col-4">€ <input style="width :75%" type="text" placeholder=" {{user.key.saldo/100 | number:'.2'}}"
+                                   [(ngModel)]="selectedUserSaldo"></td>
+                            <td class="col-3"><input style="width :75%" placeholder="{{user.value}}" [(ngModel)]="SelectedUsertotalStripes"></td>
+                            <td class="col-2"><img class="img-fluid d-inline smallicon float-right" src="../../../assets/tick.png"
+                                    alt="" (click)="SaveDetails()"></td>
                         </ng-container>
 
 
                         <!--if no user is selected, show normal overview-->
                         <ng-template #elseTemplate>
-                            <td style="width :25%">{{user.key.forname}} {{user.key.surname}}</td>
-                            <td style="width :40%">€ {{user.key.saldo/100 | number:'.2'}}</td>
-                            <td style="width :10%">{{user.value}}</td>
-                            <td style="width :20%"><img class="img-fluid d-inline smallicon float-right" src="../../../assets/edit.png" alt="" (click)="EditDetails(user)"></td>
+                            <td class="col-3">{{user.key.forname}} {{user.key.surname}}</td>
+                            <td class="col-4">€ {{user.key.saldo/100 | number:'.2'}}</td>
+                            <td class="col-3">{{user.value}}</td>
+                            <td class="col-2"><img class="img-fluid d-inline smallicon float-right" src="../../../assets/edit.png"
+                                    alt="" (click)="EditDetails(user)"></td>
                         </ng-template>
                     </tr>
 
@@ -54,4 +56,43 @@
             </table>
         </div>
     </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="jumbotron customjumbo">
+            <h1 class="customheadertext text-center">Inleg aanvragen</h1>
+            <hr class="my-4">
+
+            <table class="table mt-3">
+                <thead class="thead-dark">
+                    <tr class="d-flex">
+                        <th class="col-3">Naam</th>
+                        <th class="col-3">Inleg bedrag</th>
+                        <th class="col-4">Aanvraag 
+                            datum</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <!--Work in progress-->
+
+                    <tr *ngFor="let depositrequest of alldepositrequests" class="d-flex">
+                        <td class="col-3">{{depositrequest.user.forname}} {{depositrequest.user.surname}}</td>
+                        <td class="col-3">€ {{depositrequest.amount/100 | number:'.2'}}</td>
+                        <td class="col-4">{{depositrequest.requestDate | date: 'longDate'}}</td>
+                        <td class="col-2">
+                        <button class="btn btn-primary btn-sm mt-1" (click)="AcceptRepositRequest(depositrequest.id)">✔</button>
+                        <button class="btn btn-primary btn-sm mt-1" (click)="RejectDepositRequest(depositrequest.id)">❌</button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
 </div>
