@@ -23,7 +23,8 @@ import { AlertModule } from 'ngx-alerts';
 import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
-import { ResetpasswordrequestComponent } from './components/resetpasswordrequest/resetpasswordrequest.component'
+import { ResetpasswordrequestComponent } from './components/resetpasswordrequest/resetpasswordrequest.component';
+import { RegisterconformationComponent } from './components/registerconformation/registerconformation.component'
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ResetpasswordrequestComponent } from './components/resetpasswordrequest
     RegisterComponent,
     AdminComponent,
     ResetpasswordComponent,
-    ResetpasswordrequestComponent
+    ResetpasswordrequestComponent,
+    RegisterconformationComponent
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,7 @@ import { ResetpasswordrequestComponent } from './components/resetpasswordrequest
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 import { AdminGuard } from './_guards/admin.guards';
 import { UserGuard } from './_guards/user.guard';
+import { RegisterconformationComponent } from './components/registerconformation/registerconformation.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: 'main', component: MainmenuComponent, canActivate:[UserGuard]},
   {path: 'admin', component: AdminComponent},
   {path: 'resetpasswordrequest', component: ResetpasswordrequestComponent},
-  {path: 'resetpassword/:link', component: ResetpasswordComponent}
+  {path: 'resetpassword/:link', component: ResetpasswordComponent},
+  {path: 'registerconformation/:link', component: RegisterconformationComponent}
 ];
 
 @NgModule({
