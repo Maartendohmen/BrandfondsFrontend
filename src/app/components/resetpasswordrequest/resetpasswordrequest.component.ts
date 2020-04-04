@@ -33,8 +33,7 @@ export class ResetpasswordrequestComponent implements OnInit {
     return this.forgotPasswordForm.controls;
   }
 
-  onSubmitConfirm()
-  {
+  onSubmitConfirm() {
     this.submitted = true;
 
     // stop here if form is invalid
@@ -45,18 +44,20 @@ export class ResetpasswordrequestComponent implements OnInit {
     this.loading = true;
 
     this.userservice.passwordChangeRequest(this.f.usermail_input.value).subscribe(data => {
-        if (data == true)
-        {
-          this.alertService.success('Er is een mail naar je verstuurd met verdere instructies')
-        }
-        else
-        {
-          this.loading = false;
-          this.alertService.warning('Er is iets fout gegaan, probeer het later opnieuw')
-        }
+      if (data == true) {
+        this.alertService.success('Er is een mail naar je verstuurd met verdere instructies')
+      }
     }, error => {
       this.loading = false;
-        this.alertService.warning('Er is iets fout gegaan, probeer het later opnieuw')
+      
+      if(error.error.message)
+      {
+        this.alertService.danger(error.error.message)
+      }
+      else{
+        this.alertService.danger('Er is iets fout gegaan, probeer het later opnieuw')
+      }
+
     });
 
   }

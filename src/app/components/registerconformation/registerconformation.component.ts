@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RegisterconformationComponent implements OnInit {
 
+  error = undefined;
   registertoken = '';
 
   constructor(
@@ -27,13 +28,15 @@ export class RegisterconformationComponent implements OnInit {
           this.router.navigateByUrl('/');
           this.alertService.danger("Link bestaat niet of is verlopen");
         }
+      },error => {
+        this.error = error.error.message;
       });
     });
 
     setTimeout(() => {
       this.router.navigate(['']);
     },
-      5000);
+      7000);
   }
 
 }
