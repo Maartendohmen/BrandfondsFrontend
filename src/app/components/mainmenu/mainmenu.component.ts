@@ -255,7 +255,7 @@ export class MainmenuComponent implements OnInit {
    */
   RefreshSaldoFromUser() {
     this.userService.getSaldoFromUser(this.loggedinUser.id).subscribe(data => {
-      console.log('Incoming saldo = ' + data);
+
       this.loggedinUser.saldo = data;
 
       if (this.loggedinUser.saldo < 0) {
@@ -284,18 +284,15 @@ export class MainmenuComponent implements OnInit {
       if (this.paid_amount){
         var inputsaldo = null;
 
-        //conversion to string
         var paid_amount = this.paid_amount.toString();
   
         if (paid_amount.includes(','))
         {
           inputsaldo = +paid_amount.replace(/,/g, '');
-          console.log(inputsaldo);       
         }
         else
         {
           inputsaldo = +paid_amount * 100;
-          console.log(inputsaldo);
         }
   
         this.userService.depositRequest(this.loggedinUser.id,inputsaldo).subscribe(result => {

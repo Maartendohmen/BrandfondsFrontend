@@ -62,7 +62,16 @@ export class LoginComponent implements OnInit {
         data => {
           if (data != null) {
             localStorage.setItem('Loggedin_User', JSON.stringify(data));
-            this.router.navigateByUrl('main');
+
+            var loggedinUser:User = JSON.parse(localStorage.getItem('Loggedin_User'));
+
+            if (loggedinUser.userRole == 'BRANDMASTER'){
+              this.router.navigateByUrl('admin')
+            }
+            else{
+              this.router.navigateByUrl('main');
+            }
+            
           }
           else
           {

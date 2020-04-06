@@ -4,7 +4,7 @@
     <div class="col-12 col-lg-12">
         <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end">
             <a class="navbar-brand">Welkom Brandmeester!</a>
-            <button class="btn btn-danger ml-auto mr-1">Log uit</button>
+            <button class="btn btn-danger ml-auto mr-1" (click)="LogOut($event)">Log uit</button>
         </nav>
     </div>
 </div>
@@ -82,8 +82,8 @@
                         <td class="col-3">€ {{depositrequest.amount/100 | number:'.2'}}</td>
                         <td class="col-4">{{depositrequest.requestDate | date: 'longDate'}}</td>
                         <td class="col-2">
-                        <button class="btn btn-primary btn-sm mt-1" (click)="AcceptRepositRequest(depositrequest.id)">✔</button>
-                        <button class="btn btn-primary btn-sm mt-1" (click)="RejectDepositRequest(depositrequest.id)">❌</button>
+                        <button class="btn btn-success btn-sm mt-1 btn-block" (click)="AcceptRepositRequest(depositrequest.id)"><fa name="check" class="customicon"></fa></button>
+                        <button class="btn btn-danger btn-sm mt-1 btn-block" (click)="RejectDepositRequest(depositrequest.id)"><fa name="times" class="customicon"></fa></button>
                         </td>
 
                     </tr>

@@ -15,7 +15,7 @@ const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'register',component: RegisterComponent},
   {path: 'main', component: MainmenuComponent, canActivate:[UserGuard]},
-  {path: 'admin', component: AdminComponent},
+  {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
   {path: 'resetpasswordrequest', component: ResetpasswordrequestComponent},
   {path: 'resetpassword/:link', component: ResetpasswordComponent},
   {path: 'registerconformation/:link', component: RegisterconformationComponent}

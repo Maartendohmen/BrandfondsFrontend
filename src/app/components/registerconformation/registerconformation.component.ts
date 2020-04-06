@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 export class RegisterconformationComponent implements OnInit {
 
   error = undefined;
+  dataloaded = false;
   registertoken = '';
 
   constructor(
@@ -31,6 +32,7 @@ export class RegisterconformationComponent implements OnInit {
       },error => {
         this.error = error.error.message;
       });
+      this.dataloaded = true;
     });
 
     setTimeout(() => {

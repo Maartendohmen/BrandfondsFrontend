@@ -66,7 +66,6 @@ export class RegisterComponent implements OnInit {
       this.sentmail = data;
 
     }, error => {
-      console.log(error);
       this.alertService.danger('Er is iets fout gegaan met registeren, probeer het later opnieuw');
       this.loading = false;
     });

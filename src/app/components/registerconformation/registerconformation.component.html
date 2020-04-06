@@ -1,26 +1,30 @@
-<div class="row mt-4">
-    <div class="col-12">
+<div *ngIf="dataloaded">
 
-<ng-container *ngIf="error == undefined; else ErrorTemplate">
-        <div class="card">
-                <div class="card-body succes my-auto">
-                    <h5 class="card-title">Registratie Gelukt</h5>
-                    <p class="card-text">Het registreren van je account is gelukt. Je wordt binnen enkele seconden teruggebracht naar de inlog pagina.</p>
+    <div class="row mt-4">
+        <div class="col-12">
+    
+    <ng-container *ngIf="error == undefined; else ErrorTemplate">
+            <div class="card">
+                    <div class="card-body succes my-auto">
+                        <h5 class="card-title">Registratie Gelukt</h5>
+                        <p class="card-text">Het registreren van je account is gelukt. Je wordt binnen enkele seconden teruggebracht naar de inlog pagina.</p>
+                    </div>
+                </div>
+    </ng-container>
+    
+    <ng-template #ErrorTemplate>
+        
+    </ng-template>
+    
+            <div class="card failure">
+                <div class="card-body">
+                    <h5 class="card-title">Registratie Mislukt</h5>
+                    <p class="card-text">Het registreren van je account is niet gelukt. {{error}}. Je wordt automatisch teruggebracht naar het inlogscherm.</p>
                 </div>
             </div>
-</ng-container>
-
-<ng-template #ErrorTemplate>
     
-</ng-template>
-
-        <div class="card failure">
-            <div class="card-body">
-                <h5 class="card-title">Registratie Mislukt</h5>
-                <p class="card-text">Het registreren van je account is niet gelukt. {{error}}. Je wordt automatisch teruggebracht naar het inlogscherm.</p>
-            </div>
+    
         </div>
-
-
     </div>
+
 </div>
