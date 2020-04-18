@@ -52,14 +52,13 @@
 
                 <div class="row mt-3">
                     <div class="col-3">
-                        <img (click)="RemoveStripe($event)" class="img-fluid" src="../../assets/icons8-minus-64.png"
-                            alt="">
+                        <i (click)="RemoveStripe($event)" class="fa fa-minus-circle fa-4x"></i>
                     </div>
                     <div class="col-6">
                         <h1 class="text-center font-weight-bold align-middle">{{personalstripesnumber}}</h1>
                     </div>
-                    <div class="col-3 float-right">
-                        <img (click)="AddStripe($event)" class="img-fluid" src="../../assets/icons8-plus-64.png" alt="">
+                    <div class="col-3">
+                        <i (click)="AddStripe($event)" class="float-right fa fa-plus-circle fa-4x"></i>
                     </div>
                 </div>
 
@@ -93,18 +92,18 @@
 
                 <div *ngFor="let user of selectedUsers" class="mb-2">
 
-                    <div class="row">
-                        <div class="col-4 justify-content-center align-self-center">
+                    <div class="row align-items-center">
+                        <div class="col-4 align-self-center">
                             <h5>{{user.forname}}</h5>
                         </div>
-                        <div class="col-8 justify-content-center align-self-center">
-                            <img class="img-fluid d-inline float-right smallicon ml-5" (click)="RemoveFromGroup(user.id)"
-                                src="../../../assets/icons8-delete-bin-48.png" alt="">
-                            <img class="img-fluid d-inline float-right smallicon ml-2" (click)="AddGroupStripe(user)"
-                                src="../../../assets/icons8-plus-64.png" alt="">
-                            <h3 class="d-inline float-right text-center">{{user.todaystripes}}</h3>
-                            <img class="img-fluid d-inline float-right smallicon mr-2" (click)="RemoveGroupStripe(user)"
-                                src="../../../assets/icons8-minus-64.png" alt="">
+                        <div class="col-6 align-self-center text-right">
+                            <i class="d-inline mr-2 fa fa-minus-circle fa-2x" (click)="RemoveGroupStripe(user)"></i>
+                            <h3 class="d-inline text-center">{{user.todaystripes}}</h3>
+                            <i class="d-inline ml-2 fa fa-plus-circle fa-2x" (click)="AddGroupStripe(user)"></i>
+
+                        </div>
+                        <div class="col-2">
+                            <i class="d-inline float-right fa fa-trash fa-2x" (click)="RemoveFromGroup(user.id)"></i>
                         </div>
                     </div>
 
@@ -190,7 +189,8 @@
             <form class="form-inline">
                 <div class="form-group mx-sm-3 mb-2">
                     <label for="inputPassword2" class="sr-only">Password</label>
-                    <input type="number" name="paid_amount" class="form-control" placeholder="Geld in euro's" [(ngModel)]="paid_amount">
+                    <input type="number" name="paid_amount" class="form-control" placeholder="Geld in euro's"
+                        [(ngModel)]="paid_amount">
                 </div>
                 <button type="submit" class="btn btn-primary mb-2 ml-2 ml-md-0" (click)="NotifyOfPayment()">Verstuur</button>
             </form>

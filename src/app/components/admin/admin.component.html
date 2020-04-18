@@ -35,10 +35,11 @@
                         <ng-container *ngIf="user == selectedUser; else elseTemplate">
                             <td class="col-3">{{user.key.forname}} {{user.key.surname}}</td>
                             <td class="col-4">€ <input style="width :75%" type="text" placeholder=" {{user.key.saldo/100 | number:'.2'}}"
-                                   [(ngModel)]="selectedUserSaldo"></td>
+                                    [(ngModel)]="selectedUserSaldo"></td>
                             <td class="col-3"><input style="width :75%" placeholder="{{user.value}}" [(ngModel)]="SelectedUsertotalStripes"></td>
-                            <td class="col-2"><img class="img-fluid d-inline smallicon float-right" src="../../../assets/tick.png"
-                                    alt="" (click)="SaveDetails()"></td>
+                            <td class="col-2">
+                                    <i class="float-right d-inline fa fa-check fa-2x" (click)="SaveDetails()"></i>
+                                </td>
                         </ng-container>
 
 
@@ -47,8 +48,9 @@
                             <td class="col-3">{{user.key.forname}} {{user.key.surname}}</td>
                             <td class="col-4">€ {{user.key.saldo/100 | number:'.2'}}</td>
                             <td class="col-3">{{user.value}}</td>
-                            <td class="col-2"><img class="img-fluid d-inline smallicon float-right" src="../../../assets/edit.png"
-                                    alt="" (click)="EditDetails(user)"></td>
+                            <td class="col-2">
+                                <i class="float-right d-inline fa fa-edit fa-2x" (click)="EditDetails(user)" name=""></i>
+                            </td>
                         </ng-template>
                     </tr>
 
@@ -82,8 +84,12 @@
                         <td class="col-3">€ {{depositrequest.amount/100 | number:'.2'}}</td>
                         <td class="col-4">{{depositrequest.requestDate | date: 'longDate'}}</td>
                         <td class="col-2">
-                        <button class="btn btn-success btn-sm mt-1 btn-block" (click)="AcceptRepositRequest(depositrequest.id)"><fa name="check" class="customicon"></fa></button>
-                        <button class="btn btn-danger btn-sm mt-1 btn-block" (click)="RejectDepositRequest(depositrequest.id)"><fa name="times" class="customicon"></fa></button>
+                            <button class="btn btn-success btn-sm mt-1 btn-block" (click)="AcceptRepositRequest(depositrequest.id)">
+                                <i class="fa fa-check"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm mt-1 btn-block" (click)="RejectDepositRequest(depositrequest.id)">
+                                <i class="fa fa-times"></i>
+                            </button>
                         </td>
 
                     </tr>

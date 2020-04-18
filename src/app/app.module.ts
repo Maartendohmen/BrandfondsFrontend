@@ -25,7 +25,6 @@ import { AdminComponent } from './components/admin/admin.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 import { ResetpasswordrequestComponent } from './components/resetpasswordrequest/resetpasswordrequest.component';
 import { RegisterconformationComponent } from './components/registerconformation/registerconformation.component'
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 @NgModule({
   declarations: [
@@ -42,7 +41,6 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     BrowserModule,
     AppRoutingModule,
     NgbModule, // bootstrap ngx
-    AngularFontAwesomeModule, //for different icons see https://www.npmjs.com/package/angular-font-awesome
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
