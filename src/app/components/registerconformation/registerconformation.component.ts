@@ -11,7 +11,6 @@ import { UserService } from 'src/app/services/user.service';
 export class RegisterconformationComponent implements OnInit {
 
   error = undefined;
-  dataloaded = false;
   registertoken = '';
 
   constructor(
@@ -29,16 +28,18 @@ export class RegisterconformationComponent implements OnInit {
           this.router.navigateByUrl('/');
           this.alertService.danger("Link bestaat niet of is verlopen");
         }
-      },error => {
+      }, error => {
         this.error = error.error.message;
       });
-      this.dataloaded = true;
-    });
+    }
+    );
 
     setTimeout(() => {
       this.router.navigate(['']);
     },
       7000);
-  }
 
+      
+  console.log(this.error);
+  }
 }

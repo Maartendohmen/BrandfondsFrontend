@@ -63,41 +63,14 @@ export class RegisterComponent implements OnInit {
 
     this.userservice.registerRequest(registerUser).subscribe(data => {
 
-      this.sentmail = data;
+      if(data){
+        this.alertService.success("Check je mail om je registratie te voltooien")
+      }
 
     }, error => {
       this.alertService.danger('Er is iets fout gegaan met registeren, probeer het later opnieuw');
       this.loading = false;
     });
-  }
-
-  VerifyRegistration() {
-
-    if (this.verificationCode != null) {
-
-      this.loading = true;
-
-      this.userservice.confirmRegistration(this.verificationCode).subscribe(data => {
-        if (data === true) {
-          this.alertService.success('Het account is gecreëerd, je wordt nu teruggebracht naar het inlogscherm')
-
-          setTimeout(() => {
-            this.router.navigate(['']);
-          },
-            5000);
-        }
-        else if (data === false) {
-          this.alertService.danger('Foute verificatie code')
-          this.loading = false;
-        }
-      }, error => {
-        this.alertService.danger('Er is iets fout gegaan met verifieren, probeer het later opnieuw')
-        this.loading = false;
-      });
-    }
-    else {
-      this.alertService.warning('Vul a.u.b de verificatie code in')
-    }
   }
 
 }

@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
 
-  error = '';
   submitted = false;
   loading = false;
 
@@ -81,7 +80,6 @@ export class LoginComponent implements OnInit {
         },
         error => {
           this.alertService.warning('Er is iets fout gegaan tijdens het inloggen');
-          this.error = error;
           this.loading = false;
         });
   }

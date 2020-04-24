@@ -34,21 +34,5 @@
             </form>
 
         </div>
-
-        <div *ngIf="sentmail">
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Registratie verifiëren</h5>
-                    <p class="card-text">Er is zojuist een code naar het opgegeven email gestuurd.<br><br>
-                        Kopieer deze code in ondestaand van en druk om verstuur om je email te verifiëren.</p>
-                </div>
-            </div>
-
-            <div class="form-group mt-3">
-                <input id="my-input" class="form-control" type="text" placeholder="Registratie code" [(ngModel)]="verificationCode">
-                <button class="btn btn-primary btn-block mt-3" (click)="VerifyRegistration()">Verstuur</button>
-            </div>
-        </div>
     </div>
 </div>

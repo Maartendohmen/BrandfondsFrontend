@@ -19,11 +19,8 @@
             <input formControlName="password_input" class="form-control" name="userPassword"
                 placeholder="Wachtwoord" type="password" [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
 
-            <div class="form-group">
-                <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-            </div>
 
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-6">
                     <button [disabled]="loading" class="btn btn-primary btn-block" type="submit">Log in</button>
                 </div>

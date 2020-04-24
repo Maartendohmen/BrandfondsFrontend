@@ -16,13 +16,18 @@ export class AdminComponent implements OnInit {
 
   allusers: User[] = [];
   allusersstripes: Map<User, number> = new Map();
+  alluserpunishmentstripes: Map<User, number> = new Map();
 
   alldepositrequests: DepositRequest[] = [];
 
-  //edit user details
-  selectedUser = null; //not type safe cause typescript has no support for tuples
-  selectedUserSaldo: string;
-  SelectedUsertotalStripes: number;
+  //edit user Saldo
+  selectedUser_Saldo = null; //not type safe cause typescript has no support for tuples
+  selectedUserSaldo: number;
+
+  selectedUser_PunishmentStripes = null;
+  selectedUserPunishmentStripes: number;
+
+
 
   constructor(private alertService: AlertService,
     private userService: UserService,
@@ -36,28 +41,25 @@ export class AdminComponent implements OnInit {
 
   }
 
-  EditDetails(selectedUser) {
-    this.selectedUser = selectedUser;
-    console.log(this.selectedUser.key.id);
+  EditSaldo(selectedUser) {
+    this.selectedUser_Saldo = selectedUser;
   }
 
-  SaveDetails() {
-    if (this.selectedUserSaldo != undefined && this.SelectedUsertotalStripes != undefined) {
-      this.alertService.warning('Je kan niet het saldo en het totaal aantal strepen tegelijk aanpassen')
-      this.selectedUserSaldo = undefined;
-      this.SelectedUsertotalStripes = undefined;
-    }
-    else if (this.selectedUserSaldo != undefined) {
+  SaveSaldo() {
+
+    if(this.selectedUserSaldo || this.selectedUserSaldo === 0)
+    {
+      var selectedUserSaldo = this.selectedUserSaldo.toString();
       var inputsaldo = null;
 
-      if (this.selectedUserSaldo.includes(',')) {
-        inputsaldo = +this.selectedUserSaldo.replace(/,/g, '');
+      if (selectedUserSaldo.includes(',')) {
+        inputsaldo = +selectedUserSaldo.replace(/,/g, '');
       }
       else {
-        inputsaldo = +this.selectedUserSaldo * 100;
+        inputsaldo = +selectedUserSaldo * 100;
       }
 
-      this.userService.setSaldoFromUser(+inputsaldo, this.selectedUser.key.id).subscribe(data => {
+      this.userService.setSaldoFromUser(+inputsaldo, this.selectedUser_Saldo.key.id).subscribe(data => {
         this.alertService.success('Het saldo is aangepast')
         this.RefreshListOfUsers();
 
@@ -66,14 +68,26 @@ export class AdminComponent implements OnInit {
       });
     }
 
-    else if (this.SelectedUsertotalStripes != undefined) {
-      //todo need to add function to add punishstripes
-      var changedamount = this.SelectedUsertotalStripes - this.selectedUser.value;
+
+
+    this.selectedUserSaldo = undefined;
+    this.selectedUser_Saldo = undefined;
+  }
+
+  EditPunishmentStripes(selectedUser){
+    this.selectedUser_PunishmentStripes = selectedUser;
+  }
+
+  SavePunishmentStripes(){
+
+    if (this.selectedUserPunishmentStripes || this.selectedUserPunishmentStripes === 0)
+    {
+      var changedamount = this.selectedUserPunishmentStripes - this.selectedUser_PunishmentStripes.value;
 
       console.log('Changeamount : ' + changedamount)
 
       if (changedamount > 0) {
-        this.stripeService.addStripesForUser(changedamount, this.selectedUser.key.id, new Date(1900, 1)).subscribe(data => {
+        this.stripeService.addStripesForUser(changedamount, this.selectedUser_PunishmentStripes.key.id, new Date(1900, 1)).subscribe(data => {
           if (data) {
             this.alertService.success('Het aantal strepen is aangepast')
             this.RefreshListOfUsers();
@@ -87,7 +101,7 @@ export class AdminComponent implements OnInit {
       }
 
       else if (changedamount < 0) {
-        this.stripeService.removeStripesForUser(Math.abs(changedamount), this.selectedUser.key.id, new Date(1900, 1)).subscribe(data => {
+        this.stripeService.removeStripesForUser(Math.abs(changedamount), this.selectedUser_PunishmentStripes.key.id, new Date(1900, 1)).subscribe(data => {
           if (data) {
             this.alertService.success('Het aantal strepen is aangepast')
             this.RefreshListOfUsers();
@@ -100,11 +114,11 @@ export class AdminComponent implements OnInit {
         });
       }
     }
-
-    this.selectedUserSaldo = undefined;
-    this.SelectedUsertotalStripes = undefined;
-    this.selectedUser = undefined;
+      this.selectedUserPunishmentStripes = undefined;
+      this.selectedUser_PunishmentStripes = undefined;
   }
+
+
 
   RejectDepositRequest(depositRequestid: number) {
     this.userService.rejectDepositRequest(depositRequestid).subscribe(data => {
@@ -130,17 +144,32 @@ export class AdminComponent implements OnInit {
   RefreshListOfUsers() {
     this.allusers = [];
     this.allusersstripes.clear();
+    this.alluserpunishmentstripes.clear();
 
     //gets all users
     this.userService.getAll().subscribe(data => {
       this.allusers = [];
       this.allusers = data;
 
-      //foreach user, check total amount of stripes
+      
       this.allusers.forEach(user => {
+
+        //foreach user, check total amount of stripes
         this.stripeService.getTotalStripesFromUser(user.id).subscribe(totalstripes => {
           this.allusersstripes.set(user, totalstripes);
         });
+
+        //foreach user, check amount of punishment stripes
+        this.stripeService.getStripesFromDayFromUser(user.id,new Date(1900, 1)).subscribe(totalpunishmentstripes => {
+          if(totalpunishmentstripes)
+          {
+            this.alluserpunishmentstripes.set(user, totalpunishmentstripes.stripes);
+          }
+          else
+          {
+            this.alluserpunishmentstripes.set(user,0);
+          }
+        })
       });
 
       //print error if something goes wrong
@@ -157,7 +186,6 @@ export class AdminComponent implements OnInit {
       console.log(error);
     });
   }
-
 
   LogOut(e) {
     localStorage.removeItem('Loggedin_User');
