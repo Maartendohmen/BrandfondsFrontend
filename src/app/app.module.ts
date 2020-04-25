@@ -20,12 +20,15 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
  
 // Import your library
 import { AlertModule } from 'ngx-alerts';
-import { RegisterComponent } from './components/register/register.component';
-import { AdminComponent } from './components/admin/admin.component';
-import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
-import { ResetpasswordrequestComponent } from './components/resetpasswordrequest/resetpasswordrequest.component';
-import { RegisterconformationComponent } from './components/registerconformation/registerconformation.component';
-import { NavbarComponent } from './components/global/navbar/navbar.component'
+import { RegisterComponent } from './components/registration/register/register.component';
+import { RegisterconformationComponent } from './components/registration/registerconformation/registerconformation.component';
+import { ResetpasswordComponent } from './components/passwordreset/resetpassword/resetpassword.component';
+import { ResetpasswordrequestComponent } from './components/passwordreset/resetpasswordrequest/resetpasswordrequest.component';
+import { AdminComponent } from './components/brandmaster/admin/admin.component';
+import { NavbarComponent } from './components/global/navbar/navbar.component';
+import { AdminEditsaldoComponent } from './components/brandmaster/admin-editsaldo/admin-editsaldo.component';
+import { AdminEditpunishmentstripeComponent } from './components/brandmaster/admin-editpunishmentstripe/admin-editpunishmentstripe.component';
+import { AdminDepositrequestComponent } from './components/brandmaster/admin-depositrequest/admin-depositrequest.component'
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import { NavbarComponent } from './components/global/navbar/navbar.component'
     ResetpasswordComponent,
     ResetpasswordrequestComponent,
     RegisterconformationComponent,
-    NavbarComponent
+    NavbarComponent,
+    AdminEditsaldoComponent,
+    AdminEditpunishmentstripeComponent,
+    AdminDepositrequestComponent
   ],
   imports: [
     BrowserModule,

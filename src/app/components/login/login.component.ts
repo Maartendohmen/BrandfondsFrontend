@@ -65,8 +65,6 @@ export class LoginComponent implements OnInit {
             var loggedinUser:User = JSON.parse(localStorage.getItem('Loggedin_User'));
 
             if (loggedinUser.userRole == 'BRANDMASTER'){
-              console.log(loggedinUser);
-              
               this.router.navigateByUrl('admin')
             }
             else{

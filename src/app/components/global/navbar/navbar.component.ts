@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/model/User';
 
 @Component({
   selector: 'app-navbar',
@@ -7,6 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+
+  @Input() loggedinUser: User;
 
   constructor(private router: Router) { }
 
