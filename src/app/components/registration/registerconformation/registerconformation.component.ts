@@ -39,7 +39,7 @@ export class RegisterconformationComponent implements OnInit {
     },
       7000);
 
-      
-  console.log(this.error);
+
+    console.log(this.error);
   }
 }

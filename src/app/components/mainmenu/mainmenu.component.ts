@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { User } from 'src/app/model/User';
 import { UserService } from 'src/app/services/user.service';
 import { StripeService } from 'src/app/services/stripe.service';
@@ -38,7 +37,6 @@ export class MainmenuComponent implements OnInit {
   constructor(private calendar: NgbCalendar,
     private userService: UserService,
     private stripeService: StripeService,
-    private router: Router,
     private alertService: AlertService) { }
 
   ngOnInit() {
@@ -312,20 +310,4 @@ export class MainmenuComponent implements OnInit {
       }
 
     }
-
-
-
-  /** Logs user out
-   * 
-   * @param e 
-   */
-  LogOut(e) {
-    localStorage.removeItem('Loggedin_User');
-    this.router.navigateByUrl('');
-  }
-
-
-
-
-
 }

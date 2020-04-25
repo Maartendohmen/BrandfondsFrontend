@@ -24,7 +24,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 import { ResetpasswordrequestComponent } from './components/resetpasswordrequest/resetpasswordrequest.component';
-import { RegisterconformationComponent } from './components/registerconformation/registerconformation.component'
+import { RegisterconformationComponent } from './components/registerconformation/registerconformation.component';
+import { NavbarComponent } from './components/global/navbar/navbar.component'
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RegisterconformationComponent } from './components/registerconformation
     AdminComponent,
     ResetpasswordComponent,
     ResetpasswordrequestComponent,
-    RegisterconformationComponent
+    RegisterconformationComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
