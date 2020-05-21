@@ -11,31 +11,39 @@
 
     <div class="col-12 col-lg-6 offset-lg-3">
 
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
 
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()" class="form-group">
+            <mat-form-field appearance="fill" class="full-width-field">
+                <mat-label>Voornaam</mat-label>
+                <input matInput formControlName="forname_input"
+                    [ngClass]="{ 'is-invalid': submitted && f.forname_input.errors }">
+            </mat-form-field>
 
-            <input formControlName="forname_input" class="form-control" name="forName" placeholder="Voornaam"
-                type="text" [ngClass]="{ 'is-invalid': submitted && f.forname_input.errors }">
-            <input formControlName="password_input" class="form-control" name="userPassword"
-                placeholder="Wachtwoord" type="password" [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
-
+            <mat-form-field appearance="fill" class="full-width-field">
+                <mat-label>Wachtwoord</mat-label>
+                <input matInput formControlName="password_input" type="password"
+                    [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
+            </mat-form-field>
 
             <div class="row mt-2">
                 <div class="col-6">
-                    <button [disabled]="loading" class="btn btn-primary btn-block" type="submit">Log in</button>
+                    <button mat-button class="full-width-field" [disabled]="loading" type="submit">Log in</button>
                 </div>
 
                 <div class="col-6">
-                    <button class="btn btn-primary btn-block" (click)="Register()">Registreer</button>
+                    <button mat-button class="full-width-field"(click)="Register()">Registreer</button>
                 </div>
             </div>
 
+            m-
+
         </form>
+
     </div>
 </div>
 
 <div class="row">
-        <div class="col-12 col-lg-6 offset-lg-3 mb-3">
-                <button class="btn btn-primary btn-block" (click)="ForgotPassword()">Wachtwoord vergeten</button>
-            </div>
+    <div class="col-12 col-lg-6 offset-lg-3 mb-3">
+        <button mat-button class="full-width-field"(click)="ForgotPassword()">Wachtwoord vergeten</button>
+    </div>
 </div>

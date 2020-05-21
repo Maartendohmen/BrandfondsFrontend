@@ -14,3 +14,7 @@ button{
 .img-responsive {
     display: inline-block;
   }
+
+.full-width-field {
+    width: 100%;
+ }
