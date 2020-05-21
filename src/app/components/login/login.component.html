@@ -1,49 +1,33 @@
+
 <!--First row-->
-<div class="row mt-5">
-    <div class="col-10 offset-1 col-lg-4 offset-lg-4">
-        <img class="img-responsive center-block" src="../../../assets/twv_logo.png" alt="">
-    </div>
-</div>
+<img class="img-responsive center-block" src="../../../assets/twv_logo.png" alt="">
 
 
 <!--Second Row-->
-<div class="row mt-4">
 
-    <div class="col-12 col-lg-6 offset-lg-3">
 
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+<form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
 
-            <mat-form-field appearance="fill" class="full-width-field">
-                <mat-label>Voornaam</mat-label>
-                <input matInput formControlName="forname_input"
-                    [ngClass]="{ 'is-invalid': submitted && f.forname_input.errors }">
-            </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width-field">
+        <mat-label>Voornaam</mat-label>
+        <input matInput formControlName="forname_input"
+            [ngClass]="{ 'is-invalid': submitted && f.forname_input.errors }">
+    </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width-field">
-                <mat-label>Wachtwoord</mat-label>
-                <input matInput formControlName="password_input" type="password"
-                    [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
-            </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width-field">
+        <mat-label>Wachtwoord</mat-label>
+        <input matInput formControlName="password_input" type="password"
+            [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
+    </mat-form-field>
 
-            <div class="row mt-2">
-                <div class="col-6">
-                    <button mat-button class="full-width-field" [disabled]="loading" type="submit">Log in</button>
-                </div>
 
-                <div class="col-6">
-                    <button mat-button class="full-width-field"(click)="Register()">Registreer</button>
-                </div>
-            </div>
+            <button mat-button [disabled]="loading" type="submit">Log in</button>
 
-            m-
+            <button mat-button (click)="Register()">Registreer</button>
 
-        </form>
 
-    </div>
-</div>
+</form>
 
-<div class="row">
-    <div class="col-12 col-lg-6 offset-lg-3 mb-3">
-        <button mat-button class="full-width-field"(click)="ForgotPassword()">Wachtwoord vergeten</button>
-    </div>
-</div>
+
+
+<button mat-button class="full-width-field" (click)="ForgotPassword()">Wachtwoord vergeten</button>
