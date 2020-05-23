@@ -34,10 +34,10 @@ export class RegisterconformationComponent implements OnInit {
     }
     );
 
-    setTimeout(() => {
-      this.router.navigate(['']);
-    },
-      7000);
+    // setTimeout(() => {
+    //   this.router.navigate(['']);
+    // },
+    //   7000);
 
 
     console.log(this.error);

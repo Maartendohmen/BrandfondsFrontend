@@ -1,38 +1,93 @@
-<!--Second Row-->
-<div class="row mt-4">
+<div *ngIf="!sentmail">
 
-    <div class="col-12 col-lg-6 offset-lg-3">
+    <div fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="15px">
 
-        <div *ngIf="!sentmail">
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Registreren</h5>
-                    <p class="card-text">Vul a.u.b. onderstaande gegevens in.<br><br> Let erop dat je je echte naam en
-                        email opgeeft, zodat de brandmeester kan zien wie je bent.
-                        <br><br> Je email wordt tevens gebruikt voor verificatie.</p>
-                </div>
+        <div fxLayout="row" fxLayoutAlign="start start">
+            <div fxFlex="100%">
+                <mat-card>
+                    <mat-card-subtitle><h2 class="mat-h2">Registreren</h2></mat-card-subtitle>
+                    <mat-card-content>
+                            <p class="mat-body-2">
+                                Vul a.u.b. onderstaande gegevens in.<br><br> Let erop dat je je echte naam
+                                en
+                                email opgeeft, zodat de brandmeester kan zien wie je bent.
+                                <br><br> Je email wordt tevens gebruikt voor verificatie.
+                            </p>
+                    </mat-card-content>
+                </mat-card>
             </div>
+        </div>
 
-            <form [formGroup]="registerForm" (ngSubmit)="onSubmitRegister()" class="form-group mt-3">
+    </div>
 
-                <input type="text" formControlName="usermail_input" class="form-control" name="userEmail" placeholder="Emailadres"
-                    [ngClass]="{ 'is-invalid': submitted && f.usermail_input.errors }">
-                <input type="text" formControlName="forname_input" class="form-control  mt-3" name="forName"
-                    placeholder="Voornaam" [ngClass]="{ 'is-invalid': submitted && f.forname_input.errors }">
-                <input type="text" formControlName="surname_input" class="form-control  mt-3" name="surName"
-                    placeholder="Achternaam" [ngClass]="{ 'is-invalid': submitted && f.surname_input.errors }">
-                <input formControlName="password_input" class="form-control  mt-3" name="userPassword" placeholder="Wachtwoord"
-                    type="password" [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
+    <div fxLayout="column" fxLayoutAlign="center center" [style.padding-top]="'15px'" fxLayoutGap="gappx">
 
-                <div class="form-group">
-                    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmitRegister()">
+
+
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <div fxFlex="100%"> 
+
+                        <mat-form-field appearance="outline" [style.width.px]=327>
+                            <mat-label>Mailadres</mat-label>
+                            <input matInput formControlName="usermail_input" type="text"
+                                [ngClass]="{ 'is-invalid': submitted && f.usermail_input.errors }">
+                        </mat-form-field>
+
+                    </div>
                 </div>
 
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <div fxFlex="100%">
 
-                <button [disabled]="loading" class="btn btn-primary btn-block" type="submit">Bevestig</button>
-            </form>
+                        <mat-form-field appearance="outline" [style.width.px]=327>
+                            <mat-label>Voornaam</mat-label>
+                            <input matInput formControlName="forname_input" type="text"
+                            [ngClass]="{ 'is-invalid': submitted && f.forname_input.errors }">
+                        </mat-form-field>
 
-        </div>
-    </div>
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <div fxFlex="100%">
+
+                        <mat-form-field appearance="outline" [style.width.px]=327>
+                            <mat-label>Achternaam</mat-label>
+                            <input matInput formControlName="surname_input" type="text"
+                            [ngClass]="{ 'is-invalid': submitted && f.surname_input.errors }">
+                        </mat-form-field>
+
+                    </div>
+                </div>
+                
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <div fxFlex="100%">
+
+                        <mat-form-field appearance="outline" [style.width.px]=327>
+                            <mat-label>Wachtwoord</mat-label>
+                            <input matInput formControlName="password_input" type="password"
+                            [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
+                        </mat-form-field>
+
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start start">
+
+                    <div fxFlex="100%">
+                        <div class="form-group">
+                            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div fxLayout="row">
+                    <div fxFlex="100%">
+                        <button class="customconfirmbutton" mat-raised-button color="primary" [disabled]="loading"  type="submit">Bevestig</button>
+                    </div>
+                </div>
+        </form>
+
 </div>

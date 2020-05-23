@@ -1,33 +1,52 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" [style.padding-top]="'40px'"
+    [style.padding-bottom]="'10px'" [style.padding-left]="'10px'" [style.padding-right]="'10px'">
 
-<!--First row-->
-<img class="img-responsive center-block" src="../../../assets/twv_logo.png" alt="">
-
-
-<!--Second Row-->
-
-
-<form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
-
-    <mat-form-field appearance="fill" class="full-width-field">
-        <mat-label>Voornaam</mat-label>
-        <input matInput formControlName="forname_input"
-            [ngClass]="{ 'is-invalid': submitted && f.forname_input.errors }">
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width-field">
-        <mat-label>Wachtwoord</mat-label>
-        <input matInput formControlName="password_input" type="password"
-            [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
-    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="100">
+            <img class="" src="../../../assets/twv_logo_smaller_white.png" alt="">
+        </div>
+    </div>
 
 
-            <button mat-button [disabled]="loading" type="submit">Log in</button>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
 
-            <button mat-button (click)="Register()">Registreer</button>
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="100">
+                <mat-form-field [style.width.px]=327 appearance="outline">
+                    <mat-label>Voornaam</mat-label>
+                    <input matInput formControlName="forname_input"
+                        [ngClass]="{ 'is-invalid': submitted && f.forname_input.errors }">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="100">
+                <mat-form-field appearance="outline" [style.width.px]=327>
+                    <mat-label>Wachtwoord</mat-label>
+                    <input matInput formControlName="password_input" type="password"
+                        [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="50" fxFlexAlign="end">
+                <button class="buttons" mat-raised-button [disabled]="loading" type="submit" color="primary">Log
+                    in</button>
+            </div>
+            <div fxFlex="50">
+                <button class="buttons" mat-raised-button (click)="Register()" color="primary">Registreer</button>
+            </div>
+        </div>
+
+    </form>
 
 
-</form>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="100">
+            <button mat-raised-button (click)="ForgotPassword()" color="primary">Wachtwoord vergeten</button>
+        </div>
+    </div>
 
-
-
-<button mat-button class="full-width-field" (click)="ForgotPassword()">Wachtwoord vergeten</button>
+</div>

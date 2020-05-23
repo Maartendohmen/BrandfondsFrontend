@@ -57,7 +57,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     AlertModule,
     MaterialModule,
     FlexLayoutModule,
-    AlertModule.forRoot({maxMessages: 5, timeout: 5000, position: 'right'})
+    AlertModule.forRoot({maxMessages: 3, timeout: 5000, position: 'right'})
   ],
   providers: [{provide: LOCALE_ID, useValue: 'nl-NL' }, TitleCasePipe],
   bootstrap: [AppComponent],
