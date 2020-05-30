@@ -5,28 +5,34 @@
     </div>
 </div>
 
-
 <!--Second Row-->
 <div class="row mt-4">
-
     <div class="col-12 col-lg-6 offset-lg-3">
-
-
         <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()" class="form-group">
 
-            <input formControlName="forname_input" class="form-control" name="forName" placeholder="Voornaam"
-                type="text" [ngClass]="{ 'is-invalid': submitted && f.forname_input.errors }">
-            <input formControlName="password_input" class="form-control" name="userPassword"
-                placeholder="Wachtwoord" type="password" [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
+
+            <div class="md-form md-bg">
+                <input mdbInput mdbValidate formControlName="forname_input" type="text" id="forname_input"
+                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.forname_input.errors }">
+                <label for="forname_input">Voornaam</label>
+            </div>
+
+            <div class="md-form md-bg">
+                <input mdbInput mdbValidate formControlName="password_input" type="password" id="password_input"
+                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password_input.errors }">
+                <label for="password_input">Wachtwoord</label>
+            </div>
 
 
             <div class="row mt-2">
                 <div class="col-6">
-                    <button [disabled]="loading" class="btn btn-primary btn-block" type="submit">Log in</button>
+                    <button [disabled]="loading" class="btn-block" type="submit" mdbBtn color="primary"
+                        mdbWavesEffect>Log in</button>
                 </div>
 
                 <div class="col-6">
-                    <button class="btn btn-primary btn-block" (click)="Register()">Registreer</button>
+                    <button class="btn-block" mdbBtn color="primary" mdbWavesEffect
+                        (click)="Register()">Registreer</button>
                 </div>
             </div>
 
@@ -35,7 +41,7 @@
 </div>
 
 <div class="row">
-        <div class="col-12 col-lg-6 offset-lg-3 mb-3">
-                <button class="btn btn-primary btn-block" (click)="ForgotPassword()">Wachtwoord vergeten</button>
-            </div>
+    <div class="col-12 col-lg-6 offset-lg-2 mb-3">
+        <button class="btn-block" (click)="ForgotPassword()" mdbBtn color="primary" mdbWavesEffect>Wachtwoord vergeten</button>
+    </div>
 </div>

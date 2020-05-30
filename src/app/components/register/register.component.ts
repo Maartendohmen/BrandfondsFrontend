@@ -18,13 +18,11 @@ export class RegisterComponent implements OnInit {
   error = '';
   submitted = false;
   loading = false;
-  sentmail = false;
   verificationCode = null;
 
   constructor(
     private userservice: UserService,
     private formBuilder: FormBuilder,
-    private router: Router,
     private titlecasePipe: TitleCasePipe,
     private alertService: AlertService) { }
 

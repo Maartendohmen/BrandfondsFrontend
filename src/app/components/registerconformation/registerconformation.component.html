@@ -1,25 +1,39 @@
 <div class="row mt-4">
     <div class="col-12">
 
-<!--need to fix screen when no error is receieved-->
+        <!--need to fix screen when no error is receieved-->
 
         <ng-container *ngIf="error; else NoError">
-            <div class="card failure">
-                <div class="card-body">
-                    <h5 class="card-title">Registratie Mislukt</h5>
-                    <p class="card-text">Het registreren van je account is niet gelukt. {{error}}. Je wordt automatisch
-                        teruggebracht naar het inlogscherm.</p>
-                </div>
-            </div>
+
+            <mdb-card class="failure">
+
+                <mdb-card-body>
+                    <mdb-card-title>
+                        <h4>Registratie Mislukt</h4>
+                    </mdb-card-title>
+                    <mdb-card-text>
+                        Het registreren van je account is niet gelukt. {{error}}. Je wordt automatisch
+                        teruggebracht naar het inlogscherm.
+                    </mdb-card-text>
+                </mdb-card-body>
+            </mdb-card>
+
         </ng-container>
+        
         <ng-template #NoError>
-            <div class="card">
-                <div class="card-body succes my-auto">
-                    <h5 class="card-title">Registratie Gelukt</h5>
-                    <p class="card-text">Het registreren van je account is gelukt. Je wordt binnen enkele seconden
-                        teruggebracht naar de inlog pagina.</p>
-                </div>
-            </div>
+
+            <mdb-card class="succes my-auto">
+                <mdb-card-body>
+                    <mdb-card-title>
+                        <h4>Registratie Gelukt</h4>
+                    </mdb-card-title>
+                    <mdb-card-text>
+                        Het registreren van je account is gelukt. Je wordt binnen enkele seconden
+                        teruggebracht naar de inlog pagina.
+                    </mdb-card-text>
+                </mdb-card-body>
+            </mdb-card>
+
         </ng-template>
 
     </div>
