@@ -1,4 +1,4 @@
-<!--Total stripe info-->
+Total stripe info
 <div class="row mt-4">
     <div class="col-12">
         <div class="jumbotron customjumbo">
@@ -23,15 +23,15 @@
 
                         <!--if a user is selected show input fields-->
                         <ng-container *ngIf="user == selectedUser_Saldo; else UserSaldoNotSelected">
-                            <td class="col-3">{{user.key.forname}} {{user.key.surname}}</td>
-                            <td class="col-4">€
+                            <th class="col-3">{{user.key.forname}} {{user.key.surname}}</th>
+                            <th class="col-4">€
                                 <input style="width :75%" type="number" placeholder=" {{user.key.saldo/100 | number:'.2'}}"
                                     [(ngModel)]="selectedUserSaldo">
-                            </td>
-                            <td class="col-3">{{user.value}}</td>
-                            <td class="col-2">
+                            </th>
+                            <th class="col-3">{{user.value}}</th>
+                            <th class="col-2">
                                 <i class="float-right d-inline fa fa-check fa-2x" (click)="SaveSaldo()"></i>
-                            </td>
+                            </th>
                         </ng-container>
 
 

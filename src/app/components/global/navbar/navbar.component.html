@@ -1,10 +1,12 @@
-<!--Navbar-->
-<div class="row mt-3">
-
-    <div class="col-12 col-lg-12">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end">
-            <a class="navbar-brand">Welkom {{loggedinUser.forname}}!</a>
-            <button class="btn btn-danger ml-auto mr-1" (click)="LogOut($event)">Log uit</button>
-        </nav>
+<mat-toolbar color="primary">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="93">
+            <span>Welkom {{loggedinUser.forname}}!</span>
+        </div>
+        <div fxFlex="7">
+            <button class="customconfirmbutton" mat-raised-button color="secundary" (click)="LogOut($event)">Log
+                uit</button>
+        </div>
     </div>
-</div>
+
+</mat-toolbar>

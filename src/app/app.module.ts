@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { NgModule,LOCALE_ID } from '@angular/core';
 import { FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
@@ -57,6 +57,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     AlertModule,
     MaterialModule,
     FlexLayoutModule,
+    HammerModule,
     AlertModule.forRoot({maxMessages: 3, timeout: 5000, position: 'right'})
   ],
   providers: [{provide: LOCALE_ID, useValue: 'nl-NL' }, TitleCasePipe],
