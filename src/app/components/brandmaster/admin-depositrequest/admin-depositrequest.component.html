@@ -1,0 +1,40 @@
+<!--Deposit info-->
+<div class="row">
+    <div class="col-12">
+        <div class="jumbotron customjumbo">
+            <h1 class="customheadertext text-center">Inleg aanvragen</h1>
+            <hr class="my-2">
+
+            <table class="table mt-3">
+                <thead class="thead-dark">
+                    <tr class="d-flex">
+                        <th class="col-3">Naam</th>
+                        <th class="col-3">Inleg bedrag</th>
+                        <th class="col-4">Aanvraag datum</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let depositrequest of alldepositrequests" class="d-flex">
+                        <td class="col-3">{{depositrequest.user.forname}} {{depositrequest.user.surname}}</td>
+                        <td class="col-3">€ {{depositrequest.amount/100 | number:'.2'}}</td>
+                        <td class="col-4">{{depositrequest.requestDate | date: 'longDate'}}</td>
+                        <td class="col-2">
+                            <button class="btn btn-success btn-sm mt-1 btn-block" (click)="AcceptRepositRequest(depositrequest.id)">
+                                <i class="fa fa-check"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm mt-1 btn-block" (click)="RejectDepositRequest(depositrequest.id)">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
