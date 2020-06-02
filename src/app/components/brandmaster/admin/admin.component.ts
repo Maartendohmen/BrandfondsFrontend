@@ -6,6 +6,7 @@ import { User } from 'src/app/model/User';
 import { map } from 'rxjs/operators';
 import { DepositRequest } from 'src/app/model/DepositRequest';
 import { Router } from '@angular/router';
+import UserStripe from 'src/app/model/UserStripes';
 
 @Component({
   selector: 'app-admin',
@@ -17,54 +18,60 @@ export class AdminComponent implements OnInit {
   public loggedinUser: User;
 
   allusers: User[] = [];
-  allusersstripes: Map<User, number> = new Map();
-  alluserpunishmentstripes: Map<User, number> = new Map();
+  allusersstripes: UserStripe[] = [];
+  alluserpunishmentstripes: UserStripe[] = []
 
   alldepositrequests: DepositRequest[] = [];
 
-  constructor(
+  //edit user Saldo
+  selectedUser_Saldo = null; //not type safe cause typescript has no support for tuples
+  selectedUserSaldo: number;
+
+  selectedUser_PunishmentStripes = null;
+  selectedUserPunishmentStripes: number;
+
+
+
+  constructor(private alertService: AlertService,
     private userService: UserService,
     private router: Router,
-    private stripeService: StripeService
-  ) { }
+    private stripeService: StripeService) { }
 
   ngOnInit() {
     this.loggedinUser = JSON.parse(localStorage.getItem('Loggedin_User'));
 
     this.RefreshListOfUsers();
     this.RefreshListOfDeposits();
+
   }
 
-
   RefreshListOfUsers() {
-
-    console.log("Refreshing users ....");
-    
-
     this.allusers = [];
-    this.allusersstripes.clear();
-    this.alluserpunishmentstripes.clear();
+    this.allusersstripes = [];
+    this.alluserpunishmentstripes = []
 
     //gets all users
     this.userService.getAll().subscribe(data => {
       this.allusers = [];
       this.allusers = data;
 
-
+      
       this.allusers.forEach(user => {
 
         //foreach user, check total amount of stripes
         this.stripeService.getTotalStripesFromUser(user.id).subscribe(totalstripes => {
-          this.allusersstripes.set(user, totalstripes);
+          this.allusersstripes.push({user: user,stripetotal:totalstripes});
         });
 
         //foreach user, check amount of punishment stripes
-        this.stripeService.getStripesFromDayFromUser(user.id, new Date(1900, 1)).subscribe(totalpunishmentstripes => {
-          if (totalpunishmentstripes) {
-            this.alluserpunishmentstripes.set(user, totalpunishmentstripes.stripes);
+        this.stripeService.getStripesFromDayFromUser(user.id,new Date(1900, 1)).subscribe(totalpunishmentstripes => {
+          if(totalpunishmentstripes)
+          {
+            this.alluserpunishmentstripes.push({user:user, stripetotal:totalpunishmentstripes.stripes});
           }
-          else {
-            this.alluserpunishmentstripes.set(user, 0);
+          else
+          {
+            this.alluserpunishmentstripes.push({user:user,stripetotal:0});
           }
         })
       });
@@ -79,8 +86,6 @@ export class AdminComponent implements OnInit {
     this.userService.getAllDepositRequest().subscribe(result => {
       this.alldepositrequests = result;
       this.alldepositrequests = this.alldepositrequests.filter(depositrequest => depositrequest.handledDate === null)
-      console.log(this.alldepositrequests);
-      
     }, error => {
       console.log(error);
     });

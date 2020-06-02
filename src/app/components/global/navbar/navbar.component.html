@@ -2,9 +2,11 @@
 <div class="row mt-3">
 
     <div class="col-12 col-lg-12">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end">
-            <a class="navbar-brand">Welkom {{loggedinUser.forname}}!</a>
-            <button class="btn btn-danger ml-auto mr-1" (click)="LogOut($event)">Log uit</button>
-        </nav>
+
+        <mdb-navbar SideClass="navbar navbar-expand-sm navbar-dark indigo">
+            <mdb-navbar-brand class="custom-navbar">Welkom {{loggedinUser.forname}}!</mdb-navbar-brand>
+            <button size="sm" class="ml-auto mr-1" mdbBtn color="danger" (click)="LogOut($event)" mdbWavesEffect>Log uit</button>
+        </mdb-navbar>
+
     </div>
 </div>

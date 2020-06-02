@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from 'ngx-alerts';
 import { User } from 'src/app/model/User';
+import UserStripe from 'src/app/model/UserStripes';
 
 @Component({
   selector: 'app-admin-editsaldo',
@@ -10,47 +11,56 @@ import { User } from 'src/app/model/User';
 })
 export class AdminEditsaldoComponent implements OnInit {
 
-  @Input() allusersstripes: Map<User, number>;
+  @Input() allusersstripes: UserStripe[];
   @Output() RefreshListOfUsers = new EventEmitter<any>();
 
-  //edit user Saldo
-  selectedUser_Saldo = null; //not type safe cause typescript has no support for tuples
-  selectedUserSaldo: number;
+  datasource: UserStripe[] = [];
+  selectedamount: number = null;
 
   constructor(
     private alertService: AlertService,
     private userService: UserService
-    ) { }
+  ) { }
+
+  ngOnChanges(changes: SimpleChange): void {
+    this.datasource = this.allusersstripes  
+  }
 
   ngOnInit() {
+    this.datasource = this.allusersstripes;
   }
 
-  EditSaldo(selectedUser) {
-    this.selectedUser_Saldo = selectedUser;
+  SetSelectedAmount(amount) {
+    this.selectedamount = amount;
   }
 
-  SaveSaldo() {
-    if (this.selectedUserSaldo || this.selectedUserSaldo === 0) {
-      var selectedUserSaldo = this.selectedUserSaldo.toString();
-      var inputsaldo = null;
+  //todo check if other stuff then numbers, points or comma's are given in, and reject those
+  SaveSaldo(selectedUser: UserStripe, inputsaldo) {
+    
 
-      if (selectedUserSaldo.includes(',')) {
-        inputsaldo = +selectedUserSaldo.replace(/,/g, '');
+    if (inputsaldo.toString() !== this.selectedamount.toString()) {
+
+      if (inputsaldo != null || inputsaldo === 0) {
+
+
+        var selectedUserSaldo = inputsaldo.toString();
+        var inputsaldo = null;
+
+        if (selectedUserSaldo.includes(',')) {
+          inputsaldo = +selectedUserSaldo.replace(/,/g, '');
+        }
+        else {
+          inputsaldo = +selectedUserSaldo * 100;
+        }
+
+        this.userService.setSaldoFromUser(+inputsaldo, selectedUser.user.id).subscribe(data => {
+          this.alertService.success('Het saldo is aangepast')
+          this.RefreshListOfUsers.emit();
+
+        }, error => {
+          this.alertService.danger(error.error.message)
+        });
       }
-      else {
-        inputsaldo = +selectedUserSaldo * 100;
-      }
-
-      this.userService.setSaldoFromUser(+inputsaldo, this.selectedUser_Saldo.key.id).subscribe(data => {
-        this.alertService.success('Het saldo is aangepast')
-        this.RefreshListOfUsers.emit();
-
-      }, error => {
-        this.alertService.danger(error.error.message)
-      });
     }
-
-    this.selectedUserSaldo = undefined;
-    this.selectedUser_Saldo = undefined;
   }
 }

@@ -1,12 +1,38 @@
 <!--Total punishmentstripes info-->
-<div class="row">
+<div class="row mt-3">
     <div class="col-12">
+
+
         <div class="jumbotron customjumbo">
             <h1 class="display-5 customheadertext text-center">Bijstrepen</h1>
             <hr class="my-2">
 
+            <table mdbTable mdbTableScroll scrollY="true" maxHeight="300" striped="true" class="mt-1">
+                <thead class="black white-text">
+                    <tr>
+                        <th [mdbTableSort]="datasource" sortBy="user.forname">Naam</th>
+                        <th [mdbTableSort]="datasource" sortBy="stripetotal">Bijgestreept</th>
+                        <th [mdbTableSort]="datasource" sortBy="stripetotal">Bedrag (€)</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-            <table class="table mt-3">
+                    <tr *ngFor="let userstripe of datasource;">
+
+                        <th style="width: 40%" scope="row">{{userstripe.user.forname}} {{userstripe.user.surname}}</th>
+                        <td style="width: 25%" contenteditable="true"
+                            (click)="SetSelectedAmount($event.target.textContent)"
+                            (blur)="SavePunishmentStripes(userstripe, $event.target.textContent)">
+                            {{userstripe.stripetotal}}
+                        </td>
+                        <td style="width: 35%">{{userstripe.stripetotal * 0.50 | number:'.2'}}</td>
+                </tbody>
+            </table>
+
+            
+
+
+            <!-- <table class="table mt-3">
                 <thead class="thead-dark">
                     <tr class="d-flex">
                         <th class="col-3">Naam</th>
@@ -42,7 +68,9 @@
                         </ng-template>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
+
+
         </div>
     </div>
 </div>

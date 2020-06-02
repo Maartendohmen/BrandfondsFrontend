@@ -1,35 +1,39 @@
 <!--Deposit info-->
-<div class="row">
+<div class="row mt-3">
     <div class="col-12">
         <div class="jumbotron customjumbo">
             <h1 class="customheadertext text-center">Inleg aanvragen</h1>
             <hr class="my-2">
 
-            <table class="table mt-3">
-                <thead class="thead-dark">
-                    <tr class="d-flex">
-                        <th class="col-3">Naam</th>
-                        <th class="col-3">Inleg bedrag</th>
-                        <th class="col-4">Aanvraag datum</th>
+
+            <table mdbTable mdbTableScroll scrollY="true" maxHeight="300" striped="true" class="mt-1">
+                <thead class="black white-text">
+                    <tr>
+                        <th [mdbTableSort]="alldepositrequests" sortBy="user.forname">Naam</th>
+                        <th [mdbTableSort]="alldepositrequests" sortBy="amount">Inleg (€)</th>
+                        <th [mdbTableSort]="alldepositrequests" sortBy="depositrequest.requestDate">Aanvraag datum</th>
+                        <th>Accepteer<br>/Weiger</th>
                     </tr>
                 </thead>
-
                 <tbody>
 
-                    <tr *ngFor="let depositrequest of alldepositrequests" class="d-flex">
-                        <td class="col-3">{{depositrequest.user.forname}} {{depositrequest.user.surname}}</td>
-                        <td class="col-3">€ {{depositrequest.amount/100 | number:'.2'}}</td>
-                        <td class="col-4">{{depositrequest.requestDate | date: 'longDate'}}</td>
-                        <td class="col-2">
-                            <button class="btn btn-success btn-sm mt-1 btn-block" (click)="AcceptRepositRequest(depositrequest.id)">
+                    <tr *ngFor="let depositrequest of alldepositrequests;">
+
+                        <th style="width: 30%" scope="row">{{depositrequest.user.forname}}
+                            {{depositrequest.user.surname}}</th>
+                        <td style="width: 25%">
+                            {{depositrequest.amount/100 | number:'.2'}}
+                        </td>
+                        <td style="width: 45%">{{depositrequest.requestDate | date: 'longDate'}}</td>
+                        <td>
+                            <button type="button" class="btn btn-block btn-success btn-rounded btn-sm" (click)="AcceptRepositRequest(depositrequest.id)">
                                 <i class="fa fa-check"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm mt-1 btn-block" (click)="RejectDepositRequest(depositrequest.id)">
+       
+                            <button type="button" class="btn btn-block btn-danger btn-rounded btn-sm mt-2" (click)="RejectDepositRequest(depositrequest.id)">
                                 <i class="fa fa-times"></i>
                             </button>
                         </td>
-
-                    </tr>
 
                 </tbody>
             </table>

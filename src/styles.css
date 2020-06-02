@@ -6,6 +6,10 @@ body
     background-color: indianred;
 }
 
+.custom-navbar{
+    color: white;
+}
+
 .customheadertext
 {
     font-size: 180%;

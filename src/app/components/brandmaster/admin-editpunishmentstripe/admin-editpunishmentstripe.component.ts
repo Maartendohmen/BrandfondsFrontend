@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
 import { User } from 'src/app/model/User';
 import { AlertService } from 'ngx-alerts';
 import { StripeService } from 'src/app/services/stripe.service';
+import UserStripe from 'src/app/model/UserStripes';
 
 @Component({
   selector: 'app-admin-editpunishmentstripe',
@@ -10,62 +11,67 @@ import { StripeService } from 'src/app/services/stripe.service';
 })
 export class AdminEditpunishmentstripeComponent implements OnInit {
 
-  @Input() alluserpunishmentstripes: Map<User, number>;
+  @Input() alluserpunishmentstripes: UserStripe[];
   @Output() RefreshListOfUsers = new EventEmitter<any>();
+
+  datasource: UserStripe[] = [];
+  selectedamount: number = null;
 
   constructor(
     private alertService: AlertService,
     private stripeService: StripeService
   ) { }
+  
+  ngOnChanges(changes: SimpleChange): void {
+    this.datasource = this.alluserpunishmentstripes    
+  }
 
   ngOnInit() {
+    this.datasource = this.alluserpunishmentstripes
   }
 
-  selectedUser_PunishmentStripes = null;
-  selectedUserPunishmentStripes: number;
-
-  
-  EditPunishmentStripes(selectedUser) {
-    this.selectedUser_PunishmentStripes = selectedUser;
+  SetSelectedAmount(amount) {
+    this.selectedamount = amount;
   }
 
-  SavePunishmentStripes() {
+  SavePunishmentStripes(selectedUser: UserStripe, inputsaldo) {
 
-    if (this.selectedUserPunishmentStripes || this.selectedUserPunishmentStripes === 0) {
-      var changedamount = this.selectedUserPunishmentStripes - this.selectedUser_PunishmentStripes.value;
+    if (inputsaldo.toString() !== this.selectedamount.toString()) {
 
-      console.log('Changeamount : ' + changedamount)
+      if (inputsaldo || inputsaldo === 0) {
+        var changedamount = inputsaldo - selectedUser.stripetotal;
 
-      if (changedamount > 0) {
-        this.stripeService.addStripesForUser(changedamount, this.selectedUser_PunishmentStripes.key.id, new Date(1900, 1)).subscribe(data => {
-          if (data) {
-            this.alertService.success('Het aantal strepen is aangepast')
-            this.RefreshListOfUsers.emit();
-          }
-          else {
+        console.log('Changeamount : ' + changedamount)
+
+        if (changedamount > 0) {
+          this.stripeService.addStripesForUser(changedamount, selectedUser.user.id, new Date(1900, 1)).subscribe(data => {
+            if (data) {
+              this.alertService.success('Het aantal strepen is aangepast')
+              this.RefreshListOfUsers.emit();
+            }
+            else {
+              this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
+            }
+          }, error => {
             this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
-          }
-        }, error => {
-          this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
-        });
-      }
+          });
+        }
 
-      else if (changedamount < 0) {
-        this.stripeService.removeStripesForUser(Math.abs(changedamount), this.selectedUser_PunishmentStripes.key.id, new Date(1900, 1)).subscribe(data => {
-          if (data) {
-            this.alertService.success('Het aantal strepen is aangepast')
-            this.RefreshListOfUsers.emit();
-          }
-          else {
+        else if (changedamount < 0) {
+          this.stripeService.removeStripesForUser(Math.abs(changedamount), selectedUser.user.id, new Date(1900, 1)).subscribe(data => {
+            if (data) {
+              this.alertService.success('Het aantal strepen is aangepast')
+              this.RefreshListOfUsers.emit();
+            }
+            else {
+              this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
+            }
+          }, error => {
             this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
-          }
-        }, error => {
-          this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
-        });
+          });
+        }
       }
     }
-    this.selectedUserPunishmentStripes = undefined;
-    this.selectedUser_PunishmentStripes = undefined;
   }
 
 }
