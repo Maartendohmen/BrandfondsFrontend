@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Day } from '../model/Day';
 import { environment } from '../../environments/environment';
+import StripesMonth from '../model/StripesMonth';
 
 @Injectable({
   providedIn: 'root'
@@ -47,8 +48,8 @@ export class StripeService {
     return this.http.get<number>(this.baseUrl + userid + "/totalstripes")
   }
 
-  getStripesSortedByMonthFromUser(userid: number): Observable<Map<string, number>>
+  getStripesSortedByMonthFromUser(userid: number): Observable<[StripesMonth]>
   {
-    return this.http.get<Map<string, number>>(this.baseUrl + userid + '/sortedbymonth')
+    return this.http.get<[StripesMonth]>(this.baseUrl + userid + '/sortedbymonth')
   }
 }

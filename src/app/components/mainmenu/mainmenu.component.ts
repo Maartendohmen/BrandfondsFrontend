@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChange } from '@angular/core';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/model/User';
 import { UserService } from 'src/app/services/user.service';
 import { StripeService } from 'src/app/services/stripe.service';
 import { AlertService } from 'ngx-alerts';
+import StripesMonth from 'src/app/model/StripesMonth';
 
 @Component({
   selector: 'app-mainmenu',
@@ -29,7 +30,7 @@ export class MainmenuComponent implements OnInit {
   //Overview
   public saldoColor: string = null;
   public totalStripes: Number = undefined;
-  public totalstripesPerMonth: Map<string, number> = null;
+  public totalstripesPerMonth: StripesMonth[] = [];
 
   //paymentrequest
   paid_amount: number;
@@ -50,7 +51,6 @@ export class MainmenuComponent implements OnInit {
     this.RefreshSaldoFromUser();
     this.RefreshTotalStripesPerMonthFromUser();
   }
-
 
 
   /* #region  SetScreens */
@@ -270,44 +270,46 @@ export class MainmenuComponent implements OnInit {
 
   RefreshTotalStripesPerMonthFromUser() {
     this.stripeService.getStripesSortedByMonthFromUser(this.loggedinUser.id).subscribe(data => {
-      this.totalstripesPerMonth = data;
+
+      data.forEach((stripemonth) => {
+        console.log(stripemonth);
+        
+        this.totalstripesPerMonth.push({ date: stripemonth.date, stripeamount: stripemonth.stripeamount});
+      });
+
     });
   }
-    /* #endregion */
+  /* #endregion */
 
 
-    //Todo Send request to backend for mailing brandmeester
-    NotifyOfPayment()
-    {
-      if (this.paid_amount){
-        var inputsaldo = null;
+  //Todo Send request to backend for mailing brandmeester
+  NotifyOfPayment() {
+    if (this.paid_amount) {
+      var inputsaldo = null;
 
-        var paid_amount = this.paid_amount.toString();
-  
-        if (paid_amount.includes(','))
-        {
-          inputsaldo = +paid_amount.replace(/,/g, '');
-        }
-        else
-        {
-          inputsaldo = +paid_amount * 100;
-        }
-  
-        this.userService.depositRequest(this.loggedinUser.id,inputsaldo).subscribe(result => {
-            if (result){
-              this.alertService.success('Je verzoek is naar de brandmeester gestuurd');
-              this.paid_amount = null;
-            }
-            else
-            {
-              this.alertService.danger('Er is iets fout gegaan, probeer het later opnieuw');
-              this.paid_amount = null;
-            }
-        });
+      var paid_amount = this.paid_amount.toString();
+
+      if (paid_amount.includes(',')) {
+        inputsaldo = +paid_amount.replace(/,/g, '');
       }
-      else{
-            this.alertService.warning('Vul a.u.b het bedrag in wat je overgemaakt hebt');
+      else {
+        inputsaldo = +paid_amount * 100;
       }
 
+      this.userService.depositRequest(this.loggedinUser.id, inputsaldo).subscribe(result => {
+        if (result) {
+          this.alertService.success('Je verzoek is naar de brandmeester gestuurd');
+          this.paid_amount = null;
+        }
+        else {
+          this.alertService.danger('Er is iets fout gegaan, probeer het later opnieuw');
+          this.paid_amount = null;
+        }
+      });
     }
+    else {
+      this.alertService.warning('Vul a.u.b het bedrag in wat je overgemaakt hebt');
+    }
+
+  }
 }
