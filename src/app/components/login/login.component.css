@@ -3,12 +3,6 @@
     max-height: auto; /* or to whatever you want here */
 }
 
-input[type=text], .txtarea{
-    margin-bottom: 3%;
-}
-
-
-
 .img-responsive {
     display: inline-block;
   }

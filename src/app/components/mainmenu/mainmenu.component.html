@@ -6,7 +6,16 @@
     <div class="col-12 col-lg-12">
         <div class="jumbotron customjumbo">
 
-            <div class="btn-group btn-group-toggle d-flex justify-content-between" data-toggle="buttons">
+            <div class="row">
+                <div class="col-6">
+                    <button (click)="SetPersonalScreen($event)" mdbBtn color="primary" mdbWavesEffect>Persoonlijk strepen</button>
+                </div>
+                <div class="col-6">
+                    <button (click)="SetGroupScreen($event)" mdbBtn color="primary" mdbWavesEffect>Groep strepen</button>
+                </div>
+            </div>
+
+            <!-- <div class="btn-group btn-group-toggle d-flex justify-content-between" data-toggle="buttons">
                 <label class="btn btn-primary mr-1">
                     <input (click)="SetPersonalScreen($event)" type="radio" name="options" id="option2"
                         autocomplete="off">
@@ -17,7 +26,7 @@
                         checked> Groep strepen
                 </label>
 
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -187,7 +196,7 @@
                 </div>
 
                 <div class="col-6 centerflex">
-                    <button class="btn-block" type="submit" mdbBtn color="primary" (click)="NotifyOfPayment()"
+                    <button  type="submit" mdbBtn color="primary" (click)="NotifyOfPayment()"
                         mdbWavesEffect>Verstuur</button>
                 </div>
             </div>

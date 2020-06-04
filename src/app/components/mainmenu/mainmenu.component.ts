@@ -269,6 +269,7 @@ export class MainmenuComponent implements OnInit {
 
 
   RefreshTotalStripesPerMonthFromUser() {
+    this.totalstripesPerMonth = [];
     this.stripeService.getStripesSortedByMonthFromUser(this.loggedinUser.id).subscribe(data => {
 
       data.forEach((stripemonth) => {
