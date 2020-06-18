@@ -42,6 +42,10 @@ export class UserService {
     return this.http.get<boolean>(this.baseUrl + "registerconformation/" + randomstring)
   }
 
+  setActivateUser(userid: number, isActivated:boolean): Observable<boolean>{
+    return this.http.get<boolean>(this.baseUrl + "activate-user/" + userid + "/" + isActivated)
+  }
+
   passwordChangeRequest(mailadres: string): Observable<boolean>{
     return this.http.get<boolean>(this.baseUrl + 'forgotpassword/' + mailadres)
   }

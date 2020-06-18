@@ -1,40 +1,20 @@
-<div class="row mt-4">
-    <div class="col-12">
-
-        <!--need to fix screen when no error is receieved-->
-
-        <ng-container *ngIf="error; else NoError">
-
-            <mdb-card class="failure">
-
-                <mdb-card-body>
-                    <mdb-card-title>
-                        <h4>Registratie Mislukt</h4>
-                    </mdb-card-title>
-                    <mdb-card-text>
-                        Het registreren van je account is niet gelukt. {{error}}. Je wordt automatisch
-                        teruggebracht naar het inlogscherm.
-                    </mdb-card-text>
-                </mdb-card-body>
-            </mdb-card>
-
-        </ng-container>
-        
-        <ng-template #NoError>
-
+<div *ngIf="doneloading">
+    <div class="row mt-4">
+        <div class="col-12">
             <mdb-card class="succes my-auto">
                 <mdb-card-body>
-                    <mdb-card-title>
+                    <mdb-card-title class="text-white">
                         <h4>Registratie Gelukt</h4>
                     </mdb-card-title>
-                    <mdb-card-text>
-                        Het registreren van je account is gelukt. Je wordt binnen enkele seconden
-                        teruggebracht naar de inlog pagina.
+                    <mdb-card-text class="text-white">
+                        Het registreren van je account is gelukt.
+                        <br>
+                        Wacht totdat de brandmeester je account activeert, daarna kun je inloggen.
+                        <br>
+                        Je wordt binnen enkele seconden teruggebracht naar de inlog pagina.
                     </mdb-card-text>
                 </mdb-card-body>
             </mdb-card>
-
-        </ng-template>
-
+        </div>
     </div>
 </div>

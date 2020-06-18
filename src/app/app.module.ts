@@ -29,7 +29,8 @@ import { AdminComponent } from './components/brandmaster/admin/admin.component';
 import { NavbarComponent } from './components/global/navbar/navbar.component';
 import { AdminEditsaldoComponent } from './components/brandmaster/admin-editsaldo/admin-editsaldo.component';
 import { AdminEditpunishmentstripeComponent } from './components/brandmaster/admin-editpunishmentstripe/admin-editpunishmentstripe.component';
-import { AdminDepositrequestComponent } from './components/brandmaster/admin-depositrequest/admin-depositrequest.component'
+import { AdminDepositrequestComponent } from './components/brandmaster/admin-depositrequest/admin-depositrequest.component';
+import { RegistrationActivationComponent } from './components/registration/registration-activation/registration-activation.component'
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { AdminDepositrequestComponent } from './components/brandmaster/admin-dep
     NavbarComponent,
     AdminEditsaldoComponent,
     AdminEditpunishmentstripeComponent,
-    AdminDepositrequestComponent
+    AdminDepositrequestComponent,
+    RegistrationActivationComponent
   ],
   imports: [
     BrowserModule,

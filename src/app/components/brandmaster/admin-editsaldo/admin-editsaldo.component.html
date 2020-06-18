@@ -7,8 +7,13 @@
             <h1 class="display-5 customheadertext text-center">Totaal Gestreept</h1>
             <hr class="my-2">
 
+            <div class="md-form md-outline">
+                <input placeholder="Zoek op gebruiker naam" mdbInput type="text" id="searchuser_input"
+                    class="form-control" (input)="onNameChange($event.target.value)">
+            </div>
 
-            <table mdbTable mdbTableScroll scrollY="true" maxHeight="300" striped="true" class="mt-1">
+
+            <table mdbTable mdbTableScroll scrollY="true" maxHeight="300" striped="true">
                 <thead class="black white-text">
                     <tr>
                         <th [mdbTableSort]="datasource" sortBy="user.forname">Naam</th>

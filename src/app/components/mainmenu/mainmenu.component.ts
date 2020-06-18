@@ -272,9 +272,7 @@ export class MainmenuComponent implements OnInit {
     this.totalstripesPerMonth = [];
     this.stripeService.getStripesSortedByMonthFromUser(this.loggedinUser.id).subscribe(data => {
 
-      data.forEach((stripemonth) => {
-        console.log(stripemonth);
-        
+      data.forEach((stripemonth) => {    
         this.totalstripesPerMonth.push({ date: stripemonth.date, stripeamount: stripemonth.stripeamount});
       });
 

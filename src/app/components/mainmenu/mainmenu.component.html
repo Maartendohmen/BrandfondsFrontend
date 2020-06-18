@@ -1,17 +1,29 @@
 <app-navbar [loggedinUser]="loggedinUser"></app-navbar>
 
-<!--Menu selection-->
 <div class="row mt-4">
+    <div class="col-12">
+        <div class="jumbotron">
+          <p>
+             <a href="https://docs.google.com/document/d/120R1kS5navHNC01mHnAfzbI33zDk5xQRTEngJHFMr7E/edit?usp=sharing">
+                Heb je een bug gevonden of heb je een suggestie voor een feature, laat het hier weten door op deze link te klikken.
+            </a>
+          </p>
+        </div>
+    </div>
+</div>
+
+<!--Menu selection-->
+<div class="row">
 
     <div class="col-12 col-lg-12">
         <div class="jumbotron customjumbo">
 
             <div class="row">
                 <div class="col-6">
-                    <button (click)="SetPersonalScreen($event)" mdbBtn color="primary" mdbWavesEffect>Persoonlijk strepen</button>
+                    <button class="btn-block" (click)="SetPersonalScreen($event)" mdbBtn color="primary" mdbWavesEffect>Persoonlijk strepen</button>
                 </div>
                 <div class="col-6">
-                    <button (click)="SetGroupScreen($event)" mdbBtn color="primary" mdbWavesEffect>Groep strepen</button>
+                    <button class="btn-block" (click)="SetGroupScreen($event)" mdbBtn color="primary" mdbWavesEffect>Groep strepen</button>
                 </div>
             </div>
 
@@ -182,8 +194,8 @@
             <h1 class="display-5 customheadertext text-center">Inleggen</h1>
             <hr class="my-2">
             <h6 class="text-center">Volg onderstaande stappen om in te leggen</h6>
-            <p class="mt-4">1. Schrijf het gewenste bedrag over naar rekening <mark>"Voorbeeldrekening"</mark> t.n.v
-                <mark>Voorbeeldnaam</mark>.</p>
+            <p class="mt-4">1. Schrijf het gewenste bedrag over naar rekening <mark>NL23RABO0151006040</mark> t.n.v
+                <mark>R.F.M. Derksen</mark>. Zet in de beschrijving: "je naam" + brandfonds</p>
             <p>2. Laat de brandmeester weten dat je geld hebt ingelegd:</p>
 
             <div class="row">

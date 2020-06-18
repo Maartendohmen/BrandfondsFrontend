@@ -14,6 +14,7 @@ export class AdminEditsaldoComponent implements OnInit {
   @Input() allusersstripes: UserStripe[];
   @Output() RefreshListOfUsers = new EventEmitter<any>();
 
+
   datasource: UserStripe[] = [];
   selectedamount: number = null;
 
@@ -28,6 +29,18 @@ export class AdminEditsaldoComponent implements OnInit {
 
   ngOnInit() {
     this.datasource = this.allusersstripes;
+  }
+
+  onNameChange(value){
+    if (value)
+    {
+      var copylist: UserStripe[] = this.allusersstripes.filter(userstripe => userstripe.user.forname.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+       userstripe.user.surname.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
+      this.datasource = copylist;
+    }
+    else{
+      this.datasource = this.allusersstripes
+    }
   }
 
   SetSelectedAmount(amount) {

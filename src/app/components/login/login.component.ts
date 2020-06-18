@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private titlecasePipe:TitleCasePipe,
+    private titlecasePipe: TitleCasePipe,
     private alertService: AlertService) { }
 
   LogIn(e) {
@@ -62,35 +62,30 @@ export class LoginComponent implements OnInit {
           if (data != null) {
             localStorage.setItem('Loggedin_User', JSON.stringify(data));
 
-            var loggedinUser:User = JSON.parse(localStorage.getItem('Loggedin_User'));
+            var loggedinUser: User = JSON.parse(localStorage.getItem('Loggedin_User'));
 
-            if (loggedinUser.userRole == 'BRANDMASTER'){
+            if (loggedinUser.userRole == 'BRANDMASTER') {
               this.router.navigateByUrl('admin')
             }
-            else{
+            else {
               this.router.navigateByUrl('main');
             }
-            
-          }
-          else
-          {
-            this.alertService.danger('Foute naam of wachtwoord');
-            this.loading = false;
+
           }
         },
         error => {
-          this.alertService.warning('Er is iets fout gegaan tijdens het inloggen');
+
+          this.alertService.danger(error.error.message);
+
           this.loading = false;
         });
   }
 
-  Register()
-  {
+  Register() {
     this.router.navigateByUrl('register');
   }
 
-  ForgotPassword()
-  {
+  ForgotPassword() {
     this.router.navigateByUrl('resetpasswordrequest');
   }
 }

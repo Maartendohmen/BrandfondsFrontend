@@ -30,6 +30,19 @@ export class AdminEditpunishmentstripeComponent implements OnInit {
     this.datasource = this.alluserpunishmentstripes
   }
 
+  onNameChange(value){
+    if (value)
+    {
+      var copylist: UserStripe[] = this.alluserpunishmentstripes.filter(userstripe => userstripe.user.forname.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+       userstripe.user.surname.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
+      this.datasource = copylist;
+    }
+    else{
+      this.datasource = this.alluserpunishmentstripes
+    }
+  }
+
+
   SetSelectedAmount(amount) {
     this.selectedamount = amount;
   }
@@ -40,8 +53,6 @@ export class AdminEditpunishmentstripeComponent implements OnInit {
 
       if (inputsaldo || inputsaldo === 0) {
         var changedamount = inputsaldo - selectedUser.stripetotal;
-
-        console.log('Changeamount : ' + changedamount)
 
         if (changedamount > 0) {
           this.stripeService.addStripesForUser(changedamount, selectedUser.user.id, new Date(1900, 1)).subscribe(data => {

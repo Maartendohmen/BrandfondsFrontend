@@ -4,14 +4,14 @@ import { AlertService } from 'ngx-alerts';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-registerconformation',
-  templateUrl: './registerconformation.component.html',
-  styleUrls: ['./registerconformation.component.css']
+  selector: 'app-registration-activation',
+  templateUrl: './registration-activation.component.html',
+  styleUrls: ['./registration-activation.component.css']
 })
-export class RegisterconformationComponent implements OnInit {
+export class RegistrationActivationComponent implements OnInit {
 
   doneloading = false;
-  registertoken = '';
+  userid = undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -20,11 +20,11 @@ export class RegisterconformationComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+
     this.activatedRoute.params.subscribe(params => {
-      this.registertoken = params['link'];
+      this.userid = params['userid'];
 
-      this.userService.confirmRegistration(this.registertoken).subscribe(active => {
-
+      this.userService.setActivateUser(this.userid, true).subscribe(data => {
         this.doneloading = true;
 
         setTimeout(() => {
@@ -33,12 +33,12 @@ export class RegisterconformationComponent implements OnInit {
           7000);
 
       }, error => {
-        if (error.error.type == "LinkExpiredException") {
+        if (error.error.type == "UserNotFoundException") {
           this.router.navigateByUrl('/');
           this.alertService.danger(error.error.message);
         }
-      });
-    }
-    );
+      })
+    })
   }
+
 }
