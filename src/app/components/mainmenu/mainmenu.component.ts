@@ -281,7 +281,6 @@ export class MainmenuComponent implements OnInit {
   /* #endregion */
 
 
-  //Todo Send request to backend for mailing brandmeester
   NotifyOfPayment() {
     if (this.paid_amount) {
       var inputsaldo = null;
