@@ -17,7 +17,6 @@ export class AdminGuard implements CanActivate {
 
     if(user.userRole == "BRANDMASTER" )
     {
-      
       return true;
     }
   }

@@ -30,7 +30,8 @@ import { NavbarComponent } from './components/global/navbar/navbar.component';
 import { AdminEditsaldoComponent } from './components/brandmaster/admin-editsaldo/admin-editsaldo.component';
 import { AdminEditpunishmentstripeComponent } from './components/brandmaster/admin-editpunishmentstripe/admin-editpunishmentstripe.component';
 import { AdminDepositrequestComponent } from './components/brandmaster/admin-depositrequest/admin-depositrequest.component';
-import { RegistrationActivationComponent } from './components/registration/registration-activation/registration-activation.component'
+import { RegistrationActivationComponent } from './components/registration/registration-activation/registration-activation.component';
+import { AdminStockComponent } from './components/brandmaster/admin-stock/admin-stock.component'
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { RegistrationActivationComponent } from './components/registration/regis
     AdminEditsaldoComponent,
     AdminEditpunishmentstripeComponent,
     AdminDepositrequestComponent,
-    RegistrationActivationComponent
+    RegistrationActivationComponent,
+    AdminStockComponent
   ],
   imports: [
     BrowserModule,
