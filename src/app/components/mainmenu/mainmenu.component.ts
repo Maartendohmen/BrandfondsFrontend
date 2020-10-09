@@ -216,6 +216,13 @@ export class MainmenuComponent implements OnInit {
    */
   RefreshAllUsers() {
     this.userService.getAll().subscribe(data => {
+
+      data.sort(function(a,b){
+        var name1 = a.forname.toUpperCase();
+        var name2 = b.forname.toUpperCase();
+        return (name1 < name2) ? -1 : (name1 > name2) ? 1 : 0;
+      });
+
       this.allusers = data;
     });
   }
