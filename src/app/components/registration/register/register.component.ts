@@ -5,6 +5,7 @@ import { User } from 'src/app/model/User';
 import { AlertService } from 'ngx-alerts';
 import { Router } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
+import { AuthenicateService } from 'src/app/services/authenicate.service';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,7 @@ export class RegisterComponent implements OnInit {
   verificationCode = null;
 
   constructor(
-    private userservice: UserService,
+    private authService: AuthenicateService,
     private formBuilder: FormBuilder,
     private titlecasePipe: TitleCasePipe,
     private alertService: AlertService) { }
@@ -59,9 +60,9 @@ export class RegisterComponent implements OnInit {
     registerUser.password = this.f.password_input.value;
 
 
-    this.userservice.registerRequest(registerUser).subscribe(data => {
+    this.authService.registerRequest(registerUser).subscribe(data => {
 
-      if(data){
+      if (data) {
         this.alertService.success("Check je mail om je registratie te voltooien")
       }
 

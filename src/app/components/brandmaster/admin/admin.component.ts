@@ -39,10 +39,10 @@ export class AdminComponent implements OnInit {
     private userService: UserService,
     private stripeService: StripeService,
     private stockService: StockService,
-    private router: Router,) { }
+    private router: Router, ) { }
 
   ngOnInit() {
-    this.loggedinUser = JSON.parse(localStorage.getItem('Loggedin_User'));
+    this.loggedinUser = JSON.parse(localStorage.getItem('current_user'));
 
     this.RefreshListOfUsers();
     this.RefreshListOfDeposits();
@@ -94,7 +94,7 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  RefreshStock(){
+  RefreshStock() {
     this.stockService.getStock().subscribe(result => {
       this.currentstock = result;
     }, error => {
@@ -103,7 +103,7 @@ export class AdminComponent implements OnInit {
   }
 
   LogOut(e) {
-    localStorage.removeItem('Loggedin_User');
+    localStorage.removeItem('current_user');
     this.router.navigateByUrl('');
   }
 

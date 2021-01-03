@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'ngx-alerts';
 import { UserService } from 'src/app/services/user.service';
+import { AuthenicateService } from 'src/app/services/authenicate.service';
 
 @Component({
   selector: 'app-resetpasswordrequest',
@@ -19,7 +20,7 @@ export class ResetpasswordrequestComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private userservice: UserService
+    private authService: AuthenicateService
   ) { }
 
   ngOnInit() {
@@ -43,18 +44,17 @@ export class ResetpasswordrequestComponent implements OnInit {
 
     this.loading = true;
 
-    this.userservice.passwordChangeRequest(this.f.usermail_input.value).subscribe(data => {
+    this.authService.passwordChangeRequest(this.f.usermail_input.value).subscribe(data => {
       if (data == true) {
         this.alertService.success('Er is een mail naar je verstuurd met verdere instructies')
       }
     }, error => {
       this.loading = false;
-      
-      if(error.error.message)
-      {
+
+      if (error.error.message) {
         this.alertService.danger(error.error.message)
       }
-      else{
+      else {
         this.alertService.danger('Er is iets fout gegaan, probeer het later opnieuw')
       }
 

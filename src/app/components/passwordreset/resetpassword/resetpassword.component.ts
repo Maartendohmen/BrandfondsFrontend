@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'ngx-alerts';
 import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthenicateService } from 'src/app/services/authenicate.service';
 
 @Component({
   selector: 'app-resetpassword',
@@ -23,7 +24,7 @@ export class ResetpasswordComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private alertService: AlertService,
     private router: Router,
-    private userService: UserService,
+    private authService: AuthenicateService,
     private formBuilder: FormBuilder
   ) { }
 
@@ -31,7 +32,7 @@ export class ResetpasswordComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
       this.passwordtoken = params['link'];
-      this.userService.checkPasswordResetLink(this.passwordtoken).subscribe(active => {
+      this.authService.checkPasswordResetLink(this.passwordtoken).subscribe(active => {
         if (!active) {
           this.router.navigateByUrl('/');
           this.alertService.danger("Link bestaat niet of is verlopen");
@@ -53,7 +54,7 @@ export class ResetpasswordComponent implements OnInit {
 
   onSubmitPassword() {
     if (this.f.password_input.value == this.f.passwordconformation_input.value) {
-      this.userService.passwordChange(this.passwordtoken, this.f.password_input.value).subscribe(data => {
+      this.authService.passwordChange(this.passwordtoken, this.f.password_input.value).subscribe(data => {
         this.alertService.success('Het wachtwoord is veranderd, je wordt nu teruggebracht naar het inlogscherm')
 
         setTimeout(() => {
@@ -63,7 +64,7 @@ export class ResetpasswordComponent implements OnInit {
       },
         error => {
           this.loading = false;
-            this.alertService.warning('Er is iets fout gegaan, probeer het later opnieuw')
+          this.alertService.warning('Er is iets fout gegaan, probeer het later opnieuw')
         });
     } else {
       this.alertService.warning('Zorg dat in beide velden hetzelfde wachtwoord staat')

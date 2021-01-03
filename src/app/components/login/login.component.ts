@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
+import { AuthenicateService } from 'src/app/services/authenicate.service';
 import { User } from '../../model/User';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'ngx-alerts';
 import { TitleCasePipe } from '@angular/common';
+import { AuthenticationRequest } from 'src/app/model/authentication/AuthenticationRequest';
+import { AuthenticationResponse } from 'src/app/model/authentication/AuthenticationResponse';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
-    private userService: UserService,
+    private authService: AuthenicateService,
     private titlecasePipe: TitleCasePipe,
     private alertService: AlertService) { }
 
@@ -48,23 +50,24 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    var loguser: User = new User();
-    loguser.forname = this.titlecasePipe.transform(this.f.forname_input.value);
-    loguser.password = this.f.password_input.value;
 
+    var username = this.titlecasePipe.transform(this.f.forname_input.value);
+    var password = this.f.password_input.value;
+
+    var authrequest: AuthenticationRequest = new AuthenticationRequest(username, password);
 
     this.loading = true;
 
-    this.userService.Login(loguser)
+    this.authService.Login(authrequest)
       .pipe(first())
       .subscribe(
-        data => {
-          if (data != null) {
-            localStorage.setItem('Loggedin_User', JSON.stringify(data));
+        authresponse => {
+          if (authresponse != null) {
 
-            var loggedinUser: User = JSON.parse(localStorage.getItem('Loggedin_User'));
+            localStorage.setItem('current_user', JSON.stringify(authresponse.user));
+            localStorage.setItem('jwt_token', JSON.stringify(authresponse.jwt))
 
-            if (loggedinUser.userRole == 'BRANDMASTER') {
+            if (authresponse.user.userRole == 'BRANDMASTER') {
               this.router.navigateByUrl('admin')
             }
             else {

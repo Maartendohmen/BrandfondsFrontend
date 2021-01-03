@@ -42,7 +42,7 @@ export class MainmenuComponent implements OnInit {
 
   ngOnInit() {
 
-    this.loggedinUser = JSON.parse(localStorage.getItem('Loggedin_User'));
+    this.loggedinUser = JSON.parse(localStorage.getItem('current_user'));
 
     this.onDateSelection(this.currentdate);
 
@@ -217,7 +217,7 @@ export class MainmenuComponent implements OnInit {
   RefreshAllUsers() {
     this.userService.getAll().subscribe(data => {
 
-      data.sort(function(a,b){
+      data.sort(function (a, b) {
         var name1 = a.forname.toUpperCase();
         var name2 = b.forname.toUpperCase();
         return (name1 < name2) ? -1 : (name1 > name2) ? 1 : 0;
@@ -279,8 +279,8 @@ export class MainmenuComponent implements OnInit {
     this.totalstripesPerMonth = [];
     this.stripeService.getStripesSortedByMonthFromUser(this.loggedinUser.id).subscribe(data => {
 
-      data.forEach((stripemonth) => {    
-        this.totalstripesPerMonth.push({ date: stripemonth.date, stripeamount: stripemonth.stripeamount});
+      data.forEach((stripemonth) => {
+        this.totalstripesPerMonth.push({ date: stripemonth.date, stripeamount: stripemonth.stripeamount });
       });
 
     });

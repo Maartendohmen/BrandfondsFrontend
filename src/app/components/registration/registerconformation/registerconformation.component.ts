@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'ngx-alerts';
 import { UserService } from 'src/app/services/user.service';
+import { AuthenicateService } from 'src/app/services/authenicate.service';
 
 @Component({
   selector: 'app-registerconformation',
@@ -16,14 +17,14 @@ export class RegisterconformationComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private alertService: AlertService,
-    protected userService: UserService,
+    protected authService: AuthenicateService,
     private router: Router) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.registertoken = params['link'];
 
-      this.userService.confirmRegistration(this.registertoken).subscribe(active => {
+      this.authService.confirmRegistration(this.registertoken).subscribe(active => {
 
         this.doneloading = true;
 

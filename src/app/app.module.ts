@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule,LOCALE_ID, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, LOCALE_ID, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './components/login/login.component';
 import { MainmenuComponent } from './components/mainmenu/mainmenu.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TitleCasePipe } from '@angular/common';
 
 // Language settings for nl
@@ -17,8 +17,8 @@ import localeNl from '@angular/common/locales/nl';
 registerLocaleData(localeNl);
 
 // Import BrowserAnimationsModule
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
- 
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 // Import your library
 import { AlertModule } from 'ngx-alerts';
 import { RegisterComponent } from './components/registration/register/register.component';
@@ -32,6 +32,7 @@ import { AdminEditpunishmentstripeComponent } from './components/brandmaster/adm
 import { AdminDepositrequestComponent } from './components/brandmaster/admin-depositrequest/admin-depositrequest.component';
 import { RegistrationActivationComponent } from './components/registration/registration-activation/registration-activation.component';
 import { AdminStockComponent } from './components/brandmaster/admin-stock/admin-stock.component'
+import { AuthInterceptor } from './_interceptors/AuthInterceptor';
 
 @NgModule({
   declarations: [
@@ -61,9 +62,9 @@ import { AdminStockComponent } from './components/brandmaster/admin-stock/admin-
     BrowserAnimationsModule,
     AlertModule,
 
-    AlertModule.forRoot({maxMessages: 5, timeout: 5000, position: 'right'})
+    AlertModule.forRoot({ maxMessages: 5, timeout: 5000, position: 'right' })
   ],
-  providers: [{provide: LOCALE_ID, useValue: 'nl-NL' },TitleCasePipe],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, { provide: LOCALE_ID, useValue: 'nl-NL' }, TitleCasePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

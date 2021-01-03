@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { User } from '../model/User';
 
@@ -10,18 +10,16 @@ export class UserGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    var user : User = JSON.parse(localStorage.getItem('Loggedin_User'));
-    
-    if (user != undefined)
-    {
+    var jwtoken: string = JSON.parse(localStorage.getItem('jwt_token'));
+    var user: User = JSON.parse(localStorage.getItem('current_user'));
 
-    if(user.userRole == "NORMAL" )
-    {
-      
-      return true;
+    if (jwtoken != undefined) {
+
+      if (user.userRole == "NORMAL") {
+        return true;
+      }
     }
-  }
-    
+
 
     // not logged in so redirect to login page with the return url
     this.router.navigate([''], { queryParams: { returnUrl: state.url } });

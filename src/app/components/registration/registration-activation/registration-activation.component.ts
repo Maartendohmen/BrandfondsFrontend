@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'ngx-alerts';
 import { UserService } from 'src/app/services/user.service';
+import { AuthenicateService } from 'src/app/services/authenicate.service';
 
 @Component({
   selector: 'app-registration-activation',
@@ -16,7 +17,7 @@ export class RegistrationActivationComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private alertService: AlertService,
-    protected userService: UserService,
+    protected authService: AuthenicateService,
     private router: Router) { }
 
   ngOnInit() {
@@ -24,7 +25,7 @@ export class RegistrationActivationComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.userid = params['userid'];
 
-      this.userService.setActivateUser(this.userid, true).subscribe(data => {
+      this.authService.setActivateUser(this.userid, true).subscribe(data => {
         this.doneloading = true;
 
         setTimeout(() => {

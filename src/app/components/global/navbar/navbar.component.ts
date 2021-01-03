@@ -14,11 +14,11 @@ export class NavbarComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    
+
   }
 
   LogOut(e) {
-    localStorage.removeItem('Loggedin_User');
+    localStorage.clear();
     this.router.navigateByUrl('');
   }
 }
