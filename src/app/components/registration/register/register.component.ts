@@ -60,12 +60,8 @@ export class RegisterComponent implements OnInit {
     registerUser.password = this.f.password_input.value;
 
 
-    this.authService.registerRequest(registerUser).subscribe(data => {
-
-      if (data) {
-        this.alertService.success("Check je mail om je registratie te voltooien")
-      }
-
+    this.authService.registerRequest(registerUser).subscribe(response => {
+      this.alertService.success("Check je mail om je registratie te voltooien");
     }, error => {
       this.alertService.danger('Er is iets fout gegaan met registeren, probeer het later opnieuw');
       this.loading = false;

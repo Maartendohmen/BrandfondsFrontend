@@ -45,9 +45,7 @@ export class ResetpasswordrequestComponent implements OnInit {
     this.loading = true;
 
     this.authService.passwordChangeRequest(this.f.usermail_input.value).subscribe(data => {
-      if (data == true) {
-        this.alertService.success('Er is een mail naar je verstuurd met verdere instructies')
-      }
+      this.alertService.success('Er is een mail naar je verstuurd met verdere instructies')
     }, error => {
       this.loading = false;
 

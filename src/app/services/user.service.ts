@@ -16,34 +16,32 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
- 
 
-  getAll(): Observable<User[]>{
+  getAll(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl);
   }
 
-  getSaldoFromUser(userid: number) : Observable<number>{
+  getSaldoFromUser(userid: number): Observable<number> {
     return this.http.get<number>(this.baseUrl + userid + '/saldo')
   }
 
-  setSaldoFromUser(amount: number, userid: number) : Observable<boolean>
-  {
-    return this.http.put<boolean>(this.baseUrl + userid + "/saldo",amount);
+  setSaldoFromUser(amount: number, userid: number): Observable<boolean> {
+    return this.http.put<boolean>(this.baseUrl + userid + "/saldo", amount);
   }
 
-  depositRequest(userid: number, amount:number): Observable<boolean>{
-    return this.http.post<boolean>(this.baseUrl + userid + '/deposit',amount)
+  depositRequest(userid: number, amount: number): Observable<boolean> {
+    return this.http.post<boolean>(this.baseUrl + userid + '/deposit', amount)
   }
 
-  getAllDepositRequest():Observable<DepositRequest[]>{
+  getAllDepositRequest(): Observable<DepositRequest[]> {
     return this.http.get<DepositRequest[]>(this.baseUrl + 'deposit')
   }
 
-  acceptDepositRequest(depositRequestid: number): Observable<boolean>{
+  acceptDepositRequest(depositRequestid: number): Observable<boolean> {
     return this.http.get<boolean>(this.baseUrl + 'depositapprove/' + depositRequestid)
   }
 
-  rejectDepositRequest(depositRequestid: number): Observable<boolean>{
+  rejectDepositRequest(depositRequestid: number): Observable<boolean> {
     return this.http.get<boolean>(this.baseUrl + 'depositreject/' + depositRequestid)
   }
 

@@ -33,11 +33,11 @@ export class ResetpasswordComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.passwordtoken = params['link'];
       this.authService.checkPasswordResetLink(this.passwordtoken).subscribe(active => {
-        if (!active) {
-          this.router.navigateByUrl('/');
-          this.alertService.danger("Link bestaat niet of is verlopen");
-        }
-      })
+
+      }, error => {
+        this.router.navigateByUrl('/');
+        this.alertService.danger("error.error.message");
+      });
     })
 
     this.newPasswordForm = this.formBuilder.group({

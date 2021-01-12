@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { AuthenticationRequest } from '../model/authentication/AuthenticationRequest';
 import { User } from '../model/User';
 import { Observable } from 'rxjs';
@@ -21,27 +21,27 @@ export class AuthenicateService {
     return this.http.post<AuthenticationResponse>(this.baseUrl, AuthenticationRequest);
   }
 
-  registerRequest(user: User): Observable<boolean> {
-    return this.http.post<boolean>(this.baseUrl + 'register', user);
+  registerRequest(user: User): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'register', user);
   }
 
-  confirmRegistration(randomstring: string): Observable<boolean> {
-    return this.http.get<boolean>(this.baseUrl + "registerconformation/" + randomstring)
+  confirmRegistration(randomstring: string): Observable<any> {
+    return this.http.get<any>(this.baseUrl + "registerconformation/" + randomstring)
   }
 
-  setActivateUser(userid: number, isActivated: boolean): Observable<boolean> {
-    return this.http.get<boolean>(this.baseUrl + "activate-user/" + userid + "/" + isActivated)
+  setActivateUser(userid: number, isActivated: any): Observable<any> {
+    return this.http.get<any>(this.baseUrl + "activate-user/" + userid + "/" + isActivated)
   }
 
-  passwordChangeRequest(mailadres: string): Observable<boolean> {
-    return this.http.get<boolean>(this.baseUrl + 'forgotpassword/' + mailadres)
+  passwordChangeRequest(mailadres: string): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'forgotpassword/' + mailadres)
   }
 
-  checkPasswordResetLink(passwordresetstring: string): Observable<boolean> {
-    return this.http.get<boolean>(this.baseUrl + 'resetpasswordcode/' + passwordresetstring)
+  checkPasswordResetLink(passwordresetstring: string): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'resetpasswordcode/' + passwordresetstring)
   }
 
-  passwordChange(passwordtoken: string, newpassword: string): Observable<boolean> {
-    return this.http.post<boolean>(this.baseUrl + "resetpassword/" + passwordtoken, newpassword)
+  passwordChange(passwordtoken: string, newpassword: string): Observable<any> {
+    return this.http.post<any>(this.baseUrl + "resetpassword/" + passwordtoken, newpassword)
   }
 }
