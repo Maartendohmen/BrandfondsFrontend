@@ -60,7 +60,7 @@ export class AdminComponent implements OnInit {
       this.allusers.forEach(user => {
 
         //foreach user, check total amount of stripes
-        this.dayService.getTotalStripesUsingGET(user.id).subscribe(totalstripes => {
+        this.dayService.getTotalStripesForUserUsingGET(user.id).subscribe(totalstripes => {
           this.allusersstripes.push({ user: user, stripetotal: totalstripes });
         });
 

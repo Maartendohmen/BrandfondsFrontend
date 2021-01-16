@@ -31,7 +31,7 @@ export class ResetpasswordComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
       this.passwordtoken = params['link'];
-      this.authService.checkPasswordLinkUsingGET(this.passwordtoken).subscribe(active => {
+      this.authService.checkPasswordResetLinkUsingGET(this.passwordtoken).subscribe(active => {
 
       }, error => {
         this.router.navigateByUrl('/');

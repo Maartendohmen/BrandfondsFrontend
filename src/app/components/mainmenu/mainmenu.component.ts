@@ -251,7 +251,7 @@ export class MainmenuComponent implements OnInit {
    * Refreshes the current total stripes from user
    */
   RefreshTotalStripesFromUser() {
-    this.dayService.getTotalStripesUsingGET(this.loggedinUser.id).subscribe(data => {
+    this.dayService.getTotalStripesForUserUsingGET(this.loggedinUser.id).subscribe(data => {
       this.totalStripes = data;
     });
   }
