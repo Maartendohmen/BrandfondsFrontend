@@ -30,7 +30,6 @@
     "chart.js": "^2.9.3",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
-    "ngx-alerts": "^4.0.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.13.0",
     "zone.js": "~0.9.1"
