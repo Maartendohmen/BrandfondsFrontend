@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'ngx-alerts';
-import { UserService } from 'src/app/services/user.service';
-import { AuthenicateService } from 'src/app/services/authenicate.service';
+import { AuthenticationControllerService } from 'src/app/api/services';
 
 @Component({
   selector: 'app-registration-activation',
@@ -17,7 +16,7 @@ export class RegistrationActivationComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private alertService: AlertService,
-    protected authService: AuthenicateService,
+    protected authService: AuthenticationControllerService,
     private router: Router) { }
 
   ngOnInit() {
@@ -25,7 +24,7 @@ export class RegistrationActivationComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.userid = params['userid'];
 
-      this.authService.setActivateUser(this.userid, true).subscribe(data => {
+      this.authService.activateUserUsingGET({ id: this.userid, isActivated: true }).subscribe(data => {
         this.doneloading = true;
 
         setTimeout(() => {
@@ -34,7 +33,7 @@ export class RegistrationActivationComponent implements OnInit {
           7000);
 
       }, error => {
-        if (error.error.type == "UserNotFoundException") {
+        if (error.error.type == "NotFoundException") {
           this.router.navigateByUrl('/');
           this.alertService.danger(error.error.message);
         }

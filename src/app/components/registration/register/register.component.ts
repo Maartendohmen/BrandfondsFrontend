@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
-import { User } from 'src/app/model/User';
 import { AlertService } from 'ngx-alerts';
 import { Router } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
-import { AuthenicateService } from 'src/app/services/authenicate.service';
+import { AuthenticationControllerService } from 'src/app/api/services';
+import { User } from 'src/app/api/models';
+
 
 @Component({
   selector: 'app-register',
@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
   verificationCode = null;
 
   constructor(
-    private authService: AuthenicateService,
+    private authService: AuthenticationControllerService,
     private formBuilder: FormBuilder,
     private titlecasePipe: TitleCasePipe,
     private alertService: AlertService) { }
@@ -53,17 +53,19 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
 
 
-    var registerUser: User = new User();
-    registerUser.emailadres = this.f.usermail_input.value;
-    registerUser.forname = this.titlecasePipe.transform(this.f.forname_input.value);
-    registerUser.surname = this.titlecasePipe.transform(this.f.surname_input.value);
-    registerUser.password = this.f.password_input.value;
+    const registerUser: User = {
+      emailadres: this.f.usermail_input.value,
+      forname: this.titlecasePipe.transform(this.f.forname_input.value),
+      surname: this.titlecasePipe.transform(this.f.surname_input.value),
+      password: this.f.password_input.value
+    }
 
 
-    this.authService.registerRequest(registerUser).subscribe(response => {
+
+    this.authService.registerUsingPOST(registerUser).subscribe(response => {
       this.alertService.success("Check je mail om je registratie te voltooien");
     }, error => {
-      this.alertService.danger('Er is iets fout gegaan met registeren, probeer het later opnieuw');
+      this.alertService.danger(error.error.message);
       this.loading = false;
     });
   }

@@ -1,10 +1,8 @@
 import { Component, OnInit, SimpleChange } from '@angular/core';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
-import { User } from 'src/app/model/User';
-import { UserService } from 'src/app/services/user.service';
-import { StripeService } from 'src/app/services/stripe.service';
 import { AlertService } from 'ngx-alerts';
-import StripesMonth from 'src/app/model/StripesMonth';
+import { User, StripesMonth } from 'src/app/api/models';
+import { UserControllerService, DayControllerService } from 'src/app/api/services';
 
 @Component({
   selector: 'app-mainmenu',
@@ -25,7 +23,9 @@ export class MainmenuComponent implements OnInit {
   //group striping param
   public selectedUserID: number;
   public allusers: User[];
-  public selectedUsers: User[] = [];
+
+  //Selected users with stripes for current day todo maybe wanna change this back to make use off userstripe interface, not sure yet
+  public selectedUsers: Map<User, number> = new Map();
 
   //Overview
   public saldoColor: string = null;
@@ -36,8 +36,8 @@ export class MainmenuComponent implements OnInit {
   paid_amount: number;
 
   constructor(private calendar: NgbCalendar,
-    private userService: UserService,
-    private stripeService: StripeService,
+    private userService: UserControllerService,
+    private dayService: DayControllerService,
     private alertService: AlertService) { }
 
   ngOnInit() {
@@ -71,8 +71,8 @@ export class MainmenuComponent implements OnInit {
   RemoveStripe(e) {
 
     if (this.personalstripesnumber > 0) {
-      this.stripeService.removeStripeForUser(this.loggedinUser.id, this.selectedDate).subscribe(data => {
-        this.stripeService.getStripesFromDayFromUser(this.loggedinUser.id, this.selectedDate).subscribe(day => {
+      this.dayService.removeStripeForUserUsingGET({ id: this.loggedinUser.id, date: this.selectedDate.toUTCString() }).subscribe(data => {
+        this.dayService.getFromSingleUserByDateUsingGET({ id: this.loggedinUser.id, date: this.selectedDate.toUTCString() }).subscribe(day => {
           if (day) { //if day still exist after striping
             this.personalstripesnumber = day.stripes;
           }
@@ -90,8 +90,8 @@ export class MainmenuComponent implements OnInit {
 
   AddStripe(e) {
 
-    this.stripeService.addStripeForUser(this.loggedinUser.id, this.selectedDate).subscribe(data => {
-      this.stripeService.getStripesFromDayFromUser(this.loggedinUser.id, this.selectedDate).subscribe(day => {
+    this.dayService.addStripeForUserUsingGET({ id: this.loggedinUser.id, date: this.selectedDate.toUTCString() }).subscribe(data => {
+      this.dayService.getFromSingleUserByDateUsingGET({ id: this.loggedinUser.id, date: this.selectedDate.toUTCString() }).subscribe(day => {
         this.personalstripesnumber = day.stripes;
 
         this.RefreshTotalStripesFromUser();
@@ -110,7 +110,7 @@ export class MainmenuComponent implements OnInit {
     //correction for month enum starting at 0
     this.selectedDate.setMonth(this.selectedDate.getMonth() - 1);
 
-    this.stripeService.getStripesFromDayFromUser(this.loggedinUser.id, this.selectedDate).subscribe(day => {
+    this.dayService.getFromSingleUserByDateUsingGET({ id: this.loggedinUser.id, date: this.selectedDate.toUTCString() }).subscribe(day => {
       if (day != null) { //if day still exist after striping
         this.personalstripesnumber = day.stripes;
       }
@@ -125,27 +125,27 @@ export class MainmenuComponent implements OnInit {
   AddToGroup(e) {
 
     //check if user is correctly selected and not already in group
-    if (this.selectedUserID != undefined && this.selectedUsers.find(x => x.id == this.selectedUserID) == undefined) {
+    if (this.selectedUserID != undefined && Array.from(this.selectedUsers.keys()).find(x => x.id == this.selectedUserID) == undefined) {
 
       var selecteduser = this.allusers.find(x => x.id == this.selectedUserID);
 
       //determain stripe count on current day
-      this.stripeService.getStripesFromDayFromUser(selecteduser.id, this.selectedDate).subscribe(data => {
+      this.dayService.getFromSingleUserByDateUsingGET({ id: selecteduser.id, date: this.selectedDate.toString() }).subscribe(data => {
 
         if (data != null) {
-          selecteduser.todaystripes = data.stripes;
+          //add user to list
+          this.selectedUsers.set(selecteduser, data.stripes);
         }
         else {
-          selecteduser.todaystripes = 0;
+          this.selectedUsers.set(selecteduser, 0);
         }
       });
 
-      //add user to list
-      this.selectedUsers.push(selecteduser);
+
 
     }
     //user is already in group
-    else if (this.selectedUsers.find(x => x.id == this.selectedUserID) != undefined) {
+    else if (Array.from(this.selectedUsers.keys()).find(x => x.id == this.selectedUserID) != undefined) {
       this.alertService.warning('Deze gebruiker is al toegevoegd')
     }
     //user is not selected
@@ -155,9 +155,9 @@ export class MainmenuComponent implements OnInit {
   }
 
   RemoveFromGroup(userdid: number) {
-    var selecteduser = this.selectedUsers.find(x => x.id == userdid);
+    var selecteduser = Array.from(this.selectedUsers.keys()).find(x => x.id == userdid);
 
-    this.selectedUsers = this.selectedUsers.filter(obj => obj !== selecteduser);
+    this.selectedUsers.delete(selecteduser);
   }
   /* #endregion */
 
@@ -168,9 +168,10 @@ export class MainmenuComponent implements OnInit {
    */
   AddGroupStripe(user: User) {
 
-    this.stripeService.addStripeForUser(user.id, this.selectedDate).subscribe(data => {
-      this.stripeService.getStripesFromDayFromUser(user.id, this.selectedDate).subscribe(day => {
-        user.todaystripes = day.stripes;
+    this.dayService.addStripeForUserUsingGET({ id: user.id, date: this.selectedDate.toUTCString() }).subscribe(data => {
+      this.dayService.getFromSingleUserByDateUsingGET({ id: user.id, date: this.selectedDate.toUTCString() }).subscribe(day => {
+
+        this.selectedUsers.set(user, day.stripes)
 
         //update own values after transaction
         if (user.id === this.loggedinUser.id) {
@@ -188,14 +189,14 @@ export class MainmenuComponent implements OnInit {
    */
   RemoveGroupStripe(user: User) {
 
-    if (user.todaystripes > 0) {
-      this.stripeService.removeStripeForUser(user.id, this.selectedDate).subscribe(data => {
-        this.stripeService.getStripesFromDayFromUser(user.id, this.selectedDate).subscribe(day => {
+    if (this.selectedUsers.get(user) > 0) {
+      this.dayService.removeStripeForUserUsingGET({ id: user.id, date: this.selectedDate.toUTCString() }).subscribe(data => {
+        this.dayService.getFromSingleUserByDateUsingGET({ id: user.id, date: this.selectedDate.toUTCString() }).subscribe(day => {
           if (day) { //if day still exist after striping
-            user.todaystripes = day.stripes;
+            this.selectedUsers.set(user, day.stripes)
           }
           else {
-            user.todaystripes = 0;
+            this.selectedUsers.set(user, 0)
           }
         });
 
@@ -215,7 +216,7 @@ export class MainmenuComponent implements OnInit {
    * Refresh list of all available users
    */
   RefreshAllUsers() {
-    this.userService.getAll().subscribe(data => {
+    this.userService.getAllUsingGET1().subscribe(data => {
 
       data.sort(function (a, b) {
         var name1 = a.forname.toUpperCase();
@@ -232,14 +233,14 @@ export class MainmenuComponent implements OnInit {
    */
   RefreshOwnTodayStripes() {
 
-    if (this.selectedUsers.find(x => x.id == this.loggedinUser.id) != undefined) {
-      var selecteduser = this.selectedUsers.find(x => x.id == this.loggedinUser.id);
-      this.stripeService.getStripesFromDayFromUser(selecteduser.id, this.selectedDate).subscribe(day => {
+    if (Array.from(this.selectedUsers.keys()).find(x => x.id == this.loggedinUser.id) != undefined) {
+      var selecteduser = Array.from(this.selectedUsers.keys()).find(x => x.id == this.loggedinUser.id);
+      this.dayService.getFromSingleUserByDateUsingGET({ id: selecteduser.id, date: this.selectedDate.toUTCString() }).subscribe(day => {
         if (day) { //if day still exist after striping
-          selecteduser.todaystripes = day.stripes;
+          this.selectedUsers.set(selecteduser, day.stripes)
         }
         else {
-          selecteduser.todaystripes = 0;
+          this.selectedUsers.set(selecteduser, 0)
         }
 
       });
@@ -250,7 +251,7 @@ export class MainmenuComponent implements OnInit {
    * Refreshes the current total stripes from user
    */
   RefreshTotalStripesFromUser() {
-    this.stripeService.getTotalStripesFromUser(this.loggedinUser.id).subscribe(data => {
+    this.dayService.getTotalStripesUsingGET(this.loggedinUser.id).subscribe(data => {
       this.totalStripes = data;
     });
   }
@@ -259,7 +260,7 @@ export class MainmenuComponent implements OnInit {
    * Refreshes the saldo from the logged in user
    */
   RefreshSaldoFromUser() {
-    this.userService.getSaldoFromUser(this.loggedinUser.id).subscribe(data => {
+    this.userService.getUserSaldoUsingGET(this.loggedinUser.id).subscribe(data => {
 
       this.loggedinUser.saldo = data;
 
@@ -277,7 +278,7 @@ export class MainmenuComponent implements OnInit {
 
   RefreshTotalStripesPerMonthFromUser() {
     this.totalstripesPerMonth = [];
-    this.stripeService.getStripesSortedByMonthFromUser(this.loggedinUser.id).subscribe(data => {
+    this.dayService.getTotalStripesPerMonthUsingGET(this.loggedinUser.id).subscribe(data => {
 
       data.forEach((stripemonth) => {
         this.totalstripesPerMonth.push({ date: stripemonth.date, stripeamount: stripemonth.stripeamount });
@@ -289,6 +290,7 @@ export class MainmenuComponent implements OnInit {
 
 
   NotifyOfPayment() {
+
     if (this.paid_amount) {
       var inputsaldo = null;
 
@@ -301,15 +303,12 @@ export class MainmenuComponent implements OnInit {
         inputsaldo = +paid_amount * 100;
       }
 
-      this.userService.depositRequest(this.loggedinUser.id, inputsaldo).subscribe(result => {
-        if (result) {
-          this.alertService.success('Je verzoek is naar de brandmeester gestuurd');
-          this.paid_amount = null;
-        }
-        else {
-          this.alertService.danger('Er is iets fout gegaan, probeer het later opnieuw');
-          this.paid_amount = null;
-        }
+      this.userService.setDepositRequestUsingPOST({ id: this.loggedinUser.id, amount: inputsaldo }).subscribe(result => {
+        this.alertService.success('Je verzoek is naar de brandmeester gestuurd');
+        this.paid_amount = null;
+      }, error => {
+        this.alertService.danger(error.error.message);
+        this.paid_amount = null;
       });
     }
     else {

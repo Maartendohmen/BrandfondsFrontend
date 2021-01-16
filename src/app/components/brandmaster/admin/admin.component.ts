@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from 'ngx-alerts';
-import { UserService } from 'src/app/services/user.service';
-import { StripeService } from 'src/app/services/stripe.service';
-import { User } from 'src/app/model/User';
-import { DepositRequest } from 'src/app/model/DepositRequest';
+import { User, DepositRequest, Stock } from 'src/app/api/models';
+import UserStripe from 'src/app/_custom_interfaces/userStripe';
+import { UserControllerService, StockControllerService, DayControllerService } from 'src/app/api/services';
 import { Router } from '@angular/router';
-import UserStripe from 'src/app/model/UserStripes';
-import { Stock } from 'src/app/model/Stock';
-import { StockService } from 'src/app/services/stock.service';
 
 @Component({
   selector: 'app-admin',
@@ -36,9 +32,9 @@ export class AdminComponent implements OnInit {
 
 
   constructor(private alertService: AlertService,
-    private userService: UserService,
-    private stripeService: StripeService,
-    private stockService: StockService,
+    private userService: UserControllerService,
+    private dayService: DayControllerService,
+    private stockService: StockControllerService,
     private router: Router, ) { }
 
   ngOnInit() {
@@ -56,7 +52,7 @@ export class AdminComponent implements OnInit {
     this.alluserpunishmentstripes = []
 
     //gets all users
-    this.userService.getAll().subscribe(data => {
+    this.userService.getAllUsingGET1().subscribe(data => {
       this.allusers = [];
       this.allusers = data;
 
@@ -64,12 +60,12 @@ export class AdminComponent implements OnInit {
       this.allusers.forEach(user => {
 
         //foreach user, check total amount of stripes
-        this.stripeService.getTotalStripesFromUser(user.id).subscribe(totalstripes => {
+        this.dayService.getTotalStripesUsingGET(user.id).subscribe(totalstripes => {
           this.allusersstripes.push({ user: user, stripetotal: totalstripes });
         });
 
         //foreach user, check amount of punishment stripes
-        this.stripeService.getStripesFromDayFromUser(user.id, new Date(1900, 1)).subscribe(totalpunishmentstripes => {
+        this.dayService.getFromSingleUserByDateUsingGET({ id: user.id, date: new Date(1900, 1).toUTCString() }).subscribe(totalpunishmentstripes => {
           if (totalpunishmentstripes) {
             this.alluserpunishmentstripes.push({ user: user, stripetotal: totalpunishmentstripes.stripes });
           }
@@ -81,24 +77,24 @@ export class AdminComponent implements OnInit {
 
       //print error if something goes wrong
     }, error => {
-      console.log(error);
+      console.log(error.error.message);
     });
   }
 
   RefreshListOfDeposits() {
-    this.userService.getAllDepositRequest().subscribe(result => {
+    this.userService.getDepositRequestsUsingGET().subscribe(result => {
       this.alldepositrequests = result;
       this.alldepositrequests = this.alldepositrequests.filter(depositrequest => depositrequest.handledDate === null)
     }, error => {
-      console.log(error);
+      console.log(error.error.message);
     });
   }
 
   RefreshStock() {
-    this.stockService.getStock().subscribe(result => {
+    this.stockService.getStockUsingGET().subscribe(result => {
       this.currentstock = result;
     }, error => {
-      console.log(error);
+      console.log(error.error.message);
     })
   }
 

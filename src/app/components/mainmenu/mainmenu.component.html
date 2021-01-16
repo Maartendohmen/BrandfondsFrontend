@@ -3,11 +3,13 @@
 <div class="row mt-4">
     <div class="col-12">
         <div class="jumbotron">
-          <p>
-             <a href="https://docs.google.com/document/d/120R1kS5navHNC01mHnAfzbI33zDk5xQRTEngJHFMr7E/edit?usp=sharing">
-                Heb je een bug gevonden of heb je een suggestie voor een feature, laat het hier weten door op deze link te klikken.
-            </a>
-          </p>
+            <p>
+                <a
+                    href="https://docs.google.com/document/d/120R1kS5navHNC01mHnAfzbI33zDk5xQRTEngJHFMr7E/edit?usp=sharing">
+                    Heb je een bug gevonden of heb je een suggestie voor een feature, laat het hier weten door op deze
+                    link te klikken.
+                </a>
+            </p>
         </div>
     </div>
 </div>
@@ -20,10 +22,12 @@
 
             <div class="row">
                 <div class="col-6">
-                    <button class="btn-block" (click)="SetPersonalScreen($event)" mdbBtn color="primary" mdbWavesEffect>Persoonlijk strepen</button>
+                    <button class="btn-block" (click)="SetPersonalScreen($event)" mdbBtn color="primary"
+                        mdbWavesEffect>Persoonlijk strepen</button>
                 </div>
                 <div class="col-6">
-                    <button class="btn-block" (click)="SetGroupScreen($event)" mdbBtn color="primary" mdbWavesEffect>Groep strepen</button>
+                    <button class="btn-block" (click)="SetGroupScreen($event)" mdbBtn color="primary"
+                        mdbWavesEffect>Groep strepen</button>
                 </div>
             </div>
         </div>
@@ -85,28 +89,32 @@
                     </div>
 
                     <div class="col-6 centerflex">
-                            <button (click)="AddToGroup($event.target.value)" type="button" mdbBtn color="primary" mdbWavesEffect>Voeg
-                                toe</button>
+                        <button (click)="AddToGroup($event.target.value)" type="button" mdbBtn color="primary"
+                            mdbWavesEffect>Voeg
+                            toe</button>
                     </div>
                 </div>
 
 
                 <hr class="my-3">
 
-                <div *ngFor="let user of selectedUsers" class="mb-2">
+                <!--Loop through all selected users and show all the stripes of the current day (with map, key=user and value=amount of stripes-->
+                <div *ngFor="let mapEntry of selectedUsers | keyvalue" class="mb-2">
 
                     <div class="row align-items-center">
                         <div class="col-4 align-self-center">
-                            <h5>{{user.forname}}</h5>
+                            <h5>{{mapEntry.key.forname}}</h5>
                         </div>
                         <div class="col-6 align-self-center text-right">
-                            <i class="d-inline mr-2 fa fa-minus-circle fa-2x" (click)="RemoveGroupStripe(user)"></i>
-                            <h3 class="d-inline text-center">{{user.todaystripes}}</h3>
-                            <i class="d-inline ml-2 fa fa-plus-circle fa-2x" (click)="AddGroupStripe(user)"></i>
+                            <i class="d-inline mr-2 fa fa-minus-circle fa-2x"
+                                (click)="RemoveGroupStripe(mapEntry.key)"></i>
+                            <h3 class="d-inline text-center">{{mapEntry.value}}</h3>
+                            <i class="d-inline ml-2 fa fa-plus-circle fa-2x" (click)="AddGroupStripe(mapEntry.key)"></i>
 
                         </div>
                         <div class="col-2">
-                            <i class="d-inline float-right fa fa-trash fa-2x" (click)="RemoveFromGroup(user.id)"></i>
+                            <i class="d-inline float-right fa fa-trash fa-2x"
+                                (click)="RemoveFromGroup(mapEntry.key.id)"></i>
                         </div>
                     </div>
 
@@ -195,7 +203,7 @@
                 </div>
 
                 <div class="col-6 centerflex">
-                    <button  type="submit" mdbBtn color="primary" (click)="NotifyOfPayment()"
+                    <button type="submit" mdbBtn color="primary" (click)="NotifyOfPayment()"
                         mdbWavesEffect>Verstuur</button>
                 </div>
             </div>

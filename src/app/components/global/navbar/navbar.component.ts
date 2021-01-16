@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/model/User';
+import { User } from 'src/app/api/models';
 
 @Component({
   selector: 'app-navbar',

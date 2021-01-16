@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AlertService } from 'ngx-alerts';
-import { UserService } from 'src/app/services/user.service';
-import { DepositRequest } from 'src/app/model/DepositRequest';
+import { DepositRequest } from 'src/app/api/models';
+import { UserControllerService } from 'src/app/api/services';
 
 @Component({
   selector: 'app-admin-depositrequest',
@@ -15,32 +15,30 @@ export class AdminDepositrequestComponent implements OnInit {
   @Output() RefreshListOfUsers = new EventEmitter<any>();
 
   constructor(
-    private alertService:AlertService,
-    private userService: UserService
+    private alertService: AlertService,
+    private userService: UserControllerService
   ) { }
 
   ngOnInit() {
   }
 
   RejectDepositRequest(depositRequestid: number) {
-    this.userService.rejectDepositRequest(depositRequestid).subscribe(data => {
-      if (data == false || !data) {
-        this.alertService.danger('Er is iets fout gegaan, probeer het later opnieuw');
-      }
-
+    this.userService.handleDepositRequestUsingGET({ id: depositRequestid, approve: false }).subscribe(data => {
       this.RefreshListOfDeposits.emit();
+      this.alertService.success("De inleg is afgekeurd");
+    }, error => {
+      this.alertService.danger(error.error.message);
     });
   }
 
   AcceptRepositRequest(depositRequestid: number) {
 
-    this.userService.acceptDepositRequest(depositRequestid).subscribe(data => {
-      if (data == false || !data) {
-        this.alertService.danger('Er is iets fout gegaan, probeer het later opnieuw');
-      }
-
+    this.userService.handleDepositRequestUsingGET({ id: depositRequestid, approve: true }).subscribe(data => {
       this.RefreshListOfDeposits.emit();
       this.RefreshListOfUsers.emit();
+      this.alertService.success("De inleg is goedgekeurd");
+    }, error => {
+      this.alertService.danger(error.error.message);
     });
   }
 

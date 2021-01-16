@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
 import { AlertService } from 'ngx-alerts';
-import { User } from 'src/app/model/User';
-import UserStripe from 'src/app/model/UserStripes';
+import UserStripe from 'src/app/_custom_interfaces/userStripe';
+import { UserControllerService } from 'src/app/api/services';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-admin-editsaldo',
@@ -20,25 +20,24 @@ export class AdminEditsaldoComponent implements OnInit {
 
   constructor(
     private alertService: AlertService,
-    private userService: UserService
+    private userService: UserControllerService
   ) { }
 
   ngOnChanges(changes: SimpleChange): void {
-    this.datasource = this.allusersstripes  
+    this.datasource = this.allusersstripes
   }
 
   ngOnInit() {
     this.datasource = this.allusersstripes;
   }
 
-  onNameChange(value){
-    if (value)
-    {
+  onNameChange(value) {
+    if (value) {
       var copylist: UserStripe[] = this.allusersstripes.filter(userstripe => userstripe.user.forname.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
-       userstripe.user.surname.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
+        userstripe.user.surname.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
       this.datasource = copylist;
     }
-    else{
+    else {
       this.datasource = this.allusersstripes
     }
   }
@@ -49,7 +48,7 @@ export class AdminEditsaldoComponent implements OnInit {
 
   //todo check if other stuff then numbers, points or comma's are given in, and reject those
   SaveSaldo(selectedUser: UserStripe, inputsaldo) {
-    
+
 
     if (inputsaldo.toString() !== this.selectedamount.toString()) {
 
@@ -66,7 +65,7 @@ export class AdminEditsaldoComponent implements OnInit {
           inputsaldo = +selectedUserSaldo * 100;
         }
 
-        this.userService.setSaldoFromUser(+inputsaldo, selectedUser.user.id).subscribe(data => {
+        this.userService.setUserSaldoUsingPUT({ id: selectedUser.user.id, amount: +inputsaldo }).subscribe(data => {
           this.alertService.success('Het saldo is aangepast')
           this.RefreshListOfUsers.emit();
 

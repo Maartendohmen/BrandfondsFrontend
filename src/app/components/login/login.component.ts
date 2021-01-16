@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenicateService } from 'src/app/services/authenicate.service';
-import { User } from '../../model/User';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'ngx-alerts';
 import { TitleCasePipe } from '@angular/common';
-import { AuthenticationRequest } from 'src/app/model/authentication/AuthenticationRequest';
-import { AuthenticationResponse } from 'src/app/model/authentication/AuthenticationResponse';
+import { AuthenticationControllerService } from 'src/app/api/services';
+import { AuthenticationRequest } from 'src/app/api/models';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +21,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
-    private authService: AuthenicateService,
+    private authservice: AuthenticationControllerService,
     private titlecasePipe: TitleCasePipe,
     private alertService: AlertService) { }
 
@@ -54,11 +52,9 @@ export class LoginComponent implements OnInit {
     var username = this.titlecasePipe.transform(this.f.forname_input.value);
     var password = this.f.password_input.value;
 
-    var authrequest: AuthenticationRequest = new AuthenticationRequest(username, password);
-
     this.loading = true;
 
-    this.authService.Login(authrequest)
+    this.authservice.loginUsingPOST({ username, password })
       .pipe(first())
       .subscribe(
         authresponse => {

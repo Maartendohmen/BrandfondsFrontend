@@ -46,3 +46,6 @@ testem.log
 Thumbs.db
 /src/environments/environment.prod.ts
 /src/environments/environment.ts
+
+#API frontend
+/src/app/api

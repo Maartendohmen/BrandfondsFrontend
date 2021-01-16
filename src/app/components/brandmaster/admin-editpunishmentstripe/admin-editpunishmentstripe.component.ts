@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
-import { User } from 'src/app/model/User';
 import { AlertService } from 'ngx-alerts';
-import { StripeService } from 'src/app/services/stripe.service';
-import UserStripe from 'src/app/model/UserStripes';
+import UserStripe from 'src/app/_custom_interfaces/userStripe';
+import { DayControllerService } from 'src/app/api/services';
 
 @Component({
   selector: 'app-admin-editpunishmentstripe',
@@ -19,25 +18,24 @@ export class AdminEditpunishmentstripeComponent implements OnInit {
 
   constructor(
     private alertService: AlertService,
-    private stripeService: StripeService
+    private dayservice: DayControllerService
   ) { }
-  
+
   ngOnChanges(changes: SimpleChange): void {
-    this.datasource = this.alluserpunishmentstripes    
+    this.datasource = this.alluserpunishmentstripes
   }
 
   ngOnInit() {
     this.datasource = this.alluserpunishmentstripes
   }
 
-  onNameChange(value){
-    if (value)
-    {
+  onNameChange(value) {
+    if (value) {
       var copylist: UserStripe[] = this.alluserpunishmentstripes.filter(userstripe => userstripe.user.forname.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
-       userstripe.user.surname.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
+        userstripe.user.surname.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
       this.datasource = copylist;
     }
-    else{
+    else {
       this.datasource = this.alluserpunishmentstripes
     }
   }
@@ -55,30 +53,21 @@ export class AdminEditpunishmentstripeComponent implements OnInit {
         var changedamount = inputsaldo - selectedUser.stripetotal;
 
         if (changedamount > 0) {
-          this.stripeService.addStripesForUser(changedamount, selectedUser.user.id, new Date(1900, 1)).subscribe(data => {
-            if (data) {
-              this.alertService.success('Het aantal strepen is aangepast')
-              this.RefreshListOfUsers.emit();
-            }
-            else {
-              this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
-            }
+          this.dayservice.addStripesForUserUsingPUTResponse({ id: selectedUser.user.id, date: new Date(1900, 1).toUTCString(), amount: changedamount }).subscribe(data => {
+            this.alertService.success('Het aantal strepen is aangepast')
+            this.RefreshListOfUsers.emit();
           }, error => {
-            this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
+            this.alertService.warning(error.error.message)
           });
         }
 
         else if (changedamount < 0) {
-          this.stripeService.removeStripesForUser(Math.abs(changedamount), selectedUser.user.id, new Date(1900, 1)).subscribe(data => {
-            if (data) {
-              this.alertService.success('Het aantal strepen is aangepast')
-              this.RefreshListOfUsers.emit();
-            }
-            else {
-              this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
-            }
+          this.dayservice.removeStripesForUserUsingPUT({ id: selectedUser.user.id, amount: Math.abs(changedamount), date: new Date(1900, 1).toUTCString() }).subscribe(data => {
+
+            this.alertService.success('Het aantal strepen is aangepast')
+            this.RefreshListOfUsers.emit();
           }, error => {
-            this.alertService.warning('Er is iets fout gegaan met het opslaan, probeer het later opnieuw')
+            this.alertService.warning(error.error.message)
           });
         }
       }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlSegment } from '@angular/router';
-import { User } from '../model/User';
+import { User } from '../api/models';
 
 @Injectable({ providedIn: 'root' })
 export class UserGuard implements CanActivate {
