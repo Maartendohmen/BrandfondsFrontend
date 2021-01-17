@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertService } from 'ngx-alerts';
+import { AlertService } from '@full-fledged/alerts';
 import { User, DepositRequest, Stock } from 'src/app/api/models';
 import UserStripe from 'src/app/_custom_interfaces/userStripe';
 import { UserControllerService, StockControllerService, DayControllerService } from 'src/app/api/services';

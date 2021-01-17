@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
-import { AlertService } from 'ngx-alerts';
+import { AlertService } from '@full-fledged/alerts';
 import UserStripe from 'src/app/_custom_interfaces/userStripe';
 import { UserControllerService } from 'src/app/api/services';
 import { stringify } from 'querystring';

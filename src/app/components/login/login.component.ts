@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { AlertService } from 'ngx-alerts';
+import { AlertService } from '@full-fledged/alerts';
 import { TitleCasePipe } from '@angular/common';
 import { AuthenticationControllerService } from 'src/app/api/services';
 import { AuthenticationRequest } from 'src/app/api/models';
@@ -30,6 +30,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    localStorage.clear();
+
     this.loginForm = this.formBuilder.group({
       forname_input: ['', Validators.required],
       password_input: ['', Validators.required]

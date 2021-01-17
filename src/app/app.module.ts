@@ -20,7 +20,7 @@ registerLocaleData(localeNl);
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 // Import your library
-import { AlertModule } from 'ngx-alerts';
+import { AlertModule } from '@full-fledged/alerts';
 import { RegisterComponent } from './components/registration/register/register.component';
 import { RegisterconformationComponent } from './components/registration/registerconformation/registerconformation.component';
 import { ResetpasswordComponent } from './components/passwordreset/resetpassword/resetpassword.component';
@@ -62,7 +62,7 @@ import { AuthInterceptor } from './_interceptors/AuthInterceptor';
     BrowserAnimationsModule,
     AlertModule,
 
-    AlertModule.forRoot({ maxMessages: 5, timeout: 5000, position: 'right' })
+    AlertModule.forRoot({ maxMessages: 5, timeout: 5000, positionX: 'right' })
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, { provide: LOCALE_ID, useValue: 'nl-NL' }, TitleCasePipe],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AlertService } from 'ngx-alerts';
+import { AlertService } from '@full-fledged/alerts';
 import { Stock } from 'src/app/api/models';
 import { StockControllerService } from 'src/app/api/services';
 

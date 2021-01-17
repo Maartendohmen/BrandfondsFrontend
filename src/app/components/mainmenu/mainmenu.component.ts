@@ -1,6 +1,6 @@
 import { Component, OnInit, SimpleChange } from '@angular/core';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService } from 'ngx-alerts';
+import { AlertService } from '@full-fledged/alerts';
 import { User, StripesMonth } from 'src/app/api/models';
 import { UserControllerService, DayControllerService } from 'src/app/api/services';
 

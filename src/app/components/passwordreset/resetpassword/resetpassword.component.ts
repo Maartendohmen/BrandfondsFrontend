@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertService } from 'ngx-alerts';
+import { AlertService } from '@full-fledged/alerts';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationControllerService } from 'src/app/api/services';
 

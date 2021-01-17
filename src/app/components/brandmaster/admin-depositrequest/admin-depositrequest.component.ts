@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AlertService } from 'ngx-alerts';
+import { AlertService } from '@full-fledged/alerts';
 import { DepositRequest } from 'src/app/api/models';
 import { UserControllerService } from 'src/app/api/services';
 
