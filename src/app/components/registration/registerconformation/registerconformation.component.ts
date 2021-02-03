@@ -23,7 +23,7 @@ export class RegisterconformationComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.registertoken = params['link'];
 
-      this.authService.confirmRegistrationUsingGET(this.registertoken).subscribe(response => {
+      this.authService.registerConformation(this.registertoken).subscribe(response => {
 
         this.doneloading = true;
 

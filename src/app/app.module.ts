@@ -33,6 +33,8 @@ import { AdminDepositrequestComponent } from './components/brandmaster/admin-dep
 import { RegistrationActivationComponent } from './components/registration/registration-activation/registration-activation.component';
 import { AdminStockComponent } from './components/brandmaster/admin-stock/admin-stock.component'
 import { AuthInterceptor } from './_interceptors/AuthInterceptor';
+import { AdminReceiptsComponent } from './components/brandmaster/admin-receipts/admin-receipts.component';
+import { SafeHtml } from './_custom_pipes/safeHtml';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { AuthInterceptor } from './_interceptors/AuthInterceptor';
     AdminEditpunishmentstripeComponent,
     AdminDepositrequestComponent,
     RegistrationActivationComponent,
-    AdminStockComponent
+    AdminStockComponent,
+    AdminReceiptsComponent,
+    SafeHtml
   ],
   imports: [
     BrowserModule,

@@ -24,7 +24,7 @@ export class RegistrationActivationComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.userid = params['userid'];
 
-      this.authService.setUserActivationUsingGET({ id: this.userid, isActivated: true }).subscribe(data => {
+      this.authService.setUserActivation({ id: this.userid, isActivated: true }).subscribe(data => {
         this.doneloading = true;
 
         setTimeout(() => {

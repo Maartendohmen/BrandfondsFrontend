@@ -53,7 +53,7 @@ export class AdminEditpunishmentstripeComponent implements OnInit {
         var changedamount = inputsaldo - selectedUser.stripetotal;
 
         if (changedamount > 0) {
-          this.dayservice.addStripesForUserUsingPUTResponse({ id: selectedUser.user.id, date: new Date(1900, 1).toUTCString(), amount: changedamount }).subscribe(data => {
+          this.dayservice.addMultipeStripesForUser({ id: selectedUser.user.id, date: new Date(1900, 1).toUTCString(), amount: changedamount }).subscribe(data => {
             this.alertService.success('Het aantal strepen is aangepast')
             this.RefreshListOfUsers.emit();
           }, error => {
@@ -62,7 +62,7 @@ export class AdminEditpunishmentstripeComponent implements OnInit {
         }
 
         else if (changedamount < 0) {
-          this.dayservice.removeStripesForUserUsingPUT({ id: selectedUser.user.id, amount: Math.abs(changedamount), date: new Date(1900, 1).toUTCString() }).subscribe(data => {
+          this.dayservice.removeStripesForUser({ id: selectedUser.user.id, amount: Math.abs(changedamount), date: new Date(1900, 1).toUTCString() }).subscribe(data => {
 
             this.alertService.success('Het aantal strepen is aangepast')
             this.RefreshListOfUsers.emit();

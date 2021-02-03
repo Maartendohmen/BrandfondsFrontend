@@ -23,7 +23,7 @@ export class AdminDepositrequestComponent implements OnInit {
   }
 
   RejectDepositRequest(depositRequestid: number) {
-    this.userService.handleDepositRequestUsingGET({ id: depositRequestid, approve: false }).subscribe(data => {
+    this.userService.setDepositStatus({ id: depositRequestid, approve: false }).subscribe(() => {
       this.RefreshListOfDeposits.emit();
       this.alertService.success("De inleg is afgekeurd");
     }, error => {
@@ -33,7 +33,7 @@ export class AdminDepositrequestComponent implements OnInit {
 
   AcceptRepositRequest(depositRequestid: number) {
 
-    this.userService.handleDepositRequestUsingGET({ id: depositRequestid, approve: true }).subscribe(data => {
+    this.userService.setDepositStatus({ id: depositRequestid, approve: true }).subscribe(() => {
       this.RefreshListOfDeposits.emit();
       this.RefreshListOfUsers.emit();
       this.alertService.success("De inleg is goedgekeurd");

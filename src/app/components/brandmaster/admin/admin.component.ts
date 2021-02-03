@@ -52,7 +52,7 @@ export class AdminComponent implements OnInit {
     this.alluserpunishmentstripes = []
 
     //gets all users
-    this.userService.getAllUsingGET1().subscribe(data => {
+    this.userService.getAllUsers().subscribe(data => {
       this.allusers = [];
       this.allusers = data;
 
@@ -60,12 +60,12 @@ export class AdminComponent implements OnInit {
       this.allusers.forEach(user => {
 
         //foreach user, check total amount of stripes
-        this.dayService.getTotalStripesForUserUsingGET(user.id).subscribe(totalstripes => {
+        this.dayService.getTotalStripesForUser(user.id).subscribe(totalstripes => {
           this.allusersstripes.push({ user: user, stripetotal: totalstripes });
         });
 
         //foreach user, check amount of punishment stripes
-        this.dayService.getFromSingleUserByDateUsingGET({ id: user.id, date: new Date(1900, 1).toUTCString() }).subscribe(totalpunishmentstripes => {
+        this.dayService.getStripesForOneDayForOneUser({ id: user.id, date: new Date(1900, 1).toUTCString() }).subscribe(totalpunishmentstripes => {
           if (totalpunishmentstripes) {
             this.alluserpunishmentstripes.push({ user: user, stripetotal: totalpunishmentstripes.stripes });
           }
@@ -82,7 +82,7 @@ export class AdminComponent implements OnInit {
   }
 
   RefreshListOfDeposits() {
-    this.userService.getDepositRequestsUsingGET().subscribe(result => {
+    this.userService.getAllDeposits().subscribe(result => {
       this.alldepositrequests = result;
       this.alldepositrequests = this.alldepositrequests.filter(depositrequest => depositrequest.handledDate === null)
     }, error => {
@@ -91,7 +91,7 @@ export class AdminComponent implements OnInit {
   }
 
   RefreshStock() {
-    this.stockService.getStockUsingGET().subscribe(result => {
+    this.stockService.getCurrentStock().subscribe(result => {
       this.currentstock = result;
     }, error => {
       console.log(error.error.message);

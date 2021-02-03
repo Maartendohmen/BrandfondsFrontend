@@ -31,7 +31,7 @@ export class ResetpasswordComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
       this.passwordtoken = params['link'];
-      this.authService.checkPasswordResetLinkUsingGET(this.passwordtoken).subscribe(active => {
+      this.authService.validateLinkPasswordRequest(this.passwordtoken).subscribe(active => {
 
       }, error => {
         this.router.navigateByUrl('/');
@@ -54,7 +54,7 @@ export class ResetpasswordComponent implements OnInit {
   onSubmitPassword() {
 
     if (this.f.password_input.value == this.f.passwordconformation_input.value) {
-      this.authService.changePasswordUsingPOST({ randomstring: "password", password: "sdaf" }).subscribe(data => {
+      this.authService.confirmPasswordRequest({ randomstring: this.passwordtoken, password: this.f.password_input.value }).subscribe(data => {
         this.alertService.success('Het wachtwoord is veranderd, je wordt nu teruggebracht naar het inlogscherm')
 
         setTimeout(() => {

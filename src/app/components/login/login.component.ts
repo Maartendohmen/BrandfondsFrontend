@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
-    this.authservice.loginUsingPOST({ username, password })
+    this.authservice.login({ username, password })
       .pipe(first())
       .subscribe(
         authresponse => {

@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit {
 
 
 
-    this.authService.registerUsingPOST(registerUser).subscribe(response => {
+    this.authService.register(registerUser).subscribe(response => {
       this.alertService.success("Check je mail om je registratie te voltooien");
     }, error => {
       this.alertService.danger(error.error.message);

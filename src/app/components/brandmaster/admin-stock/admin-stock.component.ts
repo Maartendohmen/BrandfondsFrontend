@@ -24,7 +24,7 @@ export class AdminStockComponent implements OnInit {
   EditCurrentBottles(amount) {
     // check if the user has entered a new value
     if (amount) {
-      this.stockService.updateCurrentBottlesUsingPUT(amount).subscribe(result => {
+      this.stockService.updateCurrentBottles(amount).subscribe(result => {
         this.alertService.success('Huidig aantal flessen succesvol aangepast');
       }, error => {
         this.alertService.warning('Er is iets fout gegaan, probeer het later opnieuw')
@@ -35,7 +35,7 @@ export class AdminStockComponent implements OnInit {
   EditReturnedBottles(amount) {
     // check if the user has entered a new value
     if (amount) {
-      this.stockService.updateReturnedBottlesUsingPUT(amount).subscribe(result => {
+      this.stockService.updateReturnedBottles(amount).subscribe(result => {
         this.alertService.success('Het aantal ingeleverde flessen is succesvol aangepast');
       }, error => {
         this.alertService.warning('Er is iets fout gegaan, probeer het later opnieuw')
