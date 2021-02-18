@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FileControllerService } from 'src/app/api/services';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '@full-fledged/alerts';
 import { Receipt } from 'src/app/api/models';
 import { MDBModalService, MDBModalRef } from 'angular-bootstrap-md';
-import { trigger, state, style } from '@angular/animations';
+import { ReceiptModalComponent } from '../receipt-modal/receipt-modal.component';
+import { ReceiptControllerService } from 'src/app/api/services';
 
 @Component({
   selector: 'app-admin-receipts',
@@ -21,37 +21,27 @@ export class AdminReceiptsComponent implements OnInit {
   //receipts
   allreceipts: Receipt[] = [];
 
-  //image to show
-  imagePath: any = null;
+  // selected file
   fileToUpload: File = null;
+
+  //image to show
+  selectedImageData: any = null;
+  selectedImageName: String = null;
 
   modalRef: MDBModalRef;
 
   constructor(
     private formBuilder: FormBuilder,
-    private fileControllerService: FileControllerService,
+    private receiptControllerService: ReceiptControllerService,
     private alertService: AlertService,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private modalService: MDBModalService
   ) { }
-
-  modalOptions = {
-    backdrop: true,
-    keyboard: true,
-    focus: true,
-    show: false,
-    ignoreBackdropClick: false,
-    class: '',
-    containerClass: '',
-    animated: true,
-    data: {
-      heading: 'Modal heading',
-      content: { heading: 'Content heading', description: 'Content description' }
-    }
-  }
 
   ngOnInit(): void {
     this.receiptUploadForm = this.formBuilder.group({
       receipt_description: ['', Validators.required],
+      receipt_date: [''],
       receipt_amount: ['', Validators.required],
       receipt_file: ['', Validators.required]
     });
@@ -63,7 +53,11 @@ export class AdminReceiptsComponent implements OnInit {
     return this.receiptUploadForm.controls;
   }
 
-  UploadReceipt() {
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+  }
+
+  uploadReceipt() {
 
     this.uploading = true;
 
@@ -75,9 +69,25 @@ export class AdminReceiptsComponent implements OnInit {
     }
 
     var receipt_description = this.f.receipt_description.value;
+
+    var convertedDate = undefined;
+    var correctDateRegex = /^\s*(3[01]|[12][0-9]|0?[1-9])\-(1[012]|0?[1-9])\-((?:19|20)\d{2})\s*$/g
+
+    if (this.f.receipt_date.value) {
+      if (correctDateRegex.test(this.f.receipt_date.value)) {
+        var nonConvertedDate = this.f.receipt_date.value.split("-")
+        convertedDate = new Date(nonConvertedDate[2], nonConvertedDate[1] - 1, nonConvertedDate[0]).toUTCString();
+      } else {
+        this.alertService.warning("Zorg dat de datum op de correcte manier is ingevoerd en geldig is")
+        this.uploading = false;
+        return;
+      }
+
+    }
+
     var receipt_amount: number = this.checkPaidAmount(this.f.receipt_amount.value)
 
-    this.fileControllerService.uploadReceiptFile({ file: this.fileToUpload, description: receipt_description, paidAmount: receipt_amount }).subscribe(() => {
+    this.receiptControllerService.uploadReceiptFile({ file: this.fileToUpload, description: receipt_description, date: convertedDate, paidAmount: receipt_amount }).subscribe(() => {
       this.alertService.success("De bon met informatie is opgeslagen op de server")
       this.uploading = false;
       this.getAllReceipts();
@@ -104,22 +114,34 @@ export class AdminReceiptsComponent implements OnInit {
     return inputsaldo
   }
 
-  RetrieveImage(fileName) {
-    this.fileControllerService.getReceiptFileByName(fileName).subscribe(data => {
-      this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + data.receiptFile);
+  retrieveImage(fileName) {
+    this.receiptControllerService.getEncodedReceiptFileByName(fileName).subscribe(encodedImage => {
+      this.selectedImageData = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + encodedImage);
+      this.selectedImageName = fileName;
+      this.openModal();
     })
   }
 
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
-    console.log(this.fileToUpload);
-
+  getAllReceipts() {
+    this.receiptControllerService.getAllReceipts().subscribe(receipts => {
+      this.allreceipts = receipts;
+    });
   }
 
-  getAllReceipts() {
-    this.fileControllerService.getAllReceipts().subscribe(receipts => {
-      this.allreceipts = receipts;
-      console.log(this.allreceipts);
+  openModal() {
+    this.modalRef = this.modalService.show(ReceiptModalComponent, {
+      backdrop: true,
+      keyboard: true,
+      focus: true,
+      show: false,
+      ignoreBackdropClick: false,
+      class: 'modal-fade modal-dialog-centered modal-dialog-scrollable',
+      containerClass: 'overflow-auto',
+      animated: true,
+      data: {
+        imageData: this.selectedImageData,
+        imageName: this.selectedImageName
+      }
     });
   }
 

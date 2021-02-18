@@ -1,0 +1,11 @@
+.modal-dialog-scrollable .modal-content {
+    min-height: 100vh;
+  }
+
+/* .modal-body {
+    overflow: auto;
+  } */
+
+.image-preview{
+    width: 100%;
+}

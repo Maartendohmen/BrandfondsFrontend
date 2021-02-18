@@ -1,6 +1,6 @@
 <div *ngIf="currentstock">
 
-    <div class="row mt-4">
+    <div class="row">
         <div class="col-12">
 
             <div class="jumbotron customjumbo">
@@ -9,13 +9,14 @@
 
                 <div class="md-form md-bg">
                     <input mdbInput type="number" id="currentbottles_input" class="form-control"
-                        placeholder="{{currentstock.currentBottles}}" (blur)="EditCurrentBottles($event.target.value)" >
+                        placeholder="{{currentstock.currentBottles}}" (blur)="EditCurrentBottles($event.target.value)">
                     <label for="currentbottles_input">Flessen bier op voorraad</label>
                 </div>
 
                 <div class="md-form md-bg">
                     <input mdbInput type="number" id="returnedbottles_input" class="form-control"
-                        placeholder="{{currentstock.returnedBottles}}" (blur)="EditReturnedBottles($event.target.value)"> 
+                        placeholder="{{currentstock.returnedBottles}}"
+                        (blur)="EditReturnedBottles($event.target.value)">
                     <label for="returnedbottles_input">Flessen bier ingeleverd</label>
                 </div>
             </div>

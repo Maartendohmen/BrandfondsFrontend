@@ -35,6 +35,7 @@ import { AdminStockComponent } from './components/brandmaster/admin-stock/admin-
 import { AuthInterceptor } from './_interceptors/AuthInterceptor';
 import { AdminReceiptsComponent } from './components/brandmaster/admin-receipts/admin-receipts.component';
 import { SafeHtml } from './_custom_pipes/safeHtml';
+import { ReceiptModalComponent } from './components/brandmaster/receipt-modal/receipt-modal.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { SafeHtml } from './_custom_pipes/safeHtml';
     RegistrationActivationComponent,
     AdminStockComponent,
     AdminReceiptsComponent,
-    SafeHtml
+    SafeHtml,
+    ReceiptModalComponent
   ],
   imports: [
     BrowserModule,
@@ -64,8 +66,6 @@ import { SafeHtml } from './_custom_pipes/safeHtml';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    AlertModule,
-
     AlertModule.forRoot({ maxMessages: 5, timeout: 5000, positionX: 'right' })
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, { provide: LOCALE_ID, useValue: 'nl-NL' }, TitleCasePipe],
