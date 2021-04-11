@@ -41,7 +41,17 @@ export class AdminStockComponent implements OnInit {
         this.alertService.warning('Er is iets fout gegaan, probeer het later opnieuw')
       })
     }
+  };
 
+  EditNotStripedBottles(amount) {
+    // check if the user has entered a new value
+    if (amount) {
+      this.stockService.updateNotStripedBottles(amount).subscribe(result => {
+        this.alertService.success('Het aantal niet gestreepte flessen is succesvol aangepast');
+      }, error => {
+        this.alertService.warning('Er is iets fout gegaan, probeer het later opnieuw')
+      })
+    }
   };
 
 }

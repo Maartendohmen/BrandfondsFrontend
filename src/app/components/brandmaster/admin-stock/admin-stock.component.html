@@ -19,6 +19,14 @@
                         (blur)="EditReturnedBottles($event.target.value)">
                     <label for="returnedbottles_input">Flessen bier ingeleverd</label>
                 </div>
+
+                <div class="md-form md-bg">
+                    <input mdbInput type="number" id="notstrippedbottles_input" class="form-control"
+                        placeholder="{{currentstock.nonStripedBottles}}"
+                        (blur)="EditNotStripedBottles($event.target.value)">
+                    <label for="notstrippedbottles_input">Flessen bier niet gestreept</label>
+                </div>
+
             </div>
         </div>
     </div>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from '@full-fledged/alerts';
-import { Router } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
 import { AuthenticationControllerService } from 'src/app/api/services';
 import { User } from 'src/app/api/models';
@@ -59,7 +58,6 @@ export class RegisterComponent implements OnInit {
       surname: this.titlecasePipe.transform(this.f.surname_input.value),
       password: this.f.password_input.value
     }
-
 
 
     this.authService.register(registerUser).subscribe(response => {

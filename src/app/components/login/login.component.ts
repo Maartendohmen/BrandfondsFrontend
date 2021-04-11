@@ -3,9 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AlertService } from '@full-fledged/alerts';
-import { TitleCasePipe } from '@angular/common';
 import { AuthenticationControllerService } from 'src/app/api/services';
-import { AuthenticationRequest } from 'src/app/api/models';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +20,6 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private authservice: AuthenticationControllerService,
-    private titlecasePipe: TitleCasePipe,
     private alertService: AlertService) { }
 
   LogIn(e) {
@@ -33,7 +30,7 @@ export class LoginComponent implements OnInit {
     localStorage.clear();
 
     this.loginForm = this.formBuilder.group({
-      forname_input: ['', Validators.required],
+      usermail_input: ['', Validators.required],
       password_input: ['', Validators.required]
     });
   }
@@ -51,12 +48,12 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    var username = this.titlecasePipe.transform(this.f.forname_input.value);
-    var password = this.f.password_input.value;
+    var mailadres: string = this.f.usermail_input.value.toLowerCase();
+    var password: string = this.f.password_input.value;
 
     this.loading = true;
 
-    this.authservice.login({ username, password })
+    this.authservice.login({ mailadres, password })
       .pipe(first())
       .subscribe(
         authresponse => {
